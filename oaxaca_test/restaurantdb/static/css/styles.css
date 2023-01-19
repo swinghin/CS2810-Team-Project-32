@@ -1,0 +1,19 @@
+body {
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    text-decoration: none;
+    display: block;
+    margin: 16px;
+    border
+}
+
+span {
+    padding: 4px;
+}

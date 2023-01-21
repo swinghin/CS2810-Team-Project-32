@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Order" />
+        <meta name="keywords" content="Oaxaca,order" />
+        <title>Menu - Oaxaca</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    </head>
+    <body>
+        <header>
+            <div id="oaxaca-menu-bar" class="wrap">
+                <a></a>
+                <span id="oaxaca-logo">Oaxaca</span>
+                <a></a>
+            </div>
+        </header>
+        <section id="menu-category-bar" class="wrap">
+            <a class="menu-category" active>Featured</a>
+            <a class="menu-category">New Dishes</a>
+            <a class="menu-category">Beef</a>
+            <a class="menu-category">Pork</a>
+            <a class="menu-category">Chicken</a>
+            <a class="menu-category">Fishy</a>
+            <a class="menu-category">Food for Karen</a>
+        </section>
+        <section id="menu-list" class="wrap">
+            {% if dish_list %}
+                <div class="dish-cards-grid">
+                    {% for dish in dish_list %}
+                        <div class="dish-card">
+                            <div class="dish-info">
+                                <div class="dish-info-row">
+                                    <span class="dish-name">{{ dish.dish_name }}</span>
+                                </div>
+                                <div class="dish-info-row">
+                                    <span class="dish-price">{{ dish.price }}</span>
+                                    {% comment %} <span class="dish-cal">0kcal</span> {% endcomment %}
+                                </div>
+                                <div class="dish-info-row">
+                                    <span class="dish-desc">{% lorem 15 w random %}</span>
+                                </div>
+                                {% comment %} <input class="dish-count" type="number" min="1" max="10" value="1" />
+                                <button class="dish-add-btn">Add to cart</button> {% endcomment %}
+                            </div>
+                            <div>
+                                <img class="dish-thumbnail"
+                                     src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"/>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>Sorry, there are no dishes available.</p>
+            {% endif %}
+        </section>
+    </body>
+</html>

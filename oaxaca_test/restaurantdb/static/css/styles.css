@@ -1,19 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 body {
-    max-width: 1024px;
+    margin: 0;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    width: 100%;
+    margin: 0;
+    background: rgb(69, 69, 69);
+}
+
+.wrap {
+    padding: 12px;
+    max-width: 640px;
     margin: 0 auto;
 }
 
-ul {
-    padding: 0;
+#oaxaca-menu-bar {
+    display: grid;
+    grid-template-columns: 84px 1fr 84px;
+    grid-gap: 16px;
+    align-items: stretch;
 }
 
-li {
-    text-decoration: none;
-    display: block;
-    margin: 16px;
-    border
+#oaxaca-logo {
+    font-size: 48px;
+    font-weight: 800;
+    margin: 0;
+    padding: 12px;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
 }
 
-span {
-    padding: 4px;
+#menu-category-bar {
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
+
+#menu-category-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-category {
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+.menu-category:hover {
+    border-bottom: 2px solid rgb(69, 69, 69);
+}
+
+.menu-category:active {
+    border-bottom: 4px solid rgb(69, 69, 69);
+}
+
+.dish-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 16px;
+    align-items: stretch;
+}
+
+.dish-card {
+    display: grid;
+    grid-template-columns: 2fr 128px;
+}
+
+.dish-thumbnail {
+    width: 100%;
+    object-fit: contain;
+}
+
+.dish-info {
+    margin: 8px 12px;
+}
+
+.dish-info-row {
+    margin: 4px 0px;
+}
+
+.dish-name {
+    font-weight: 600;
+}
+
+.dish-price::before {
+    content: "£";
+}
+
+.dish-price::after {
+    content: "";
+}
+
+.dish-desc {
+    font-size: 14px;
+    color: rgb(99, 99, 99);
+}
+
+.dish-count {}
+
+.dish-add-btn {}

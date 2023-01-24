@@ -4,7 +4,7 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return HttpResponse("first page")
+    return render(request, 'page1.html')
 
 def index2(request):
-    return HttpResponse("second page")
+    return render(request, 'page2.html')

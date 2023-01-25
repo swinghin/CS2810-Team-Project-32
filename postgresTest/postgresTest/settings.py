@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'postgresTest.urls'
+ROOT_URLCONF = 'PostgresTest.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'postgresTest.wsgi.application'
+WSGI_APPLICATION = 'PostgresTest.wsgi.application'
 
 
 # Database

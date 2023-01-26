@@ -67,7 +67,7 @@ header {
 
 .dish-card {
     display: grid;
-    grid-template-columns: 2fr 128px;
+    grid-template-columns: 3fr 1fr;
 }
 
 .dish-thumbnail {
@@ -91,8 +91,13 @@ header {
     content: "£";
 }
 
-.dish-price::after {
-    content: "";
+.dish-cal {
+    color: rgb(128, 128, 128);
+    font-size: 12px
+}
+
+.dish-cal::after {
+    content: "kcal"
 }
 
 .dish-desc {
@@ -100,6 +105,18 @@ header {
     color: rgb(99, 99, 99);
 }
 
-.dish-count {}
+.dish-order {
+    margin: 8px;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
 
-.dish-add-btn {}
+.dish-count {
+    font-size: 16px;
+    text-align: center;
+}
+
+.dish-add-btn {
+    text-align: center;
+}

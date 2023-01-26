@@ -15,9 +15,14 @@
             <div id="oaxaca-menu-bar" class="wrap">
                 <a></a>
                 <span id="oaxaca-logo">Oaxaca</span>
-                <a></a>
+                <a>Cart ()</a>
             </div>
+            <nav>
+            </nav>
         </header>
+        <section id="page-title" class="wrap">
+            <h3>Our Menu</h3>
+        </section>
         <section id="menu-category-bar" class="wrap">
             <a class="menu-category" active>Featured</a>
             <a class="menu-category">New Dishes</a>
@@ -38,17 +43,20 @@
                                 </div>
                                 <div class="dish-info-row">
                                     <span class="dish-price">{{ dish.price }}</span>
-                                    {% comment %} <span class="dish-cal">0kcal</span> {% endcomment %}
+                                    <span class="dish-cal">0</span>
                                 </div>
                                 <div class="dish-info-row">
-                                    <span class="dish-desc">{% lorem 15 w random %}</span>
+                                    <span class="dish-desc">Ingredients: {% lorem 10 w random %}</span>
                                 </div>
-                                {% comment %} <input class="dish-count" type="number" min="1" max="10" value="1" />
-                                <button class="dish-add-btn">Add to cart</button> {% endcomment %}
+                                <div class="dish-info-row dish-order">
+                                    <input class="dish-count" type="number" min="1" max="10" value="1" />
+                                    <button class="dish-add-btn">Add to cart</button>
+                                </div>
                             </div>
                             <div>
                                 <img class="dish-thumbnail"
-                                     src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"/>
+                                     src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"
+                                     alt="{{ dish.dish_name }}"/>
                             </div>
                         </div>
                     {% endfor %}

@@ -15,12 +15,13 @@ def index(request):
     #     dish_name=("Snoopy Hot Dogg"),
     #     price=(4.20)
     # )
-    
+
     dish_list = Dish.objects.order_by('-dish_name')
     context = {
         'dish_list': dish_list
     }
     return render(request, 'restaurantdb/index.html', context)
+
 
 def menu(request):
     # Dish.objects.create(
@@ -31,9 +32,19 @@ def menu(request):
     #     dish_name=("Snoopy Hot Dogg"),
     #     price=(4.20)
     # )
-    
+
     dish_list = Dish.objects.order_by('-dish_name')
     context = {
         'dish_list': dish_list
     }
     return render(request, 'restaurantdb/menu.html', context)
+
+
+def cart(request, table=-1):
+    
+    order_list = Dish.objects.order_by('-price')[:2]
+    context = {
+        'order_list': order_list
+    }
+    
+    return render(request, 'restaurantdb/cart.html',context)

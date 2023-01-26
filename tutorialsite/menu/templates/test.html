@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+
+    <body>
+        <h1>MENU</h1>
+        {% for dish in dish_list %}
+        <li>
+            <span>{{ dish.dish_name }}</span>
+            <span>{{ dish.price }}</span>
+        </li>
+    </body>
+</html>

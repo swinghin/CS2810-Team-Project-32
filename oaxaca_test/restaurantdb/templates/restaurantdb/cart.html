@@ -13,15 +13,21 @@
     <body>
         <header>
             <div id="oaxaca-menu-bar" class="wrap">
-                <a></a>
                 <span id="oaxaca-logo">Oaxaca</span>
-                <a>Cart ()</a>
+                <a href="{% url 'cart' %}" class="oaxaca-menu-bar-button">View Cart</a>
             </div>
-            <nav>
-            </nav>
+            <div class="wrap">
+                <nav id="oaxaca-menu-bar-nav">
+                    <a >Home</a>
+                    <a href="{% url 'menu' %}">Menu</a>
+                    <a>About</a>
+                    <a>Log In</a>
+                </nav>
+            </div>
         </header>
         <section id="page-title" class="wrap">
             <h3>Your cart</h3>
+            <h3>Total: £{{ price_total }}</h3>
         </section>
         <section id="menu-list" class="wrap">
             {% if order_list %}
@@ -37,7 +43,7 @@
                                 </div>
                             </div>
                             <div>
-                                <img class="dish-thumbnail"
+                                <img class="order-thumbnail"
                                      src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"/>
                             </div>
                         </div>

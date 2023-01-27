@@ -13,24 +13,29 @@
     <body>
         <header>
             <div id="oaxaca-menu-bar" class="wrap">
-                <a></a>
                 <span id="oaxaca-logo">Oaxaca</span>
-                <a>Cart ()</a>
+                <a href="{% url 'cart' %}" class="oaxaca-menu-bar-button">View Cart</a>
             </div>
-            <nav>
-            </nav>
+            <div class="wrap">
+                <nav id="oaxaca-menu-bar-nav">
+                    <a >Home</a>
+                    <a href="{% url 'menu' %}">Menu</a>
+                    <a>About</a>
+                    <a>Log In</a>
+                </nav>
+            </div>
         </header>
         <section id="page-title" class="wrap">
             <h3>Our Menu</h3>
         </section>
         <section id="menu-category-bar" class="wrap">
-            <a class="menu-category" active>Featured</a>
+            <a class="menu-category active">Featured</a>
             <a class="menu-category">New Dishes</a>
             <a class="menu-category">Beef</a>
             <a class="menu-category">Pork</a>
             <a class="menu-category">Chicken</a>
-            <a class="menu-category">Fishy</a>
-            <a class="menu-category">Food for Karen</a>
+            <a class="menu-category">Fish</a>
+            <a class="menu-category">Karen</a>
         </section>
         <section id="menu-list" class="wrap">
             {% if dish_list %}

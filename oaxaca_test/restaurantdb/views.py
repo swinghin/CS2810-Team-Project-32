@@ -41,10 +41,16 @@ def menu(request):
 
 
 def cart(request, table=-1):
-    
+
     order_list = Dish.objects.order_by('-price')[:2]
+
+    total = 0.0
+    for order in order_list:
+        total += float(order.price)
+
     context = {
-        'order_list': order_list
+        'order_list': order_list,
+        'price_total': total
     }
-    
-    return render(request, 'restaurantdb/cart.html',context)
+
+    return render(request, 'restaurantdb/cart.html', context)

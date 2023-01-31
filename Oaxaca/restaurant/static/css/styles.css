@@ -1,8 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+html {
+    scroll-padding-top: 60px;
+}
+
 body {
     margin: 0;
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
+    background: rgb(240, 240, 240);
 }
 
 header {
@@ -15,6 +20,11 @@ header {
     padding: 12px;
     max-width: 640px;
     margin: 0 auto;
+}
+
+section {
+    padding: 12px 48px !important;
+    background: white;
 }
 
 #oaxaca-menu-bar {
@@ -58,15 +68,17 @@ header {
     color: white;
 }
 
-#page-title {
-    padding: 8px 12px;
-}
-
 #page-title * {
     padding: 8px 12px;
 }
 
+#menu-categories {
+    position: sticky;
+    top: 0;
+}
+
 #menu-category-bar {
+    padding: 8px 12px;
     overflow-x: auto;
     white-space: nowrap;
     -ms-overflow-style: none;
@@ -91,6 +103,15 @@ header {
 
 .menu-category.active {
     border-bottom: 2px solid rgb(69, 69, 69);
+}
+
+.dish-cards-category {
+    border-top: 2px rgb(240, 240, 240) solid;
+    margin-top: 12px;
+}
+
+.dish-cards-category-text {
+    padding: 8px 12px;
 }
 
 .dish-cards-grid {
@@ -133,11 +154,11 @@ header {
 
 .dish-cal {
     color: rgb(128, 128, 128);
-    font-size: 12px
+    font-size: 12px;
 }
 
 .dish-cal::after {
-    content: "kcal"
+    content: "kcal";
 }
 
 .dish-desc {

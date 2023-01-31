@@ -2,10 +2,12 @@
 <section id="page-title" class="wrap">
     <h2>Our Menu</h2>
 </section>
-<section id="menu-category-bar" class="wrap">
-    {% if dish_categories %}
-        {% for key, values in dish_categories.items %}<a href="#{{ key }}" class="menu-category">{{ values }}</a>{% endfor %}
-    {% endif %}
+<section id="menu-categories" class="wrap">
+    <div id="menu-category-bar">
+        {% if dish_categories %}
+            {% for key, values in dish_categories.items %}<a href="#{{ key }}" class="menu-category">{{ values }}</a>{% endfor %}
+        {% endif %}
+    </div>
 </section>
 <section id="menu-filters" class="wrap">
     <input id="gluten-free" type="checkbox"/>
@@ -15,7 +17,7 @@
     {% if dish_by_categories %}
         {% for key, values in dish_by_categories.items %}
             <div id="{{ key }}" class="dish-cards-category">
-                <h2>{{ values.0.0 }}</h2>
+                <h2 class="dish-cards-category-text">{{ values.0.0 }}</h2>
                 <div class="dish-cards-grid">
                     {% for dish in values %}
                         <div class="dish-card">
@@ -31,7 +33,11 @@
                                     <span class="dish-desc">Ingredients: {% lorem 10 w random %}</span>
                                 </div>
                                 <div class="dish-info-row dish-order">
-                                    <input class="dish-count" type="number" min="1" max="10" value="1" />
+                                    <div>
+                                        <button>-</button>
+                                        <input class="dish-count" type="number" min="1" max="10" value="1" />
+                                        <button>+</button>
+                                    </div>
                                     <button class="dish-add-btn">Add to cart</button>
                                 </div>
                             </div>

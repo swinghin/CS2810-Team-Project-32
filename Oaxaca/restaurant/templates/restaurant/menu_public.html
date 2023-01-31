@@ -1,0 +1,56 @@
+<section id="page-title" class="wrap">
+    <h3>Our Menu</h3>
+</section>
+<section id="menu-category-bar" class="wrap">
+    <a class="menu-category active">Featured</a>
+    <a class="menu-category">New Dishes</a>
+    <a class="menu-category">Beef</a>
+    <a class="menu-category">Pork</a>
+    <a class="menu-category">Chicken</a>
+    <a class="menu-category">Fish</a>
+    <a class="menu-category">Karen</a>
+</section>
+<section id="menu-filters" class="wrap">
+    <input id="gluten-free" type="checkbox"/>
+    <label for="gluten-free">Gluten Free</label>
+</section>
+<section id="menu-list" class="wrap">
+    {% if dish_list %}
+        <div class="dish-cards-grid">
+            {% for dish in dish_list %}
+                <div class="dish-card">
+                    <div class="dish-info">
+                        <div class="dish-info-row">
+                            <span class="dish-name">{{ dish.dish_name }}</span>
+                        </div>
+                        <div class="dish-info-row">
+                            <span class="dish-price">{{ dish.dish_price }}</span>
+                            <span class="dish-cal">{{ dish.dish_cal }}</span>
+                        </div>
+                        <div class="dish-info-row">
+                            <span class="dish-desc">Ingredients: {% lorem 10 w random %}</span>
+                        </div>
+                        <div class="dish-info-row dish-order">
+                            <input class="dish-count" type="number" min="1" max="10" value="1" />
+                            <button class="dish-add-btn">Add to cart</button>
+                        </div>
+                    </div>
+                    <div>
+                        <img class="dish-thumbnail"
+                             {% comment %}
+                             src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"
+                             {% endcomment %}
+                             alt="{{ dish.dish_name }}"/>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Sorry, there are no dishes available.</p>
+    {% endif %}
+</section>
+{{ dish_list|json_script:"dish-list" }}
+<script>
+const dishList= JSON.parse(document.getElementById('dish-list').textContent);
+console.log(dishList);
+</script>

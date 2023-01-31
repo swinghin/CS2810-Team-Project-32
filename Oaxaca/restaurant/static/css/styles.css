@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+body {
+    margin: 0;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+}
+
+header {
+    width: 100%;
+    margin: 0;
+    background: rgb(69, 69, 69);
+}
+
+.wrap {
+    padding: 12px;
+    max-width: 640px;
+    margin: 0 auto;
+}
+
+#oaxaca-menu-bar {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 8px;
+    align-items: center;
+}
+
+.oaxaca-menu-bar-button {
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    padding: 12px;
+    text-align: right;
+}
+
+#oaxaca-logo {
+    font-size: 48px;
+    font-weight: 800;
+    margin: 0;
+    padding: 12px;
+    text-transform: uppercase;
+    color: white;
+}
+
+#oaxaca-menu-bar-nav {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0;
+    padding: 0px 12px 8px;
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    width: 100%;
+}
+
+#oaxaca-menu-bar-nav a {
+    padding: 0px 8px;
+    flex-grow: 1;
+    color: white;
+}
+
+#page-title {
+    padding: 8px 12px;
+}
+
+#page-title * {
+    padding: 8px 12px;
+}
+
+#menu-category-bar {
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#menu-category-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-category {
+    padding: 8px 12px;
+    white-space: nowrap;
+}
+
+.menu-category:hover {
+    border-bottom: 2px solid rgb(69, 69, 69);
+}
+
+.menu-category.active {
+    border-bottom: 2px solid rgb(69, 69, 69);
+}
+
+.dish-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 16px;
+    align-items: stretch;
+}
+
+.dish-card {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.dish-thumbnail {
+    width: 100%;
+    object-fit: contain;
+}
+
+.order-thumbnail {
+    width: 64px;
+    object-fit: contain;
+}
+
+.dish-info {
+    margin: 8px 12px;
+}
+
+.dish-info-row {
+    margin: 4px 0px;
+}
+
+.dish-name {
+    font-weight: 600;
+}
+
+.dish-price::before {
+    content: "£";
+}
+
+.dish-cal {
+    color: rgb(128, 128, 128);
+    font-size: 12px
+}
+
+.dish-cal::after {
+    content: "kcal"
+}
+
+.dish-desc {
+    font-size: 14px;
+    color: rgb(99, 99, 99);
+}
+
+.dish-order {
+    margin: 8px;
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.dish-count {
+    margin: 8px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.dish-add-btn {
+    margin: 8px;
+    text-align: center;
+}

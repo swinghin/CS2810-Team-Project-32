@@ -78,6 +78,9 @@ header {
 }
 
 .menu-category {
+    font-size: 18px;
+    color: rgb(69, 69, 69);
+    text-decoration: none;
     padding: 8px 12px;
     white-space: nowrap;
 }

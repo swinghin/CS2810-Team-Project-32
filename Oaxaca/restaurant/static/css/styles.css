@@ -145,7 +145,12 @@ section {
 }
 
 .dish-name {
+    font-size: 18px;
     font-weight: 600;
+}
+
+.dish-price {
+    font-weight: 500;
 }
 
 .dish-price::before {
@@ -163,14 +168,30 @@ section {
 
 .dish-desc {
     font-size: 14px;
+    line-height: 28px;
     color: rgb(99, 99, 99);
+}
+
+.dish-ingred {
+    padding: 2px 8px;
+    margin: 0 2px;
+    background: rgb(240, 240, 240);
+    border-radius: 12px;
 }
 
 .dish-order {
     margin: 8px;
-    width: 50%;
     display: grid;
     grid-template-columns: 1fr 1fr;
+}
+
+.dish-count-input {
+    display: grid;
+    grid-template-columns: 42px 1fr 42px;
+}
+
+.dish-count-btn {
+    margin: 8px;
 }
 
 .dish-count {

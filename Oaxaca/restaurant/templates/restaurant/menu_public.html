@@ -30,13 +30,17 @@
                                     <span class="dish-cal">{{ dish.1.dish_cal }}</span>
                                 </div>
                                 <div class="dish-info-row">
-                                    <span class="dish-desc">Ingredients: {% lorem 10 w random %}</span>
+                                    <span class="dish-desc">Ingredients:
+                                        {% for ingred in dish.1.dish_ingred %} 
+                                        <span class="dish-ingred">{{ ingred }}</span>
+                                        {% endfor %}
+                                    </span>
                                 </div>
                                 <div class="dish-info-row dish-order">
-                                    <div>
-                                        <button>-</button>
+                                    <div class="dish-count-input">
+                                        <button class="dish-count-btn dish-count-sub">-</button>
                                         <input class="dish-count" type="number" min="1" max="10" value="1" />
-                                        <button>+</button>
+                                        <button class="dish-count-btn dish-count-add">+</button>
                                     </div>
                                     <button class="dish-add-btn">Add to cart</button>
                                 </div>
@@ -55,7 +59,7 @@
         <p>Sorry, there are no dishes available.</p>
     {% endif %}
 </section>
-{{ dish_list|json_script:"dish-list" }}
+{{ dish_categories|json_script:"dish-list" }}
 {{ dish_by_categories|json_script:"dish-category" }}
 <script>
 const dishList= JSON.parse(document.getElementById('dish-list').textContent);

@@ -34,6 +34,14 @@ h6 {
     margin: 0 auto;
 }
 
+.margin-medium {
+    margin: 8px 12px;
+}
+
+.full-width {
+    width: 100%
+}
+
 .hidden {
     display: none;
 }
@@ -42,20 +50,31 @@ h6 {
     display: initial;
 }
 
+button,
+input {
+    font-family: 'Poppins', sans-serif;
+}
+
 .button {
     cursor: pointer;
-    transition: background 0.5s;
+    transition: background 0.3s;
 }
 
 .button-block {
     background: 2px rgb(204, 204, 204);
     border: 2px rgb(204, 204, 204) solid;
-    border-radius: 0.5em;
+    border-radius: 16px;
     padding: 4px 12px;
 }
 
 .button-block:hover {
     background: 2px rgb(240, 240, 240);
+    transition: background 0.1s;
+}
+
+.button-block.button-medium {
+    border-radius: 18px;
+    font-size: 16px;
 }
 
 .button-inline {
@@ -150,7 +169,7 @@ section {
     font-size: 18px;
     color: rgb(69, 69, 69);
     text-decoration: none;
-    padding: 8px 12px;
+    padding: 8px 16px;
     white-space: nowrap;
 }
 
@@ -163,10 +182,11 @@ section {
 }
 
 .menu-filter-grid {
-    padding: 8px 12px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: repeat();
+    margin-bottom: 16px;
+    gap: 8px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
 }
 
 .dish-cards-category {
@@ -182,8 +202,15 @@ section {
 }
 
 .dish-card {
+    background: white;
     display: grid;
     grid-template-columns: 3fr 1fr;
+    transition: filter 0.4s;
+}
+
+.dish-card:hover {
+    filter: drop-shadow(0px 4px 4px rgb(192, 192, 192));
+    transition: filter 0.1s;
 }
 
 .dish-thumbnail {
@@ -202,6 +229,7 @@ section {
 
 .dish-info-row {
     margin: 4px 0px;
+    vertical-align: middle;
 }
 
 .dish-info-dropdown-btn {
@@ -240,13 +268,13 @@ section {
 
 .dish-desc {
     font-size: 14px;
-    line-height: 28px;
     color: rgb(99, 99, 99);
 }
 
 .dish-ingred {
+    display: inline-block;
     padding: 2px 8px;
-    margin: 0 2px;
+    margin: 2px;
     background: rgb(240, 240, 240);
     border-radius: 12px;
 }
@@ -256,16 +284,16 @@ section {
 }
 
 .dish-order {
-    margin: 8px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    align-items: center;
 }
 
 .dish-count-btn {
-    padding: 4px 8px;
+    font-size: 16px;
+    padding: 0px 4px;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
 }
 
 .button.dish-count-sub::after {
@@ -278,13 +306,13 @@ section {
 
 .dish-count {
     border: none;
-    margin: 6px 4px;
-    font-size: 16px;
+    font-size: 20px;
+    margin: 4px;
     width: 24px;
     text-align: center;
 }
 
 .dish-add-btn {
-    margin: 8px;
+    margin: 8px 12px;
     text-align: center;
 }

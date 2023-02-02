@@ -11,16 +11,19 @@
 </section>
 <section id="menu-filters" class="wrap">
     {% if allergens %}
-            <h2>Filters</h2>
+        <h2>Filters</h2>
+        <div class="margin-medium">
             <div class="menu-filter-grid">
                 {% for key, allergen in allergens.items %}
                     <span class="menu-filter">
-                        <input id="{{ key }}" type="checkbox"/>
+                        <input id="{{ key }}" value="{{ key }}" type="checkbox"/>
                         <label for="{{ key }}">{{ allergen }} Free</label>
                     </span>
                 {% endfor %}
             </div>
-            <button class="button button-block" onclick="filterMenuCheckbox()">Filter</button>
+            <button class="button button-medium button-block full-width"
+                    onclick="filterMenuCheckbox()">Apply Filter</button>
+        </div>
     {% endif %}
 </section>
 <section id="menu-list" class="wrap">
@@ -51,11 +54,16 @@
                                     </div>
                                     <span class="dish-info-dropdown-btn button button-inline more-info"></span>
                                 </div>
-                                <div class="dish-info-row">
+                                <div class="dish-info-row dish-order">
                                     <button class="button button-block dish-count-btn dish-count-sub"></button>
-                                    <input class="dish-count" type="number" min="1" max="10" value="1" />
+                                    <input class="dish-count"
+                                           type="number"
+                                           min="1"
+                                           max="10"
+                                           maxlength="2"
+                                           value="1"/>
                                     <button class="button button-block dish-count-btn dish-count-add"></button>
-                                    <button class="button button-block dish-add-btn">Add to cart</button>
+                                    <button class="button button-medium button-block dish-add-btn">Add to cart</button>
                                 </div>
                             </div>
                             <div>

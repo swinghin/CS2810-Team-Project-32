@@ -27,14 +27,19 @@
                                 </div>
                                 <div class="dish-info-row">
                                     <span class="dish-price">{{ dish.1.dish_price }}</span>
-                                    <span class="dish-cal">{{ dish.1.dish_cal }}</span>
                                 </div>
-                                <div class="dish-info-row">
-                                    <span class="dish-desc">Ingredients:
-                                        {% for ingred in dish.1.dish_ingred %} 
-                                        <span class="dish-ingred">{{ ingred }}</span>
-                                        {% endfor %}
-                                    </span>
+                                <div class="dropdown">
+                                    <div class="dish-more-info">
+                                        <span class="view-more">View More </span>
+                                    </div>
+                                    <div class="hidden-dish-info-row">
+                                        <span class="dish-desc">Ingredients:
+                                            {% for ingred in dish.1.dish_ingred %} 
+                                            <span class="dish-ingred">{{ ingred }}</span>
+                                            {% endfor %}
+                                        </span><br>
+                                        <span class="dish-cal">{{ dish.1.dish_cal }}</span>
+                                    </div>
                                 </div>
                                 <div class="dish-info-row dish-order">
                                     <div class="dish-count-input">

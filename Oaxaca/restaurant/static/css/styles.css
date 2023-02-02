@@ -145,9 +145,11 @@ section {
     margin: 4px 0px;
 }
 
+
 /*
     Hides the ingredients and calories, shows them after javascript prompt
 */
+
 .hidden-dish-info-row {
     margin: 4px 0px;
     padding: 0.2em 0.5em;
@@ -155,16 +157,22 @@ section {
     opacity: 0;
     transition: 0.5s;
 }
+
+
 /*
     Used to show the hidden details
 */
+
 .show-dish-info-row {
     display: block;
     opacity: 1
 }
+
+
 /*
     View More button
 */
+
 .dish-more-info {
     background: 2px rgb(204, 204, 204);
     width: 18%;
@@ -181,7 +189,6 @@ section {
 .dish-more-info:hover {
     background: 2px rgb(240, 240, 240);
 }
-
 
 .dish-name {
     font-size: 18px;
@@ -216,6 +223,10 @@ section {
     margin: 0 2px;
     background: rgb(240, 240, 240);
     border-radius: 12px;
+}
+
+.dish-ingred-allergic {
+    background: rgb(240, 192, 192);
 }
 
 .dish-order {

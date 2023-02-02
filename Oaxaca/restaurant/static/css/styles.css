@@ -156,13 +156,6 @@ section {
     transition: 0.5s;
 }
 /*
-    Used to show the hidden details
-*/
-.show-dish-info-row {
-    display: block;
-    opacity: 1
-}
-/*
     View More button
 */
 .dish-more-info {

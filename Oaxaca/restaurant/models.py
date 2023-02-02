@@ -9,3 +9,11 @@ class Allergies(models.Model):
     def __str__(self):
         return self.allergies_name
 
+class Ingredient(models.Model):
+    ingredient_id = models.AutoField(primary_key = True)
+    allergies_id = models.ManyToManyField(Allergies)
+    ingredient_name = models.CharField(max_length = 20)
+
+    def __str__(self):
+        return self.ingredient_name
+

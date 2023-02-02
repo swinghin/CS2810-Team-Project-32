@@ -5,7 +5,7 @@
 <section id="menu-categories" class="wrap">
     <div id="menu-category-bar">
         {% if dish_categories %}
-            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category">{{ value }}</a>{% endfor %}
+            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category font-medium">{{ value }}</a>{% endfor %}
         {% endif %}
     </div>
 </section>
@@ -21,7 +21,7 @@
                     </span>
                 {% endfor %}
             </div>
-            <button class="button button-medium button-block full-width"
+            <button class="button button-medium button-block font-medium full-width"
                     onclick="filterMenuCheckbox()">Apply Filter</button>
         </div>
     {% endif %}
@@ -36,10 +36,10 @@
                         <div class="dish-card">
                             <div class="dish-info">
                                 <div class="dish-info-row">
-                                    <span class="dish-name">{{ dish.dish_name }}</span>
+                                    <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
                                 </div>
                                 <div class="dish-info-row">
-                                    <span class="dish-price">{{ dish.dish_price }}</span>
+                                    <span class="dish-price font-medium">{{ dish.dish_price }}</span>
                                 </div>
                                 <div class="dish-info-dropdown">
                                     <div class="dish-info-row hidden">
@@ -55,15 +55,15 @@
                                     <span class="dish-info-dropdown-btn button button-inline more-info"></span>
                                 </div>
                                 <div class="dish-info-row dish-order">
-                                    <button class="button button-block dish-count-btn dish-count-sub"></button>
+                                    <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
                                     <input class="dish-count"
                                            type="number"
                                            min="1"
                                            max="10"
                                            maxlength="2"
                                            value="1"/>
-                                    <button class="button button-block dish-count-btn dish-count-add"></button>
-                                    <button class="button button-medium button-block dish-add-btn">Add to cart</button>
+                                    <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
+                                    <button class="button button-medium button-block dish-add-btn font-medium">Add to cart</button>
                                 </div>
                             </div>
                             <div>

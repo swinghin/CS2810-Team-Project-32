@@ -28,6 +28,22 @@ h6 {
 
 /* Utility styles */
 
+.font-light {
+    font-weight: 300;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
 .wrap {
     padding: 12px;
     max-width: 640px;
@@ -246,11 +262,6 @@ section {
 
 .dish-name {
     font-size: 18px;
-    font-weight: 600;
-}
-
-.dish-price {
-    font-weight: 500;
 }
 
 .dish-price::before {

@@ -5,17 +5,29 @@
 <section id="menu-categories" class="wrap">
     <div id="menu-category-bar">
         {% if dish_categories %}
-            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category">{{ values }}</a>{% endfor %}
+            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category">{{ value }}</a>{% endfor %}
         {% endif %}
     </div>
 </section>
 <section id="menu-filters" class="wrap">
-    <input id="gluten-free" type="checkbox"/>
-    <label for="gluten-free">Gluten Free</label>
+    {% if allergens %}
+        <div id="">
+            <h2>Filters</h2>
+            <div class="menu-filter-grid">
+                {% for key, allergen in allergens.items %}
+                    <span class="menu-filter">
+                        <input id="{{ key }}" type="checkbox"/>
+                        <label for="{{ key }}">{{ allergen }} Free</label>
+                    </span>
+                {% endfor %}
+            </div>
+            <button onclick="filterMenuCheckbox()">Filter</button>
+        </div>
+    {% endif %}
 </section>
 <section id="menu-list" class="wrap">
     {% if dish_by_categories %}
-        {% for category,dishes in dish_by_categories.items %}
+        {% for category, dishes in dish_by_categories.items %}
             <div id="{{ category }}" class="dish-cards-category">
                 <h2 class="dish-cards-category-text">{{ category }}</h2>
                 <div class="dish-cards-grid">
@@ -66,6 +78,7 @@
         <p>Sorry, there are no dishes available.</p>
     {% endif %}
 </section>
+{{ allergens|json_script:"allergens" }}
 {{ dish_categories|json_script:"dish-list" }}
 {{ dish_by_categories|json_script:"dish-category" }}
 <script>

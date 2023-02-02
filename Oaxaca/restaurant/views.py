@@ -135,4 +135,5 @@ def index(request):
     return render(request, 'restaurant/index.html', {
         "dish_by_categories": dish_sorted_categories,
         "dish_categories": dish_categories,
+        "allergens": allergens,
     })

@@ -73,7 +73,7 @@ def index(request):
 
     # Temporary hard-coded dish data for use until proper database is completed
     dish_data = [
-        [1, "Apple Pie", 0, 3.5, 1200, False, ["DES"], [
+        [1, "Apple Pie", 0, 3.5, 1200, False, ["DES", "FEAT"], [
             "apple", "butter", "flour", "sugar", "water"]],
         [2, "Bagel", 1, 1.5, 300, True, ["BKY"],
             ["yeast", "flour", "sugar", "salt"]],
@@ -124,10 +124,15 @@ def index(request):
     for dish in dish_list:
         for category in dish["dish_cat"]:
             dish_by_categories[dish_categories.get(category)].append(dish)
-    dish_by_categories.default_factory = None
+
+    dish_sorted_categories = defaultdict(list)
+    for category in dish_categories:
+        dish_sorted_categories[dish_categories.get(category)] = dish_by_categories.get(
+            dish_categories.get(category))
+    dish_sorted_categories.default_factory = None
 
     # returns a dictionary of dishes sorted by categories and a dictionary of dish categories
     return render(request, 'restaurant/index.html', {
-        "dish_by_categories": dish_by_categories,
+        "dish_by_categories": dish_sorted_categories,
         "dish_categories": dish_categories,
     })

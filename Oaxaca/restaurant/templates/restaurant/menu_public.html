@@ -5,7 +5,7 @@
 <section id="menu-categories" class="wrap">
     <div id="menu-category-bar">
         {% if dish_categories %}
-            {% for key, values in dish_categories.items %}<a href="#{{ key }}" class="menu-category">{{ values }}</a>{% endfor %}
+            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category">{{ values }}</a>{% endfor %}
         {% endif %}
     </div>
 </section>

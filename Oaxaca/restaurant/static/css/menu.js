@@ -9,6 +9,8 @@ viewMore.forEach(dropdown => {
     //Assigned the text of the button as button
     const button = dropdown.querySelector('.view-more')
 
+    moreInfo.style.display = "none";
+
     //Created a functionality that understands whenever the dropdown button is pressed
     viewInfo.addEventListener('click', () =>{
         //Conditional statement checking if the information should be shown or hidden

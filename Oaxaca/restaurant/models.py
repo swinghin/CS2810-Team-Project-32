@@ -24,3 +24,15 @@ class Category(models.Model):
     def __str__(self):
         return self.category_name
 
+class Dish(models.Model):
+    dish_id = models.AutoField(primary_key = True)
+    dish_name = models.CharField(max_length = 75)
+    dish_quantity = models.IntegerField(max_digits=3)
+    dish_price = models.DecimalField(max_digits=7, decimal_places=2)
+    dish_calories = models.IntegerField()
+    dish_availability = models.BooleanField=(default=False)
+
+    category_id = models.ManyToManyField(Category)
+
+    def __str(self):
+        return self.dish_name

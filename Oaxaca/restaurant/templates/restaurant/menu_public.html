@@ -5,40 +5,54 @@
 <section id="menu-categories" class="wrap">
     <div id="menu-category-bar">
         {% if dish_categories %}
-            {% for key, values in dish_categories.items %}<a href="#{{ key }}" class="menu-category">{{ values }}</a>{% endfor %}
+            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category">{{ value }}</a>{% endfor %}
         {% endif %}
     </div>
 </section>
 <section id="menu-filters" class="wrap">
-    <input id="gluten-free" type="checkbox"/>
-    <label for="gluten-free">Gluten Free</label>
+    {% if allergens %}
+        <div id="">
+            <h2>Filters</h2>
+            <div class="menu-filter-grid">
+                {% for key, allergen in allergens.items %}
+                    <span class="menu-filter">
+                        <input id="{{ key }}" type="checkbox"/>
+                        <label for="{{ key }}">{{ allergen }} Free</label>
+                    </span>
+                {% endfor %}
+            </div>
+            <button onclick="filterMenuCheckbox()">Filter</button>
+        </div>
+    {% endif %}
 </section>
 <section id="menu-list" class="wrap">
     {% if dish_by_categories %}
-        {% for key, values in dish_by_categories.items %}
-            <div id="{{ key }}" class="dish-cards-category">
-                <h2 class="dish-cards-category-text">{{ values.0.0 }}</h2>
+        {% for category, dishes in dish_by_categories.items %}
+            <div id="{{ category }}" class="dish-cards-category">
+                <h2 class="dish-cards-category-text">{{ category }}</h2>
                 <div class="dish-cards-grid">
-                    {% for dish in values %}
+                    {% for dish in dishes %}
                         <div class="dish-card">
                             <div class="dish-info">
                                 <div class="dish-info-row">
-                                    <span class="dish-name">{{ dish.1.dish_name }}</span>
+                                    <span class="dish-name">{{ dish.dish_name }}</span>
                                 </div>
                                 <div class="dish-info-row">
-                                    <span class="dish-price">{{ dish.1.dish_price }}</span>
+                                    <span class="dish-price">{{ dish.dish_price }}</span>
                                 </div>
                                 <div class="dropdown">
                                     <div class="dish-more-info">
-                                        <span class="view-more">View More </span>
+                                        <span class="view-more">View More</span>
                                     </div>
                                     <div class="hidden-dish-info-row">
                                         <span class="dish-desc">Ingredients:
-                                            {% for ingred in dish.1.dish_ingred %} 
-                                            <span class="dish-ingred">{{ ingred }}</span>
+                                            {% for ingred, allergen in dish.dish_ingred_allergic.items %}
+                                                <span class="dish-ingred dish-ingred-allergic">{{ ingred }} ({{ allergen }})</span>
                                             {% endfor %}
-                                        </span><br>
-                                        <span class="dish-cal">{{ dish.1.dish_cal }}</span>
+                                            {% for ingred in dish.dish_ingred %}<span class="dish-ingred">{{ ingred }}</span>{% endfor %}
+                                        </span>
+                                        <br>
+                                        <span class="dish-cal">{{ dish.dish_cal }}</span>
                                     </div>
                                 </div>
                                 <div class="dish-info-row dish-order">
@@ -52,8 +66,8 @@
                             </div>
                             <div>
                                 <img class="dish-thumbnail"
-                                     src="{% static 'images/dish/' %}{{ dish.1.dish_id }}.png"
-                                     alt="{{ dish.1.dish_name }}"/>
+                                     src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"
+                                     alt="{{ dish.dish_name }}"/>
                             </div>
                         </div>
                     {% endfor %}
@@ -64,6 +78,7 @@
         <p>Sorry, there are no dishes available.</p>
     {% endif %}
 </section>
+{{ allergens|json_script:"allergens" }}
 {{ dish_categories|json_script:"dish-list" }}
 {{ dish_by_categories|json_script:"dish-category" }}
 <script>

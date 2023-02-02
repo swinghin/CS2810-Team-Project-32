@@ -11,7 +11,6 @@
 </section>
 <section id="menu-filters" class="wrap">
     {% if allergens %}
-        <div id="">
             <h2>Filters</h2>
             <div class="menu-filter-grid">
                 {% for key, allergen in allergens.items %}
@@ -21,15 +20,14 @@
                     </span>
                 {% endfor %}
             </div>
-            <button onclick="filterMenuCheckbox()">Filter</button>
-        </div>
+            <button class="button button-block" onclick="filterMenuCheckbox()">Filter</button>
     {% endif %}
 </section>
 <section id="menu-list" class="wrap">
     {% if dish_by_categories %}
         {% for category, dishes in dish_by_categories.items %}
             <div id="{{ category }}" class="dish-cards-category">
-                <h2 class="dish-cards-category-text">{{ category }}</h2>
+                <h2>{{ category }}</h2>
                 <div class="dish-cards-grid">
                     {% for dish in dishes %}
                         <div class="dish-card">
@@ -40,28 +38,24 @@
                                 <div class="dish-info-row">
                                     <span class="dish-price">{{ dish.dish_price }}</span>
                                 </div>
-                                <div class="dropdown">
-                                    <div class="dish-more-info">
-                                        <span class="view-more">View More</span>
-                                    </div>
-                                    <div class="hidden-dish-info-row">
-                                        <span class="dish-desc">Ingredients:
+                                <div class="dish-info-dropdown">
+                                    <div class="dish-info-row hidden">
+                                        <span class="dish-cal">{{ dish.dish_cal }}</span>
+                                        <div class="dish-desc">
+                                            Ingredients:
                                             {% for ingred, allergen in dish.dish_ingred_allergic.items %}
                                                 <span class="dish-ingred dish-ingred-allergic">{{ ingred }} ({{ allergen }})</span>
                                             {% endfor %}
                                             {% for ingred in dish.dish_ingred %}<span class="dish-ingred">{{ ingred }}</span>{% endfor %}
-                                        </span>
-                                        <br>
-                                        <span class="dish-cal">{{ dish.dish_cal }}</span>
+                                        </div>
                                     </div>
+                                    <span class="dish-info-dropdown-btn button button-inline more-info"></span>
                                 </div>
-                                <div class="dish-info-row dish-order">
-                                    <div class="dish-count-input">
-                                        <button class="dish-count-btn dish-count-sub">-</button>
-                                        <input class="dish-count" type="number" min="1" max="10" value="1" />
-                                        <button class="dish-count-btn dish-count-add">+</button>
-                                    </div>
-                                    <button class="dish-add-btn">Add to cart</button>
+                                <div class="dish-info-row">
+                                    <button class="button button-block dish-count-btn dish-count-sub"></button>
+                                    <input class="dish-count" type="number" min="1" max="10" value="1" />
+                                    <button class="button button-block dish-count-btn dish-count-add"></button>
+                                    <button class="button button-block dish-add-btn">Add to cart</button>
                                 </div>
                             </div>
                             <div>

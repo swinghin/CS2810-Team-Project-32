@@ -30,9 +30,18 @@ class Dish(models.Model):
     dish_quantity = models.IntegerField(max_digits=3)
     dish_price = models.DecimalField(max_digits=7, decimal_places=2)
     dish_calories = models.IntegerField()
-    dish_availability = models.BooleanField=(default=False)
+    dish_availability = models.BooleanField=()
 
     category_id = models.ManyToManyField(Category)
 
-    def __str(self):
+    def __str__(self):
         return self.dish_name
+
+class Customer(models.Model):
+    table_id = models.AutoField(primary_key = True)
+    total_price = models.DecimalField(max_digits=11, decimal_places=2)
+    persons = models.IntegerField(max_digits = 10)
+    need_help = models.BooleanField(default = False)
+
+    def __str__(self):
+        return self.table_id

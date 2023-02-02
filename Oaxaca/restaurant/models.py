@@ -47,6 +47,25 @@ class Customer(models.Model):
         return self.table_id
 
 class Status(models.Model):
+    StatusChoices = [
+        (InProgress, 'Order in progress')
+        (Received, 'Received'),
+        (Cooking, 'Cooking'),
+        (Problem, 'Problem'),
+    ]
     status_id = models.AutoField(primary_key = True)
-    status_name = models.CharField(max_length = 20)
+    status_name = models.CharField(max_length = 2, choices=StatusChoices, default=InProgress)
 
+    def __str__(self):
+        return self.status_name
+
+class Order(models.Model):
+    order_id = models.AutoField(primary_key = True)
+    order_time = models.DateTimeField()
+    table_id = models.ForeignKey(Customer)
+    order_finish = models.BooleanField(Default = False)
+    dish_id = models.ManyToManyField(Dish)
+    status_id = models.ForeignKey(Stauts)
+
+    def __str__(self):
+        return "Order no: " + self.order_id

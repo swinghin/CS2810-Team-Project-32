@@ -51,6 +51,16 @@ def index(request):
         "DES": "Dessert",
     }
 
+    ingredient_allergens = {
+        "celery": "celery",
+        "yeast": "gluten",
+        "flour": "gluten",
+        "egg": "egg",
+        "cheese": "milk",
+        "milk": "milk",
+        "pecan": "nut",
+    }
+
     dish_by_categories = defaultdict(list)
     for dish in dish_list:
         for category in dish["dish_cat"]:

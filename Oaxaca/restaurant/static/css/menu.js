@@ -7,8 +7,6 @@ viewMore.forEach(dropdown => {
     //Assigned the text of the button as button
     const button = dropdown.querySelector('.dish-info-dropdown-btn')
 
-    moreInfo.style.display = "none";
-
     //Created a functionality that understands whenever the dropdown button is pressed
     button.addEventListener('click', () => {
         button.classList.toggle("view-less");

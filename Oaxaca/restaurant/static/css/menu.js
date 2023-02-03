@@ -14,6 +14,48 @@ viewMore.forEach(dropdown => {
     });
 });
 
+// Highlight menu category on scroll
+const menuCategories = document.querySelectorAll('.dish-cards-category');
+const categoryNav = document.querySelectorAll('.menu-category');
+const menuList = document.querySelector('#menu-list');
+const SCROLL_PADDING_TOP = 65;
+const SCROLL_MARGIN_ERROR = 15;
+window.onscroll = () => {
+    var current = "";
+
+    menuCategories.forEach((category) => {
+        if (window.pageYOffset >= (category.offsetTop - SCROLL_PADDING_TOP)) {
+            current = category.getAttribute("id");
+        }
+
+    });
+
+    categoryNav.forEach((a) => {
+        console.log(window.pageYOffset, (menuList.offsetTop - SCROLL_PADDING_TOP), current)
+        a.classList.remove("active");
+        if (window.pageYOffset > (menuList.offsetTop - SCROLL_PADDING_TOP + SCROLL_MARGIN_ERROR) && a.innerText.includes(current)) {
+            a.classList.add("active");
+        }
+    });
+};
+
+// Toggle show/hide for collapsible headings
+const collapsibleHeadings = document.querySelectorAll('.heading-collapsible');
+collapsibleHeadings.forEach(heading => {
+    let content = heading.nextElementSibling;
+    if (content) {
+        heading.addEventListener('click', () => {
+            heading.classList.toggle("active");
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+
+        });
+    }
+})
+
 // Functionality for each dish card (-) and (+) buttons
 const dishOrderSubBtns = document.querySelectorAll('.dish-count-sub');
 const dishOrderAddBtns = document.querySelectorAll('.dish-count-add');

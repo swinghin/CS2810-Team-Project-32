@@ -3,29 +3,39 @@
 {% block content %}
     <center>
     <hr/>
-        <table border="1">
-            <tr>
-                <th>Order Id</th>
-                <th>Order Time</th>
-                <th>Table Id</th>
-                <th>Dish Id</th>
-                <th>Status Code</th>
-                <th>Order Finish</th>
-            </tr>
-            {% for x in orders %}
-            <tr>
-                <td>{{ x.order_id }}</td>
-                <td>{{ x.order_time }}</td>
-                <td>{{ x.table_id }}</td>
-                <td>{{ x.dish_id }}</td>
-                <td>{{ x.status_code }}</td>
-                <td><input class="finish_check" type="checkbox" value={{ x.order_finish }} </td>
-            </tr>
-            {% endfor %}
+
+    <form action="" method=POST> {% csrf_token %}
+        <table class="table table-striped table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col">Order Id</th>
+                    <th scope="col">Order Time</th>
+                    <th scope="col">Table Id</th>
+                    <th scope="col">Dish Id</th>
+                    <th scope="col">Status Code</th>
+                    <th scope="col">Order Finish</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for x in orders %}
+                <tr>
+                    <td>{{ x.order_id }}</td>
+                    <td>{{ x.order_time }}</td>
+                    <td>{{ x.table_id }}</td>
+                    <td>{{ x.dish_id }}</td>
+                    <td>{{ x.status_code }}</td>
+                    <td>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value={{ x.order_finish }} name="boxes">
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
 
         <br/>
         <button class='btn btn-secondary' type="submit">Update</button>
     </center>
 
-    {% endblock content %}
+{% endblock content %}

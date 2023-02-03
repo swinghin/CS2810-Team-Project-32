@@ -1,28 +1,32 @@
 {% load static %}
-<section id="page-title" class="wrap">
-    <h2>Our Menu</h2>
-</section>
 <section id="menu-categories" class="wrap">
-    <div id="menu-category-bar">
+    <nav id="menu-category-bar">
         {% if dish_categories %}
-            {% for key, value in dish_categories.items %}<a href="#{{ value }}" class="menu-category font-medium">{{ value }}</a>{% endfor %}
+            {% for key, value in dish_categories.items %}
+                <a href="#{{ value }}" class="menu-category font-medium">{{ value }}</a>
+            {% endfor %}
         {% endif %}
-    </div>
+    </nav>
 </section>
 <section id="menu-filters" class="wrap">
     {% if allergens %}
-        <h2>Filters</h2>
-        <div class="margin-medium">
+        <h3 class="heading-collapsible text-center">Show Filters</h3>
+        <div class="margin-medium collapse">
+            <p class="font-medium margin-short">Allergens</p>
             <div class="menu-filter-grid">
                 {% for key, allergen in allergens.items %}
-                    <span class="menu-filter">
-                        <input id="{{ key }}" value="{{ key }}" type="checkbox"/>
-                        <label for="{{ key }}">{{ allergen }} Free</label>
-                    </span>
+                    <label class="slide-toggle" for="{{ key }}">
+                        <input class="slide-toggle-checkbox"
+                               id="{{ key }}"
+                               value="{{ key }}"
+                               type="checkbox"/>
+                        <span class="slide-toggle-switch"></span>
+                        <span class="slide-toggle-text">{{ allergen }} Free</span>
+                    </label>
                 {% endfor %}
             </div>
             <button class="button button-medium button-block font-medium full-width"
-                    onclick="filterMenuCheckbox()">Apply Filter</button>
+                    onclick="filterMenuCheckbox()">Apply</button>
         </div>
     {% endif %}
 </section>

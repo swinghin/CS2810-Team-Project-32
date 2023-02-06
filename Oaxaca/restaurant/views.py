@@ -96,15 +96,19 @@ def index(request):
 
     # The dish list to be sent to show in html view
     dish_list = []
+    dish_allergens = []
     # Append all of the dishes in dish_data to dish_list
     for i in range(len(dish_data)):
         # Build allergen list in the current dish by looking up ingredient_allergens
         dish_ingred = []
         dish_ingred_allergic = {}
+        dish_allergen_id = []
         for j in range(len(dish_data[i][7])):
             if dish_data[i][7][j] in ingredient_allergens:
                 dish_ingred_allergic[ingredients.get(
                     dish_data[i][7][j])] = allergens.get(ingredient_allergens.get(dish_data[i][7][j]))
+                dish_allergen_id.append(
+                    ingredient_allergens.get(dish_data[i][7][j]))
             else:
                 dish_ingred.append(ingredients.get(dish_data[i][7][j]))
 
@@ -118,6 +122,10 @@ def index(request):
             "dish_cat": dish_data[i][6],
             "dish_ingred": dish_ingred,
             "dish_ingred_allergic": dish_ingred_allergic,
+        })
+        dish_allergens.append({
+            "dish_id": dish_data[i][0],
+            "dish_allergen_id": dish_allergen_id,
         })
 
     dish_by_categories = defaultdict(list)
@@ -136,4 +144,5 @@ def index(request):
         "dish_by_categories": dish_sorted_categories,
         "dish_categories": dish_categories,
         "allergens": allergens,
+        "dish_allergens": dish_allergens,
     })

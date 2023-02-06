@@ -31,7 +31,6 @@ window.onscroll = () => {
     });
 
     categoryNav.forEach((a) => {
-        console.log(window.pageYOffset, (menuList.offsetTop - SCROLL_PADDING_TOP), current)
         a.classList.remove("active");
         if (window.pageYOffset > (menuList.offsetTop - SCROLL_PADDING_TOP + SCROLL_MARGIN_ERROR) && a.innerText.includes(current)) {
             a.classList.add("active");
@@ -83,18 +82,51 @@ dishOrderAddBtns.forEach(addBtn => {
 });
 
 // Function for filtering menu items in menu
-function filterMenu() {
-    console.log("filter")
+function filterMenu(filters) {
+    resetDishCards(); // show all dishes before filtering
+
+    let dishAllergensElement = document.querySelector('#dish-allergens');
+    if (!dishAllergensElement) {
+        console.log("Allergen information missing.")
+        return;
+    }
+    const dishAllergens = JSON.parse(dishAllergensElement.textContent);
+    dishesToHide = []; // list of dish ids to hide
+    filters.forEach(filter => {
+        dishAllergens.forEach(dish => {
+            if (dish.dish_allergen_id.includes(filter)) dishesToHide.push(dish.dish_id);
+        })
+    })
+
+    hideDishCards(dishesToHide); // hide dishes with ids
+}
+
+function resetDishCards() {
+    const dishCards = document.querySelectorAll('.dish-card');
+    if (dishCards) {
+        dishCards.forEach(card => card.classList.remove('hidden'));
+    }
+}
+
+function hideDishCards(dishes) {
+    dishes.forEach(dish => hideDish(document.getElementById(dish)));
+}
+
+function hideDish(card) {
+    card.classList.add('hidden');
 }
 
 //
 function filterMenuGetChecked() {
-
+    const filterToggles = document.querySelectorAll('.slide-toggle-checkbox');
+    return Array.from(filterToggles)
+        .filter(toggle => toggle.checked) // select only checked toggles
+        .map(toggle => toggle = toggle.value); // get filter value of checked toggles
 }
 
 // Function for filtering menu items with filter checkboxes
 function filterMenuCheckbox() {
-
+    filterMenu(filterMenuGetChecked());
 }
 
 // Function for fitering menu items with search

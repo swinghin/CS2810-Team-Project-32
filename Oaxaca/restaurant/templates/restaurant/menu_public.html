@@ -37,7 +37,7 @@
                 <h2>{{ category }}</h2>
                 <div class="dish-cards-grid">
                     {% for dish in dishes %}
-                        <div class="dish-card">
+                        <div class="dish-card" id="{{ dish.dish_id }}">
                             <div class="dish-info">
                                 <div class="dish-info-row">
                                     <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
@@ -84,12 +84,4 @@
         <p>Sorry, there are no dishes available.</p>
     {% endif %}
 </section>
-{{ allergens|json_script:"allergens" }}
-{{ dish_categories|json_script:"dish-list" }}
-{{ dish_by_categories|json_script:"dish-category" }}
-<script>
-const dishList= JSON.parse(document.getElementById('dish-list').textContent);
-const dishCat= JSON.parse(document.getElementById('dish-category').textContent);
-console.log(dishList);
-console.log(dishCat);
-</script>
+{{ dish_allergens|json_script:"dish-allergens" }}

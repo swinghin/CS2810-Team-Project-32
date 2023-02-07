@@ -33,6 +33,7 @@ class Dish(models.Model):
     dish_calories = models.IntegerField()
     dish_availability = models.BooleanField(default = False)
 
+    ingredient_id = models.ManyToManyField(Ingredient)
     category_id = models.ManyToManyField(Category)
 
     def __str__(self):

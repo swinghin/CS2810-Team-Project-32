@@ -13,7 +13,8 @@ body {
 header {
     width: 100%;
     margin: 0;
-    background: rgb(69, 69, 69);
+    background: rgb(30, 30, 120);
+    background: linear-gradient(13deg, rgba(30, 30, 120, 1) 0%, rgba(0, 177, 213, 1) 100%);
 }
 
 h1,
@@ -213,9 +214,11 @@ section {
     font-size: 48px;
     font-weight: 800;
     margin: 0;
+    height: 48px;
     padding: 12px;
     text-transform: uppercase;
     color: white;
+    background: url('/static/images/oaxaca_logo.svg') no-repeat;
 }
 
 #oaxaca-menu-bar-nav {

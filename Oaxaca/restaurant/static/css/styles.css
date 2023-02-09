@@ -47,7 +47,7 @@ h6 {
 
 .wrap {
     padding: 12px;
-    max-width: 640px;
+    max-width: 1024px;
     margin: 0 auto;
 }
 
@@ -293,7 +293,7 @@ section {
 
 .dish-cards-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 16px;
     align-items: stretch;
 }
@@ -347,6 +347,10 @@ section {
 
 .dish-price::before {
     content: "£";
+}
+
+.dish-free::before {
+    content: unset !important;
 }
 
 .dish-cal {
@@ -417,11 +421,12 @@ section {
     cursor: pointer;
 }
 
+
 /* 
     Header Styling
 */
 
-.search-bar{
+.search-bar {
     background: rgb(255, 255, 255);
     display: flex;
     width: 250px;
@@ -431,7 +436,7 @@ section {
     padding: 0.7em;
 }
 
-.search-bar input{
+.search-bar input {
     background: transparent;
     flex: 1;
     border: 0;

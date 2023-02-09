@@ -94,7 +94,7 @@ function filterMenu(filters) {
     dishesToHide = []; // list of dish ids to hide
     filters.forEach(filter => {
         dishAllergens.forEach(dish => {
-            if (dish.dish_allergen_id.includes(filter)) dishesToHide.push(dish.dish_id);
+            if (dish.dish_allergen_list.includes(filter)) dishesToHide.push(dish.dish_id);
         })
     })
 

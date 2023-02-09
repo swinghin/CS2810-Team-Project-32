@@ -1,148 +1,61 @@
 from collections import defaultdict
 from django.shortcuts import render
+from restaurant.models import Allergies, Ingredient, Category, Dish
 
 # Create your views here.
 
 
 def index(request):
+    # Get allergen information from DB ordered by allergies_id
+    allergens = Allergies.objects.all().order_by('allergies_id').values()
 
-    # Temporary hard-coded category data for use until proper database is completed
-    dish_categories = {
-        "FEAT": "Featured",
-        "BEST": "Best Seller",
-        "BKY": "Bakery",
-        "BFT": "Breakfast",
-        "MAIN": "Main",
-        "DES": "Dessert",
-    }
+    # Get ingredients info from DB
+    # ingredients=Ingredient.objects.all()
+    # allergic_ingredient_ids=[]
+    # for ingredient in ingredients.values():
+    #     if ingredient['allergies_id']:
+    #         allergic_ingredient_ids.append(ingredient['ingredient_id'])
+    # print(allergic_ingredient_ids)
 
-    # Temporary hard-coded ingredients data for use until proper database is completed
-    ingredients = {
-        "celery": "Celery",
-        "yeast": "Yeast",
-        "flour": "Flour",
-        "apple": "Apple",
-        "butter": "Butter",
-        "sugar": "Sugar",
-        "water": "Water",
-        "salt": "Salt",
-        "bean": "Bean",
-        "tomato": "Tomato",
-        "vinegar": "Vinegar",
-        "spice": "Spice",
-        "herb": "Herb",
-        "beef": "Beef",
-        "redwine": "Red Wine",
-        "onion": "Onion",
-        "carrot": "Carrot",
-        "potato": "Potato",
-        "egg": "Egg",
-        "cheese": "Cheese",
-        "ketchup": "Ketchup",
-        "milk": "Milk",
-        "blueberry": "Blueberry",
-        "applesauce": "Applesauce",
-        "pecan": "Pecan",
-    }
+    # Get dish categories from DB
+    dish_categories = Category.objects.values()
 
-    # Temporary hard-coded allergen data for use until proper database is completed
-    allergens = {
-        "celery": "Celery",
-        "gluten": "Gluten",
-        "crustacean": "Crustacean",
-        "mustard": "Mustard",
-        "peanut": "Peanuts",
-        "sesame": "Sesame",
-        "soy": "Soy",
-        "sulphite": "Sulphite",
-        "nut": "Nuts",
-        "milk": "Milk",
-        "egg": "Egg",
-    }
+    # Get all dishes from DB ordered by dish name
+    dish_all = Dish.objects.all().order_by('dish_name')
 
-    # Temporary hard-coded allergen data for use until proper database is completed
-    ingredient_allergens = {
-        "celery": "celery",
-        "yeast": "gluten",
-        "flour": "gluten",
-        "egg": "egg",
-        "cheese": "milk",
-        "milk": "milk",
-        "pecan": "nut",
-    }
-
-    # Temporary hard-coded dish data for use until proper database is completed
-    dish_data = [
-        [1, "Apple Pie", 0, 3.5, 1200, False, ["DES", "FEAT"], [
-            "apple", "butter", "flour", "sugar", "water"]],
-        [2, "Bagel", 1, 1.5, 300, True, ["BKY"],
-            ["yeast", "flour", "sugar", "salt"]],
-        [3, "Baguette", 0, 1, 250, False, ["BKY"], ["apple", "flour", "salt"]],
-        [4, "Naked Beans", 0, 2, 500, False, ["BFT", "BEST"], [
-            "bean", "tomato", "sugar", "vinegar", "flour", "salt", "spice", "herb"]],
-        [5, "Beef Stew", 234, 4, 800, True, ["MAIN"], ["beef", "flour",
-                                                       "vinegar", "redwine", "onion", "carrot", "potato", "salt"]],
-        [6, "Beef Burger", 0, 3.5, 600, False, ["MAIN"], ["beef", "herb", "onion",
-                                                          "egg", "cheese", "tomato", "ketchup", "flour", "yeast", "sugar"]],
-        [7, "Biscuits", 0, 1.5, 300, False, ["DES"], [
-            "flour", "salt", "sugar", "butter", "milk"]],
-        [8, "Blueberry Pie", 0, 3.7, 1150, False, ["DES"], [
-            "blueberry", "butter", "flour", "sugar", "water"]],
-        [9, "Carrot Cake", 0, 4, 1000, False, ["DES"], [
-            "pecan", "sugar", "egg", "applesauce", "flour", "carrot"]],
-        [10, "Casserole", 0, 400.5, 1200, False, ["MAIN"], ["beef", "flour",
-                                                            "vinegar", "redwine", "onion", "carrot", "potato", "salt"]],
-    ]
-
-    # The dish list to be sent to show in html view
-    dish_list = []
-    dish_allergens = []
-    # Append all of the dishes in dish_data to dish_list
-    for i in range(len(dish_data)):
-        # Build allergen list in the current dish by looking up ingredient_allergens
-        dish_ingred = []
-        dish_ingred_allergic = {}
-        dish_allergen_id = []
-        for j in range(len(dish_data[i][7])):
-            if dish_data[i][7][j] in ingredient_allergens:
-                dish_ingred_allergic[ingredients.get(
-                    dish_data[i][7][j])] = allergens.get(ingredient_allergens.get(dish_data[i][7][j]))
-                dish_allergen_id.append(
-                    ingredient_allergens.get(dish_data[i][7][j]))
-            else:
-                dish_ingred.append(ingredients.get(dish_data[i][7][j]))
-
-        dish_list.append({
-            "dish_id": dish_data[i][0],
-            "dish_name": dish_data[i][1],
-            "dish_qty": dish_data[i][2],
-            "dish_price": dish_data[i][3],
-            "dish_cal": dish_data[i][4],
-            "dish_avail": dish_data[i][5],
-            "dish_cat": dish_data[i][6],
-            "dish_ingred": dish_ingred,
-            "dish_ingred_allergic": dish_ingred_allergic,
-        })
-        dish_allergens.append({
-            "dish_id": dish_data[i][0],
-            "dish_allergen_id": dish_allergen_id,
-        })
-
+    # Create a dictionary of lists to store dishes based on category
     dish_by_categories = defaultdict(list)
-    for dish in dish_list:
-        for category in dish["dish_cat"]:
-            dish_by_categories[dish_categories.get(category)].append(dish)
-
-    dish_sorted_categories = defaultdict(list)
+    dish_by_categories.default_factory = None
+    # Pre-fill categories to dictionary
     for category in dish_categories:
-        dish_sorted_categories[dish_categories.get(category)] = dish_by_categories.get(
-            dish_categories.get(category))
-    dish_sorted_categories.default_factory = None
+        dish_by_categories[category['category_name']] = []
 
-    # returns a dictionary of dishes sorted by categories and a dictionary of dish categories
+    # Create list for filtering with JS
+    dish_allergens = []
+
+    # Loop though all dishes
+    for dish in dish_all:
+        # To store allergens of each dish
+        dish_allergen_list = []
+        # Loop though ingredients of the dish
+        for dish_ingred in dish.ingredient_id.all():
+            # If there are allergic dishes, append all allergens to dish_allergen_list
+            if dish_ingred.allergies_id.values():
+                for allergen in dish_ingred.allergies_id.values():
+                    dish_allergen_list.append(allergen['allergies_name'])
+        # Append allergen info to dish_allergens list for use in filtering
+        dish_allergens.append({
+            "dish_id": dish.dish_id, 
+            "dish_allergen_list": dish_allergen_list
+        })
+
+        # loop though the categories of the dish and add it to dish_by_categories based on thecategory
+        for dish_category in dish.category_id.values():
+            dish_by_categories[dish_category['category_name']].append(dish)
+
     return render(request, 'restaurant/index.html', {
-        "dish_by_categories": dish_sorted_categories,
+        "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
-        "allergens": allergens,
         "dish_allergens": dish_allergens,
+        "allergens": allergens,
     })

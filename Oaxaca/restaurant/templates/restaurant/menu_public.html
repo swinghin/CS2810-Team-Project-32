@@ -2,8 +2,9 @@
 <section id="menu-categories" class="wrap">
     <nav id="menu-category-bar">
         {% if dish_categories %}
-            {% for key, value in dish_categories.items %}
-                <a href="#{{ value }}" class="menu-category font-medium">{{ value }}</a>
+            {% for category in dish_categories %}
+                <a href="#{{ category.category_name }}"
+                   class="menu-category font-medium">{{ category.category_name }}</a>
             {% endfor %}
         {% endif %}
     </nav>
@@ -14,14 +15,14 @@
         <div class="margin-medium collapse">
             <p class="font-medium margin-short">Allergens</p>
             <div class="menu-filter-grid">
-                {% for key, allergen in allergens.items %}
-                    <label class="slide-toggle" for="{{ key }}">
+                {% for allergen in allergens %}
+                    <label class="slide-toggle" for="{{ allergen.allergies_name }}">
                         <input class="slide-toggle-checkbox"
-                               id="{{ key }}"
-                               value="{{ key }}"
+                               id="{{ allergen.allergies_name }}"
+                               value="{{ allergen.allergies_name }}"
                                type="checkbox"/>
                         <span class="slide-toggle-switch"></span>
-                        <span class="slide-toggle-text">{{ allergen }} Free</span>
+                        <span class="slide-toggle-text">{{ allergen.allergies_name }} Free</span>
                     </label>
                 {% endfor %}
             </div>
@@ -43,13 +44,30 @@
                                     <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
                                 </div>
                                 <div class="dish-info-row">
-                                    <span class="dish-price font-medium">{{ dish.dish_price }}</span>
+                                    <span class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium ">
+                                        {% if dish.dish_price != 0 %}
+                                            {{ dish.dish_price }}
+                                        {% else %}
+                                            Free
+                                        {% endif %}
+                                    </span>
                                 </div>
                                 <div class="dish-info-dropdown">
                                     <div class="dish-info-row hidden">
-                                        <span class="dish-cal">{{ dish.dish_cal }}</span>
+                                        <span class="dish-cal">{{ dish.dish_calories }}</span>
                                         <div class="dish-desc">
                                             Ingredients:
+                                            {% for ingred in dish.ingredient_id.all %}
+                                                {% if ingred.allergies_id.all %}
+                                                    <span class="dish-ingred dish-ingred-allergic">{{ ingred }}
+                                                        (
+                                                        {% for allergen in ingred.allergies_id.all %}{{ allergen.allergies_name }}{% endfor %}
+                                                        )
+                                                    </span>
+                                                {% else %}
+                                                    <span class="dish-ingred">{{ ingred }}</span>
+                                                {% endif %}
+                                            {% endfor %}
                                             {% for ingred, allergen in dish.dish_ingred_allergic.items %}
                                                 <span class="dish-ingred dish-ingred-allergic">{{ ingred }} ({{ allergen }})</span>
                                             {% endfor %}
@@ -72,8 +90,10 @@
                             </div>
                             <div>
                                 <img class="dish-thumbnail"
-                                     src="{% static 'images/dish/' %}{{ dish.dish_id }}.png"
-                                     alt="{{ dish.dish_name }}"/>
+                                     src="{% static 'images/dish/' %}{{ dish.dish_name }}.png"
+                                     alt="{{ dish.dish_name }}"
+                                     onerror="this.onerror=null;this.style.display='none';src='';this.class='';"
+                                     />
                             </div>
                         </div>
                     {% endfor %}

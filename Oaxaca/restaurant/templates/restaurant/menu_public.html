@@ -37,7 +37,7 @@
                 <h2>{{ category }}</h2>
                 <div class="dish-cards-grid">
                     {% for dish in dishes %}
-                        <div class="dish-card" id="{{ dish.dish_id }}">
+                        <div class="dish-card dish-{{ dish.dish_id }}">
                             <div class="dish-info">
                                 <div class="dish-info-row">
                                     <span class="dish-name font-semibold">{{ dish.dish_name }}</span>

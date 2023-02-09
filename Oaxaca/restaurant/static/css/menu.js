@@ -109,7 +109,10 @@ function resetDishCards() {
 }
 
 function hideDishCards(dishes) {
-    dishes.forEach(dish => hideDish(document.getElementById(dish)));
+    dishes.forEach(dish => {
+        dishCards = document.querySelectorAll((".dish-" + dish));
+        dishCards.forEach(card => hideDish(card));
+    });
 }
 
 function hideDish(card) {

@@ -408,3 +408,32 @@ section {
     margin: 8px 12px;
     text-align: center;
 }
+
+.cart-button {
+    font-size: 20px;
+    position: fixed;
+    bottom: 10%;
+    right: 10%;
+    cursor: pointer;
+}
+
+/* 
+    Header Styling
+*/
+
+.search-bar{
+    background: rgb(255, 255, 255);
+    display: flex;
+    width: 250px;
+    padding-left: 100px;
+    margin: 10px;
+    border-radius: 60px;
+    padding: 0.7em;
+}
+
+.search-bar input{
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+}

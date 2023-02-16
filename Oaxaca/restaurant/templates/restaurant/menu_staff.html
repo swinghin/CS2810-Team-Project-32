@@ -1,0 +1,34 @@
+<html>
+  {% block content %}
+    <h1>Dishes</h1>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Price</th>
+        <th>Calories</th>
+        <th>Availability</th>
+        <th>Actions</th>
+      </tr>
+      {% for dish in dish_list %}
+        <tr>
+          <td>{{ dish.dish_id }}</td>
+          <td>{{ dish.dish_name }}</td>
+          <td>{{ dish.dish_quantity }}</td>
+          <td>{{ dish.dish_price }}</td>
+          <td>{{ dish.dish_calories }}</td>
+          <td>{{ dish.dish_availability }}</td>
+          <td>
+            <form action="edit/{{ dish.dish_id }}">
+              <input type="submit" value="Edit" />
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+  {% endblock %}
+  <p>
+    <a href="/">HOME</a>
+  </p>
+</html>

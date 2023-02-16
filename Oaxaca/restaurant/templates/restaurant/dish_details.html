@@ -1,49 +1,64 @@
-<html>
-  {% block content %}
-    <h1>{{ dish.dish_name }}</h1>
-    <tr>
-      <td>
-        <label for="quantity">Quantity:</label>
-      </td>
-      <td>
-        <input type="number"
-               id="quantity"
-               name="quantity"
-               value="{{ dish.dish_quantity }}"/>
-        <br>
-        <br>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <label for="price">Price: £</label>
-      </td>
-      <td>
-        <input type="number" id="price" name="price" value="{{ dish.dish_price }}" />
-        <br>
-        <br>
-      </td>
-    </tr>
-    <tr>
-      <label for="calories">Calories:</label>
-      <td>{{ dish.dish_calories }}</td>
-      <td>
-        <br>
-        <br>
-      </td>
-    </tr>
-    <tr>
-      <label for="available">Available:</label>
-      <td>
-        <input type="checkbox"
-               onchange="toggleAvailabile"
-               value="{{ dish.dish_availability }}"/>
-        <br>
-        <br>
-      </td>
-    </tr>
-    <input type="submit" value="Submit">
-    <p>
-      <a href="/manage/menu">Back to menu</a>
-    {% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Order" />
+    <meta name="keywords" content="Oaxaca,order" />
+    <title>Oaxaca</title>
+    {% load static %}
+    <script src="{% static 'javascript/menu.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    {% include "restaurant/header_staff.html" %}
+    <section class="wrap">
+      <h1>{{ dish.dish_name }}</h1>
+      <tr>
+        <td>
+          <label for="quantity">Quantity:</label>
+        </td>
+        <td>
+          <input type="number"
+                 id="quantity"
+                 name="quantity"
+                 value="{{ dish.dish_quantity }}"/>
+          <br>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <label for="price">Price: £</label>
+        </td>
+        <td>
+          <input type="number" id="price" name="price" value="{{ dish.dish_price }}" />
+          <br>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <label for="calories">Calories:</label>
+        <td>{{ dish.dish_calories }}</td>
+        <td>
+          <br>
+          <br>
+        </td>
+      </tr>
+      <tr>
+        <label for="available">Available:</label>
+        <td>
+          <input type="checkbox"
+                 onchange="toggleAvailabile"
+                 value="{{ dish.dish_availability }}"/>
+          <br>
+          <br>
+        </td>
+      </tr>
+      <input type="submit" value="Submit">
+      <p>
+        <a href="/manage/menu">Back to menu</a>
+      </section>
+    </body>
   </html>

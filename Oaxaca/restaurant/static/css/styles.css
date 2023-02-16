@@ -17,6 +17,11 @@ header {
     background: linear-gradient(13deg, rgba(30, 30, 120, 1) 0%, rgba(0, 177, 213, 1) 100%);
 }
 
+header.staff {
+    background: rgb(92, 6, 6);
+    background: linear-gradient(13deg, rgba(92, 6, 6, 1) 0%, rgba(237, 73, 55, 1) 100%);
+}
+
 h1,
 h2,
 h3,

@@ -132,6 +132,8 @@ input {
 }
 
 .button-block {
+    color: black;
+    text-decoration: none;
     background: 2px rgb(204, 204, 204);
     border: 2px rgb(204, 204, 204) solid;
     border-radius: 16px;
@@ -150,6 +152,10 @@ input {
 
 .button-inline {
     text-decoration: underline;
+}
+
+input {
+    font-size: 16px;
 }
 
 

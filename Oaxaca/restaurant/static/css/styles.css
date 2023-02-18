@@ -114,6 +114,7 @@ h6 {
 .table-cell {
     display: table-cell;
     padding: 8px 12px;
+    vertical-align: middle;
 }
 
 .table-cell.table-heading {
@@ -170,6 +171,10 @@ input[type=number] {
     height: 38px;
     display: flex;
     align-items: center;
+}
+
+.slide-toggle.disabled {
+    cursor: unset;
 }
 
 .slide-toggle-text {

@@ -1,35 +1,31 @@
 {% extends "restaurant/index_staff.html" %}
 {% block content %}
   <section class="wrap">
-    <h1>Dishes</h1>
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Price</th>
-        <th>Calories</th>
-        <th>Availability</th>
-        <th>Actions</th>
-      </tr>
+    <h1>Menu Management</h1>
+    <div class="table full-width">
+      <div class="table-row table-heading">
+        <div class="table-cell table-heading">ID</div>
+        <div class="table-cell table-heading">Item</div>
+        <div class="table-cell table-heading">Quantity</div>
+        <div class="table-cell table-heading">Price</div>
+        <div class="table-cell table-heading">Calories</div>
+        <div class="table-cell table-heading">Availability</div>
+        <div class="table-cell table-heading">Actions</div>
+      </div>
       {% for dish in dish_list %}
-        <tr>
-          <td>{{ dish.dish_id }}</td>
-          <td>{{ dish.dish_name }}</td>
-          <td>{{ dish.dish_quantity }}</td>
-          <td>{{ dish.dish_price }}</td>
-          <td>{{ dish.dish_calories }}</td>
-          <td>{{ dish.dish_availability }}</td>
-          <td>
-            <form action="edit/{{ dish.dish_id }}">
-              <input type="submit" value="Edit" />
-            </form>
-          </td>
-        </tr>
+      <div class="table-row">
+        <div class="table-cell">{{ dish.dish_id }}</div>
+        <div class="table-cell">{{ dish.dish_name }}</div>
+        <div class="table-cell">{{ dish.dish_quantity }}</div>
+        <div class="table-cell">{{ dish.dish_price }}</div>
+        <div class="table-cell">{{ dish.dish_calories }}</div>
+        <div class="table-cell">{{ dish.dish_availability }}</div>
+        <div class="table-cell">
+          <a href="{% url 'staff-dish-details' dish.dish_id %}"
+             class="button button-block">Edit</a>
+        </div>
+      </div>
       {% endfor %}
-    </table>
-    <p>
-      <a href="/">HOME</a>
-    </p>
+    </div>
   </section>
 {% endblock content %}

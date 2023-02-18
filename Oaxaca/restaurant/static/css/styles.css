@@ -99,6 +99,27 @@ h6 {
     content: '\25B4';
 }
 
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-row:nth-child(even) {
+    background: rgb(240, 240, 240)
+}
+
+.table-cell {
+    display: table-cell;
+    padding: 8px 12px;
+}
+
+.table-cell.table-heading {
+    font-weight: 600;
+}
+
 button,
 input {
     font-family: 'Poppins', sans-serif;

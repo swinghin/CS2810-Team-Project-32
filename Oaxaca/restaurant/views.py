@@ -1,4 +1,5 @@
 from collections import defaultdict
+from django.http import JsonResponse
 from django.shortcuts import render
 from restaurant.models import Allergies, Ingredient, Category, Dish
 
@@ -53,9 +54,21 @@ def index(request):
         for dish_category in dish.category_id.values():
             dish_by_categories[dish_category['category_name']].append(dish)
 
+    #AutoSearch
+    query = request.GET.get('q', '')
+    if query:
+        query_set = Dish.objects.filter(name__icontains=query).order_by('name')
+        for result in query_set:
+            data = [{'name' : result.dish_name}]
+    
+        return JsonResponse({'data': data})
+    
+
     return render(request, 'restaurant/index.html', {
         "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     })
+
+

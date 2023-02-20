@@ -1,15 +1,26 @@
 <header>
-    <div id="oaxaca-menu-bar" class="wrap">
-        <span id="oaxaca-logo"></span>
-        <form action="" class="search-bar">
-            <input type="text" placeholder="Search Dish" />
-        </form>
-    </div>
-    <div class="wrap">
-        <nav id="oaxaca-menu-bar-nav">
-            <a>Menu</a>
-            <a>About</a>
-            <a>Log In</a>
-        </nav>
-    </div>
+  <div id="oaxaca-menu-bar" class="wrap">
+    <span id="oaxaca-logo"></span>
+    <form action="" class="search-bar">
+      <input type="text" placeholder="Search Dish" id="Search" />
+    </form>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script>
+    $(function () {
+      $("#Search").autocomplete({
+        source: '{% url "index" %}',
+        minLength: 1
+      });
+    });
+  </script>
+
+  <div class="wrap">
+    <nav id="oaxaca-menu-bar-nav">
+      <a>Menu</a>
+      <a>About</a>
+      <a>Log In</a>
+    </nav>
+  </div>
 </header>

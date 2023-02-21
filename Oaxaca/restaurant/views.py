@@ -55,13 +55,14 @@ def index(request):
             dish_by_categories[dish_category['category_name']].append(dish)
 
     #AutoSearch
-    query = request.GET.get('q', '')
-    if query:
-        query_set = Dish.objects.filter(name__icontains=query).order_by('name')
+    if 'term' in request.GET:
+        data = []
+        query_set = Dish.objects.filter(dish_name__icontains=request.GET.get('term')).order_by('dish_name')
         for result in query_set:
             data = [{'name' : result.dish_name}]
     
         return JsonResponse({'data': data})
+    
     
 
     return render(request, 'restaurant/index.html', {

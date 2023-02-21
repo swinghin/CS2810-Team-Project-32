@@ -1,6 +1,7 @@
 from collections import defaultdict
 from django.shortcuts import render
-from restaurant.models import Allergies, Ingredient, Category, Dish
+from restaurant.models import *
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -59,3 +60,20 @@ def index(request):
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     })
+
+@login_required
+def cart(request):
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, order_finish=False)
+        dishes = order.orderitem_set.all()
+    else:
+        dishes = []
+
+    context = {'dishes':dishes}
+    return render(request, 'restaurant/cart.html', context)
+
+
+def checkout(request):
+    return render(request, 'restaurant/checkout.html')

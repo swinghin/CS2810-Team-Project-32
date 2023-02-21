@@ -4,12 +4,31 @@
     <h1>Edit Dish: {{ dish.dish_name }}</h1>
     <form class="table" action="" method="post">
       {% csrf_token %}
-      {% for field in form %}
-        <div class="table-row">
-          <label class="table-cell" for="{{ field.auto_id }}">{{ field.label }}:</label>
-          {{ field }}
+      <div class="table-row">
+        <label class="table-cell" for="dish-name">Dish Name:</label>
+        {{ form.dish_name }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-quantity">Quantity:</label>
+        {{ form.dish_quantity }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-price">Price: £</label>
+        {{ form.dish_price }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-calories">Calories:</label>
+        {{ form.dish_calories }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-availability">Available:</label>
+        <div class="table-cell">
+          <label class="slide-toggle">
+            {{ form.dish_availability }}
+            <span class="slide-toggle-switch"></span>
+          </label>
         </div>
-      {% endfor %}
+      </div>
       <div class="form-buttons">
         <a class="button button-block" href="{% url 'staff-menu' %}">Back</a>
         <input class="button button-block" type="submit" value="Submit" />

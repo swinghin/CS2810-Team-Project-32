@@ -11,5 +11,5 @@ class DishForm(ModelForm):
             'dish_quantity':forms.NumberInput(attrs={'class':'table-cell'}),
             'dish_price':forms.NumberInput(attrs={'class':'table-cell'}),
             'dish_calories':forms.NumberInput(attrs={'class':'table-cell'}),
-            'dish_availability':forms.CheckboxInput(attrs={'class':'table-cell'}),
+            'dish_availability':forms.CheckboxInput(attrs={'class':'slide-toggle-checkbox'}),
         }

@@ -113,6 +113,7 @@ h6 {
 
 .table-cell {
     display: table-cell;
+    margin: 8px;
     padding: 8px 12px;
     vertical-align: middle;
 }
@@ -478,6 +479,10 @@ section {
     flex: 1;
     border: 0;
     outline: none;
+}
+
+.form-buttons {
+    margin: 12px;
 }
 
 @media screen and (max-width:854px) {

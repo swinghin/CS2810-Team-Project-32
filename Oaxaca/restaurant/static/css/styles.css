@@ -80,6 +80,10 @@ h6 {
     text-align: center;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .collapse {
     max-height: 0;
     overflow: hidden;
@@ -383,7 +387,8 @@ section {
     font-size: 18px;
 }
 
-.dish-price::before {
+.dish-price::before,
+.price::before {
     content: "£";
 }
 

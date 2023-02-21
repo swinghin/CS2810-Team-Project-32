@@ -5,6 +5,14 @@ from restaurant.models import Allergies, Ingredient, Category, Dish
 
 # Create your views here.
 
+def autosearch(request):
+    if 'term' in request.GET:
+        data = []
+        query_set = Dish.objects.filter(dish_name__icontains=request.GET.get('term')).order_by('dish_name')
+        for result in query_set:
+            data = [{'name' : result.dish_name}]
+    
+        return JsonResponse({'data': data})
 
 def index(request):
     # Get allergen information from DB ordered by allergies_id
@@ -54,14 +62,7 @@ def index(request):
         for dish_category in dish.category_id.values():
             dish_by_categories[dish_category['category_name']].append(dish)
 
-    #AutoSearch
-    if 'term' in request.GET:
-        data = []
-        query_set = Dish.objects.filter(dish_name__icontains=request.GET.get('term')).order_by('dish_name')
-        for result in query_set:
-            data = [{'name' : result.dish_name}]
-    
-        return JsonResponse({'data': data})
+    autosearch(request)
     
     
 

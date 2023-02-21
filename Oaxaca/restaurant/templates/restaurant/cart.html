@@ -1,26 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Order" />
-        <meta name="keywords" content="Oaxaca,order" />
-        <title>Oaxaca</title>
-        {% load static %}
-        <script src="{% static 'javascript/menu.js' %}" defer></script>
-        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
-    </head>
-    <body>
-        {% include "restaurant/header_public.html" %}
-        <a>Continue shopping</a>
+{% extends 'restaurant/cartIndex.html' %}
+{% load static %}
+{% block content %}
+<div>
+    <a class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Continue Shopping</a>
 
-        <table class="table">
-            <tr>
-                <th><h5>Items: <strong>3</strong></h5></th>
-                <th><h5>Total: <strong>£23</strong></h5></th>
-            </tr> 
-        </table>
-        {% include "restaurant/footer_public.html" %}
-    </body>
-</html>
+    <br>
+    <br>
+
+    <table class="table">
+        <tr>
+            <th>
+                <h5>Items: <strong>{{order.get_cart_items}}</strong></h5>
+            </th>
+            <th>
+                <h5>Total:<strong> ${{order.get_cart_total|floatformat:2}}</strong></h5>
+            </th>
+            <th>
+                <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+            </th>
+        </tr>
+    </table>
+
+</div>
+{% for dish in dishes %}
+<div class="dish-cards-grid">
+    <div class="dish-card dish-{{ dish.dish_id }}">
+        <div class="dish-info">
+            <div class="dish-info-row">
+                <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
+                <span class="dish-name font-semibold">{{ dish.dish_price }}</span>
+            </div>
+            <div class="dish-info-row dish-order">
+                <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
+                <input class="dish-count" type="number" min="1" max="10" maxlength="2" value="1" />
+                <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
+                <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock content %}

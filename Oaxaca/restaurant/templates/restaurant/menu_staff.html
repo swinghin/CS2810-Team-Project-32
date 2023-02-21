@@ -20,7 +20,7 @@
           <div class="table-cell">
             <label class="slide-toggle disabled">
               <input class="slide-toggle-checkbox"
-                     checked="dish.dish_availability"
+                     {% if dish.dish_availability %} checked{% endif %}
                      disabled
                      type="checkbox"/>
               <span class="slide-toggle-switch"></span>

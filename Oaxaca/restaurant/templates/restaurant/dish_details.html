@@ -2,48 +2,18 @@
 {% block content %}
   <section class="wrap">
     <h1>Edit Dish: {{ dish.dish_name }}</h1>
-    <div class="table">
-      <div class="table-row">
-        <label class="table-cell" for="dish-quantity">Quantity:</label>
-        <input class="table-cell"
-               type="number"
-               id="dish-quantity"
-               name="dish-quantity"
-               value="{{ dish.dish_quantity }}"/>
+    <form class="table" action="" method="post">
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="table-row">
+          <label class="table-cell" for="{{ field.auto_id }}">{{ field.label }}:</label>
+          {{ field }}
+        </div>
+      {% endfor %}
+      <div class="form-buttons">
+        <a class="button button-block" href="{% url 'staff-menu' %}">Back</a>
+        <input class="button button-block" type="submit" value="Submit" />
       </div>
-      <div class="table-row">
-        <label class="table-cell" for="dish-price">Price: £</label>
-        <input class="table-cell"
-               type="number"
-               id="dish-price"
-               name="dish-price"
-               value="{{ dish.dish_price }}"/>
-      </div>
-      <div class="table-row">
-        <label class="table-cell" for="dish-calories">Calories:</label>
-        <input class="table-cell"
-               type="number"
-               id="dish-calories"
-               name="dish-calories"
-               value="{{ dish.dish_calories }}"/>
-      </div>
-      <div class="table-row">
-        <label class="table-cell" for="dish-availability">Available:</label>
-        <label class="slide-toggle">
-          <input class="slide-toggle-checkbox"
-                 id="dish-availability"
-                 name="dish-availability"
-                 checked="dish.dish_availability"
-                 type="checkbox"/>
-          <span class="slide-toggle-switch"></span>
-        </label>
-      </div>
-    </div>
-    <div>
-    </section>
-    <section class="wrap">
-      <a class="button button-block" href="{% url 'staff-menu' %}">Back</a>
-      <input class="button button-block" type="submit" value="Submit" />
-    </div>
+    </form>
   </section>
 {% endblock content %}

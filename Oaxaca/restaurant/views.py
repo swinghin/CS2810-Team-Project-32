@@ -11,7 +11,7 @@ def autosearch(request):
         query_set = Dish.objects.filter(dish_name__icontains=request.GET.get('term')).order_by('dish_name')
         for result in query_set:
             data = [{'name' : result.dish_name}]
-    
+
         return JsonResponse({'data': data})
 
 def index(request):

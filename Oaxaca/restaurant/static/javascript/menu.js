@@ -136,3 +136,17 @@ function filterMenuCheckbox() {
 function filterMenuSearch(query) {
 
 }
+
+// Checking if enter key is pressed in the search bar to start filtering.
+const searchInput = document.querySelector('#Search')
+searchInput.addEventListener('keypress', function(e) {
+    if(e.key === 'Enter'){
+        e.preventDefault();
+        const term = searchInput.value.toLowerCase();
+    }
+});
+
+//function for filtering with the search term
+function searchFilter(term){
+
+}

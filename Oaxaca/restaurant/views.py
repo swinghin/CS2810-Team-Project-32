@@ -1,5 +1,7 @@
 from collections import defaultdict
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import loader
 from restaurant.models import Allergies, Ingredient, Category, Dish
 
 # Create your views here.
@@ -59,3 +61,9 @@ def index(request):
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     })
+
+def payment(request):
+    template = loader.get_template('restaurant/payment.html')
+    context = {
+    }
+    return HttpResponse(template.render(context, request))

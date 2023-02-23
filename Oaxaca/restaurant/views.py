@@ -130,7 +130,7 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 # change this value if you want to have the login page redirect somwhere.
-                return redirect("http://127.0.0.1:8000/admin/")
+                return redirect('restaurant:staff-menu')
             else:
                 messages.error(request, "Invalid username or password.")
         else:

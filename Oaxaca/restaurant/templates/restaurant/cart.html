@@ -3,7 +3,7 @@
 {% block content %}
     <section class="wrap">
         <div>
-            <a class="btn btn-outline-dark" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
+            <a class="button button-block" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
             <br>
             <br>
             <table class="table">
@@ -15,14 +15,14 @@
                     </th>
                     <th>
                         <h5>
-                            Total:<strong></strong>
+                            Total: <strong>£ 95.04</strong>
                         </h5>
                     </th>
                     <th>
                         <a style="float:right;
                                   margin:5px"
-                           class="btn btn-success"
-                           href="{% url 'restaurant:checkout' %}">Checkout</a>
+                           class="button button-block btn btn-success"
+                           href="{% url 'restaurant:pay' %}">Checkout</a>
                     </th>
                 </tr>
             </table>
@@ -33,7 +33,7 @@
                     <div class="dish-info-row">
                         <span class="dish-name font-semibold">Mom's spaghetti</span>
                         <br>
-                        <span class="dish-name font-semibold">£6.9</span>
+                        <span class="dish-name font-semibold">£ 20.02</span>
                     </div>
                     <div class="dish-info-row dish-order">
                         <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
@@ -53,9 +53,31 @@
             <div class="dish-card dish-{{ dish.dish_id }}">
                 <div class="dish-info">
                     <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Jasper's jelly</span>
+                        <span class="dish-name font-semibold">Jasper's Jelly</span>
                         <br>
-                        <span class="dish-name font-semibold">£120</span>
+                        <span class="dish-name font-semibold">£ 25.00</span>
+                    </div>
+                    <div class="dish-info-row dish-order">
+                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
+                        <input class="dish-count"
+                               type="number"
+                               min="1"
+                               max="10"
+                               maxlength="2"
+                               value="1"/>
+                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
+                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dish-cards-grid">
+            <div class="dish-card dish-{{ dish.dish_id }}">
+                <div class="dish-info">
+                    <div class="dish-info-row">
+                        <span class="dish-name font-semibold">Trollope's Scallops</span>
+                        <br>
+                        <span class="dish-name font-semibold">£ 30.00</span>
                     </div>
                     <div class="dish-info-row dish-order">
                         <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>

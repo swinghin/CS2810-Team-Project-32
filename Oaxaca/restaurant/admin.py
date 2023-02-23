@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import *
-# egister your models here.
+# register your models here.
+
 
 admin.site.register(Allergies)
 admin.site.register(Ingredient)

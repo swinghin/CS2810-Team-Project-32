@@ -1,12 +1,13 @@
 from collections import defaultdict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .forms import CreateNewUser, DishForm
+from .forms import CreateNewUser, DishForm, OrderForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.template import loader
-from restaurant.models import Allergies, Ingredient, Category, Dish
+from django.template.loader import render_to_string
+from restaurant.models import *
 
 
 def redirect_request(request):
@@ -137,3 +138,29 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="login.html", context={"login_form": form})
+
+def dashboard(request):
+    orders_all = Order.objects.all()
+    customer_all = Customer.objects.all()
+    help_queryset = customer_all.filter(need_help=True)
+    context = {
+        "orders": orders_all,
+        "help": help_queryset
+    }
+    if request.method == "POST":
+        help_list = request.POST.getlist("boxes")
+        for x in help_list:
+            Customer.objects.filter(pk=int(x)).update(need_help=False)
+    return render(request, "dashboard.html", context=context)
+  
+def updateOrder(request, pk):
+    order = Order.objects.get(order_id=pk)
+    form = OrderForm(instance=order)
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect(dashboard)
+    
+    context = {'form':form}
+    return render(request, "updateOrder.html", context=context)

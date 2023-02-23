@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms import ModelForm
-from .models import Dish
+from .models import Dish, Order
 
 
 # Create your forms here.
@@ -32,3 +32,8 @@ class DishForm(ModelForm):
             'dish_calories': forms.NumberInput(attrs={'class': 'table-cell'}),
             'dish_availability': forms.CheckboxInput(attrs={'class': 'slide-toggle-checkbox'}),
         }
+
+class OrderForm(ModelForm):
+    class Meta:
+        model = Order
+        fields = '__all__'

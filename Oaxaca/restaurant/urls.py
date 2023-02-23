@@ -12,5 +12,7 @@ urlpatterns = [
     path('manage/menu/', views.staff_menu, name='staff-menu'),
     path('manage/menu/edit/<int:id>',
          views.staff_dish_details, name='staff-dish-details'),
+    path('dashboard/', views.dashboard, name="dashboard"),
+    path('update_order/<str:pk>/', views.updateOrder, name="update_order"),
     path('', views.index, name='index'),
 ]

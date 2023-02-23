@@ -1,5 +1,5 @@
 from collections import defaultdict
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.shortcuts import  render, redirect
 from .forms import CreateNewUser
 from django.contrib.auth import login, authenticate
@@ -23,6 +23,13 @@ def register_request(request):
 	form = CreateNewUser()
 	return render (request=request, template_name="register.html", context={"register_form":form})
 
+def autosearch(request):
+    if 'term' in request.GET:
+        data = []
+        query_set = Dish.objects.filter(dish_name__icontains=request.GET.get('term')).order_by('dish_name')
+        for result in query_set:
+            data = [{'name' : result.dish_name}]
+        return JsonResponse({'data': data})
 
 def index(request):
     # Get allergen information from DB ordered by allergies_id
@@ -72,12 +79,18 @@ def index(request):
         for dish_category in dish.category_id.values():
             dish_by_categories[dish_category['category_name']].append(dish)
 
+    autosearch(request)
+    
+    
+
     return render(request, 'restaurant/index.html', {
         "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     })
+
+
 
 def payment(request):
     template = loader.get_template('restaurant/payment.html')

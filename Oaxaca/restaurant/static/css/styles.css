@@ -442,3 +442,15 @@ section {
     border: 0;
     outline: none;
 }
+
+@media screen and (max-width:854px) {
+    .dish-cards-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width:480px) {
+    section {
+        padding: 12px !important;
+    }
+}

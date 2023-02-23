@@ -132,11 +132,6 @@ function filterMenuCheckbox() {
     filterMenu(filterMenuGetChecked());
 }
 
-// Function for fitering menu items with search
-function filterMenuSearch(query) {
-
-}
-
 // Checking if enter key is pressed in the search bar to start filtering.
 const searchInput = document.querySelector('#Search')
 searchInput.addEventListener('keypress', function(e) {

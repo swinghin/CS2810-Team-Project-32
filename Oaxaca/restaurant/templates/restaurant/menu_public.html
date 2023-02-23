@@ -1,4 +1,6 @@
+{% extends 'restaurant/index.html' %}
 {% load static %}
+{% block content %}
 <section id="menu-categories" class="wrap">
     <nav id="menu-category-bar">
         {% if dish_categories %}
@@ -108,3 +110,4 @@
     <button class="cart-button">Cart</button>
 </div>
 {{ dish_allergens|json_script:"dish-allergens" }}
+{% endblock content %}

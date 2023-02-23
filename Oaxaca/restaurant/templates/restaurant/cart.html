@@ -1,80 +1,98 @@
-{% extends 'restaurant/cartIndex.html' %}
+{% extends 'restaurant/index.html' %}
 {% load static %}
 {% block content %}
-<div>
-    <a class="btn btn-outline-dark" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
-
-    <br>
-    <br>
-
-    <table class="table">
-        <tr>
-            <th>
-                <h5>Items: <strong>5</strong></h5>
-            </th>
-            <th>
-                <h5>Total:<strong></strong></h5>
-            </th>
-            <th>
-                <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'restaurant:checkout' %}">Checkout</a>
-            </th>
-        </tr>
-    </table>
-
-</div>
-
-<div class="dish-cards-grid">
-    <div class="dish-card dish-{{ dish.dish_id }}">
-        <div class="dish-info">
-            <div class="dish-info-row">
-                <span class="dish-name font-semibold">Mom's spaghetti</span>
-                <br>
-                <span class="dish-name font-semibold">£6.9</span>
-            </div>
-            <div class="dish-info-row dish-order">
-                <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                <input class="dish-count" type="number" min="1" max="10" maxlength="2" value="2" />
-                <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+    <section class="wrap">
+        <div>
+            <a class="btn btn-outline-dark" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
+            <br>
+            <br>
+            <table class="table">
+                <tr>
+                    <th>
+                        <h5>
+                            Items: <strong>5</strong>
+                        </h5>
+                    </th>
+                    <th>
+                        <h5>
+                            Total:<strong></strong>
+                        </h5>
+                    </th>
+                    <th>
+                        <a style="float:right;
+                                  margin:5px"
+                           class="btn btn-success"
+                           href="{% url 'restaurant:checkout' %}">Checkout</a>
+                    </th>
+                </tr>
+            </table>
+        </div>
+        <div class="dish-cards-grid">
+            <div class="dish-card dish-{{ dish.dish_id }}">
+                <div class="dish-info">
+                    <div class="dish-info-row">
+                        <span class="dish-name font-semibold">Mom's spaghetti</span>
+                        <br>
+                        <span class="dish-name font-semibold">£6.9</span>
+                    </div>
+                    <div class="dish-info-row dish-order">
+                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
+                        <input class="dish-count"
+                               type="number"
+                               min="1"
+                               max="10"
+                               maxlength="2"
+                               value="2"/>
+                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
+                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="dish-cards-grid">
-    <div class="dish-card dish-{{ dish.dish_id }}">
-        <div class="dish-info">
-            <div class="dish-info-row">
-                <span class="dish-name font-semibold">Jasper's jelly</span>
-                <br>
-                <span class="dish-name font-semibold">£120</span>
-            </div>
-            <div class="dish-info-row dish-order">
-                <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                <input class="dish-count" type="number" min="1" max="10" maxlength="2" value="1" />
-                <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-{% for dish in dishes %}
-<div class="dish-cards-grid">
-    <div class="dish-card dish-{{ dish.dish_id }}">
-        <div class="dish-info">
-            <div class="dish-info-row">
-                <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
-                <span class="dish-name font-semibold">{{ dish.dish_price }}</span>
-            </div>
-            <div class="dish-info-row dish-order">
-                <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                <input class="dish-count" type="number" min="1" max="10" maxlength="2" value="1" />
-                <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+        <div class="dish-cards-grid">
+            <div class="dish-card dish-{{ dish.dish_id }}">
+                <div class="dish-info">
+                    <div class="dish-info-row">
+                        <span class="dish-name font-semibold">Jasper's jelly</span>
+                        <br>
+                        <span class="dish-name font-semibold">£120</span>
+                    </div>
+                    <div class="dish-info-row dish-order">
+                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
+                        <input class="dish-count"
+                               type="number"
+                               min="1"
+                               max="10"
+                               maxlength="2"
+                               value="1"/>
+                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
+                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-{% endfor %}
+        {% for dish in dishes %}
+            <div class="dish-cards-grid">
+                <div class="dish-card dish-{{ dish.dish_id }}">
+                    <div class="dish-info">
+                        <div class="dish-info-row">
+                            <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
+                            <span class="dish-name font-semibold">{{ dish.dish_price }}</span>
+                        </div>
+                        <div class="dish-info-row dish-order">
+                            <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
+                            <input class="dish-count"
+                                   type="number"
+                                   min="1"
+                                   max="10"
+                                   maxlength="2"
+                                   value="1"/>
+                            <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
+                            <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 {% endblock content %}

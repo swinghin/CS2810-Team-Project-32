@@ -1,6 +1,7 @@
 from collections import defaultdict
 from django.shortcuts import render
-from restaurant.models import Allergies, Ingredient, Category, Dish
+from restaurant.models import Allergies, Ingredient, Category, Dish, Customer, Order
+from django.http import JsonResponse
 
 # Create your views here.
 
@@ -59,3 +60,12 @@ def index(request):
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     })
+
+def getOrders(request):
+    all_orders = list(Order.objects.all().values())
+    print('Un string')
+    orders_ready = [order for order in all_orders if order['status'] == 'ready']
+    orders_not_ready = [order for order in all_orders if order['status'] != 'ready']
+    orders_definite = [orders_ready, orders_not_ready]
+
+    return JsonResponse(list(orders_definite), safe=False)

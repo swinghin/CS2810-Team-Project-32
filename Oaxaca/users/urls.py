@@ -15,10 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from users.views import DashboardWaiter
 
 urlpatterns = [
-    path('', include('restaurant.urls')),
-    path('auth/', include('django.contrib.auth.urls')),
-    path('users/', include('users.urls')),
-    path('admin/', admin.site.urls),
+    path('dashboard_waiter/', DashboardWaiter.as_view(), name='dashboard_waiter'),
 ]

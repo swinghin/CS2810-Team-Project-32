@@ -47,27 +47,29 @@ class Customer(models.Model):
 
     def __str__(self):
         return str(self.table_id)
-
+"""
 class Status(models.Model):
     class Statuses(models.TextChoices):
         InProgress = 'Order in progress'
         Received = 'Received'
         Cooking = 'Cooking'
         Problem = 'Problem'
+        Ready = 'Ready'
     
     status_id = models.AutoField(primary_key = True)
     status_name = models.CharField(max_length = 20, choices=Statuses.choices, default=Statuses.InProgress)
 
     def __str__(self):
         return str(self.status_name)
-
+"""
 class Order(models.Model):
+    statuses = [('order_in_progress','Order in progress'), ('received','Received'), ('cooking','Cooking'), ('problem','Problem'), ('ready','Ready')]
     order_id = models.AutoField(primary_key = True)
     order_time = models.DateTimeField()
     table_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
     order_finish = models.BooleanField(default = False)
     dish_id = models.ManyToManyField(Dish)
-    status_id = models.ForeignKey(Status, on_delete=models.CASCADE)
+    status = models.CharField(max_length = 20, choices=statuses, default=statuses[0])
 
     def __str__(self):
         return "Order no: " + str(self.order_id)

@@ -118,7 +118,7 @@
                                 <td>{{ x.order_id }}</td>
                                 <td>{{ x.table_id }}</td>
                                 <td>{{ x.status_id }}</td>
-                                <td><a class ="button-update" href="{% url 'update_order' x.order_id %}">Update</a></td>
+                                <td><a class ="button-update" href="{% url 'restaurant:update_order' x.order_id %}">Update</a></td>
                             </tr>
                             {% endfor %}
                         </tbody>

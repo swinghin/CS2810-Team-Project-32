@@ -160,7 +160,7 @@ def updateOrder(request, pk):
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():
             form.save()
-            return redirect(dashboard)
+            return redirect('restaurant:dashboard')
     
     context = {'form':form}
     return render(request, "updateOrder.html", context=context)

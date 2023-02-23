@@ -1,7 +1,7 @@
 from collections import defaultdict
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .forms import CreateNewUser
+from .forms import CreateNewUser, DishForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm

@@ -143,10 +143,19 @@ searchInput.addEventListener('keypress', function(e) {
     if(e.key === 'Enter'){
         e.preventDefault();
         const term = searchInput.value.toLowerCase();
+        searchFilter(term);
     }
 });
 
 //function for filtering with the search term
 function searchFilter(term){
-
+    const dishCards = document.querySelectorAll('.dish-card');
+    dishCards.forEach(dishCard => {
+        const dishName = dishCard.querySelector('.dish-name').textContent.toLowerCase();
+        if(dishName.includes(searchInput.value.toLowerCase())){
+            dishCard.style.display = 'block';
+        } else {
+            dishCard.style.display = 'none';
+        }
+    })
 }

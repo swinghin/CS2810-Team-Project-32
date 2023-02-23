@@ -61,7 +61,6 @@ def index(request):
         "allergens": allergens,
     })
 
-@login_required
 def cart(request):
 
     if request.user.is_authenticated:

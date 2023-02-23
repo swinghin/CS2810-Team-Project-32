@@ -5,6 +5,7 @@ from .forms import CreateNewUser, DishForm, OrderForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.template.loader import render_to_string
 from restaurant.models import *
@@ -164,3 +165,19 @@ def updateOrder(request, pk):
     
     context = {'form':form}
     return render(request, "updateOrder.html", context=context)
+
+def cart(request):
+
+    if request.user.is_authenticated:
+        customer = request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer, order_finish=False)
+        dishes = order.orderitem_set.all()
+    else:
+        dishes = []
+
+    context = {'dishes':dishes}
+    return render(request, 'restaurant/cart.html', context)
+
+
+def checkout(request):
+    return render(request, 'restaurant/checkout.html')

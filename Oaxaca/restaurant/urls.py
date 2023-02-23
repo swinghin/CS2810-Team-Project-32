@@ -14,5 +14,7 @@ urlpatterns = [
          views.staff_dish_details, name='staff-dish-details'),
     path('dashboard/', views.dashboard, name="dashboard"),
     path('update_order/<str:pk>/', views.updateOrder, name="update_order"),
+    path('cart', views.cart, name='cart'),
+    path('checkout', views.checkout, name='checkout'),
     path('', views.index, name='index'),
 ]

@@ -1,6 +1,6 @@
 from django.db import models
 from array import array
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -47,7 +47,8 @@ class Dish(models.Model):
 
 
 class Customer(models.Model):
-    table_id = models.AutoField(primary_key=True)
+    table_id = models.AutoField(primary_key = True)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=11, decimal_places=2)
     persons = models.IntegerField()
     need_help = models.BooleanField(default=False)
@@ -77,8 +78,9 @@ class Status(models.Model):
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     order_time = models.DateTimeField()
-    table_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    order_finish = models.BooleanField(default=False)
+    table_id = models.IntegerField()
+    customer = models.ForeignKey(Customer, null=True, to_field='user', on_delete=models.CASCADE)
+    order_finish = models.BooleanField(default = False)
     dish_id = models.ManyToManyField(Dish)
     status_id = models.ForeignKey(Status, on_delete=models.CASCADE)
 

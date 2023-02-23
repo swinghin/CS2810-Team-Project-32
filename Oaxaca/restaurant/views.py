@@ -54,7 +54,7 @@ def staff_dish_details(request, id):
         form = DishForm(request.POST, instance=dish)
         if form.is_valid():
             form.save()
-            return redirect('staff-menu')
+            return redirect('restaurant:staff-menu')
     else:
         template = loader.get_template('restaurant/dish_details.html')
         form = DishForm(instance=dish)

@@ -1,25 +1,26 @@
 from django.shortcuts import render, redirect
-from .models import Order
+from .models import *
 from django.template.loader import render_to_string
 from .forms import OrderForm
 # Create your views here.
 
 def dashboard(request):
     orders_all = Order.objects.all()
-    orders_queryset = orders_all.filter(order_finish=False)
+    customer_all = Customer.objects.all()
+    help_queryset = customer_all.filter(need_help=True)
     context = {
-        "orders": orders_queryset
+        "orders": orders_all,
+        "help": help_queryset
     }
     if request.method == "POST":
-        id_list = request.POST.getlist("boxes")
-        for x in id_list:
-            Order.objects.filter(pk=int(x)).update(order_finish=True)
+        help_list = request.POST.getlist("boxes")
+        for x in help_list:
+            Customer.objects.filter(pk=int(x)).update(need_help=False)
     return render(request, "dashboard.html", context=context)
   
 def updateOrder(request, pk):
     order = Order.objects.get(order_id=pk)
     form = OrderForm(instance=order)
-    
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():

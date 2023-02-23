@@ -1,12 +1,22 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    {{ form }}
+<style>
+    *{color: #000}
+</style>
+<br/>
+<br/>
+<div class="row">
+    <div class="column middle">
+        <div class="card card-body">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {{ form }}
 
-    <input type="submit" name="Submit">
-</form>
+                <input type="submit" name="Submit">
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}

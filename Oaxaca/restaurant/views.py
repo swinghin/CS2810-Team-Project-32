@@ -168,12 +168,12 @@ def updateOrder(request, pk):
 
 def cart(request):
 
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, order_finish=False)
-        dishes = order.orderitem_set.all()
-    else:
-        dishes = []
+    # if request.user.is_authenticated:
+    #     customer = request.user.customer
+    #     order, created = Order.objects.get_or_create(customer=customer, order_finish=False)
+    #     dishes = order.orderitem_set.all()
+    # else:
+    dishes = []
 
     context = {'dishes':dishes}
     return render(request, 'restaurant/cart.html', context)

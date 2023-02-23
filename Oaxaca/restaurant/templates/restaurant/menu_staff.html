@@ -1,0 +1,37 @@
+{% extends "restaurant/index_staff.html" %}
+{% block content %}
+  <section class="wrap">
+    <h1>Menu Management</h1>
+    <div class="table full-width">
+      <div class="table-row table-heading">
+        <div class="table-cell table-heading">Item</div>
+        <div class="table-cell table-heading text-center">Quantity</div>
+        <div class="table-cell table-heading text-right">Price</div>
+        <div class="table-cell table-heading text-center">Calories</div>
+        <div class="table-cell table-heading">Availabile</div>
+        <div class="table-cell table-heading">Actions</div>
+      </div>
+      {% for dish in dish_list %}
+        <div class="table-row">
+          <div class="table-cell">{{ dish.dish_name }}</div>
+          <div class="table-cell text-center">{{ dish.dish_quantity }}</div>
+          <div class="table-cell text-right price">{{ dish.dish_price }}</div>
+          <div class="table-cell text-center">{{ dish.dish_calories }}</div>
+          <div class="table-cell">
+            <label class="slide-toggle disabled">
+              <input class="slide-toggle-checkbox"
+                     {% if dish.dish_availability %} checked{% endif %}
+                     disabled
+                     type="checkbox"/>
+              <span class="slide-toggle-switch"></span>
+            </label>
+          </div>
+          <div class="table-cell">
+            <a href="{% url 'staff-dish-details' dish.dish_id %}"
+               class="button button-block">Edit</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock content %}

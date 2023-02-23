@@ -17,6 +17,11 @@ header {
     background: linear-gradient(13deg, rgba(30, 30, 120, 1) 0%, rgba(0, 177, 213, 1) 100%);
 }
 
+header.staff {
+    background: rgb(92, 6, 6);
+    background: linear-gradient(13deg, rgba(92, 6, 6, 1) 0%, rgba(237, 73, 55, 1) 100%);
+}
+
 h1,
 h2,
 h3,
@@ -75,6 +80,10 @@ h6 {
     text-align: center;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .collapse {
     max-height: 0;
     overflow: hidden;
@@ -94,6 +103,29 @@ h6 {
     content: '\25B4';
 }
 
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-row:nth-child(even) {
+    background: rgb(240, 240, 240)
+}
+
+.table-cell {
+    display: table-cell;
+    margin: 8px;
+    padding: 8px 12px;
+    vertical-align: middle;
+}
+
+.table-cell.table-heading {
+    font-weight: 600;
+}
+
 button,
 input {
     font-family: 'Poppins', sans-serif;
@@ -105,6 +137,8 @@ input {
 }
 
 .button-block {
+    color: black;
+    text-decoration: none;
     background: 2px rgb(204, 204, 204);
     border: 2px rgb(204, 204, 204) solid;
     border-radius: 16px;
@@ -123,6 +157,10 @@ input {
 
 .button-inline {
     text-decoration: underline;
+}
+
+input {
+    font-size: 16px;
 }
 
 
@@ -144,6 +182,10 @@ input[type=number] {
     height: 38px;
     display: flex;
     align-items: center;
+}
+
+.slide-toggle.disabled {
+    cursor: unset;
 }
 
 .slide-toggle-text {
@@ -345,7 +387,8 @@ section {
     font-size: 18px;
 }
 
-.dish-price::before {
+.dish-price::before,
+.price::before {
     content: "£";
 }
 
@@ -441,6 +484,10 @@ section {
     flex: 1;
     border: 0;
     outline: none;
+}
+
+.form-buttons {
+    margin: 12px;
 }
 
 @media screen and (max-width:854px) {

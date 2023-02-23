@@ -8,13 +8,13 @@
         <meta name="keywords" content="Oaxaca,order" />
         <title>Oaxaca</title>
         {% load static %}
-        <script src="{% static 'javascript/menu.js' %}" defer></script>
         <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
         <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     </head>
     <body>
-        {% include "restaurant/header_public.html" %}
-        {% include "restaurant/menu_public.html" with dish_list=dish_list dish_categories=dish_categories %}
-        {% include "restaurant/footer_public.html" %}
+        {% include "restaurant/header_staff.html" %}
+        {% block content %}
+        {% endblock content %}
+        {% include "restaurant/footer_staff.html" %}
     </body>
 </html>

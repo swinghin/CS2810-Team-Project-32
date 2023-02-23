@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 <div>
-    <a class="btn btn-outline-dark" href="{% url 'index' %}">&#x2190; Continue Shopping</a>
+    <a class="btn btn-outline-dark" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
 
     <br>
     <br>
@@ -16,7 +16,7 @@
                 <h5>Total:<strong></strong></h5>
             </th>
             <th>
-                <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+                <a style="float:right; margin:5px;" class="btn btn-success" href="{% url 'restaurant:checkout' %}">Checkout</a>
             </th>
         </tr>
     </table>

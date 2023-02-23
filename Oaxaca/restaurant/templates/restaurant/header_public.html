@@ -10,7 +10,7 @@
   <script>
     $(function () {
       $("#Search").autocomplete({
-        source: "{% url 'index' %}",
+        source: "{% url 'restaurant:index' %}",
         minLength: 1
       });
     });

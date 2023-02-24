@@ -132,7 +132,7 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 # change this value if you want to have the login page redirect somwhere.
-                return redirect('restaurant:staff-menu')
+                return redirect('restaurant:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -152,7 +152,7 @@ def dashboard(request):
         help_list = request.POST.getlist("boxes")
         for x in help_list:
             Customer.objects.filter(pk=int(x)).update(need_help=False)
-    return render(request, "dashboard.html", context=context)
+    return render(request, "restaurant/dashboard.html", context=context)
   
 def updateOrder(request, pk):
     order = Order.objects.get(order_id=pk)
@@ -164,7 +164,7 @@ def updateOrder(request, pk):
             return redirect('restaurant:dashboard')
     
     context = {'form':form}
-    return render(request, "updateOrder.html", context=context)
+    return render(request, "restaurant/updateOrder.html", context=context)
 
 def cart(request):
 

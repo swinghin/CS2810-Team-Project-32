@@ -1,0 +1,45 @@
+{% extends "restaurant/index_staff.html" %}
+{% block content %}
+    <section class="wrap">
+        <form action="" method=POST>
+            {% csrf_token %}
+            <h1>Orders</h1>
+            <div class="table full-width">
+                <div class="table-row">
+                    <div class="table-cell table-heading">Order</div>
+                    <div class="table-cell table-heading">Table</div>
+                    <div class="table-cell table-heading">Status</div>
+                    <div class="table-cell table-heading">Update</div>
+                </div>
+                {% for x in orders %}
+                    <div class="table-row">
+                        <div class="table-cell">{{ x.order_id }}</div>
+                        <div class="table-cell">{{ x.table_id }}</div>
+                        <div class="table-cell">{{ x.status_id }}</div>
+                        <div class="table-cell">
+                            <a class="button button-block"
+                               href="{% url 'restaurant:update_order' x.order_id %}">Update</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <h1>Help Needed</h1>
+        <div class="table full-width">
+            <div class="table-row table-heading">
+                <div class="table-cell table-heading">Table</div>
+                <div class="table-cell table-heading">Helped</div>
+            </div>
+            {% for c in help %}
+                <div class="table-row">
+                    <div class="table-cell">{{ c.table_id }}</div>
+                    <div class="table-cell">
+                        <button type="submit" class="button button-block" value={{ c.table_id }} name="boxes">Done
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </form>
+</section>
+{% endblock content %}

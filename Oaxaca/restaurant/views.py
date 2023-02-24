@@ -26,7 +26,7 @@ def register_request(request):
         messages.error(
             request, "Unsuccessful registration. Invalid information.")
     form = CreateNewUser()
-    return render(request=request, template_name="register.html", context={"register_form": form})
+    return render(request=request, template_name="restaurant/register.html", context={"register_form": form})
 
 
 def autosearch(request):
@@ -138,7 +138,7 @@ def login_request(request):
         else:
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
-    return render(request=request, template_name="login.html", context={"login_form": form})
+    return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
 def dashboard(request):
     orders_all = Order.objects.all()

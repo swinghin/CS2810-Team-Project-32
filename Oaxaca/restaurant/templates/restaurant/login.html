@@ -1,0 +1,18 @@
+{% extends "restaurant/index.html" %}
+{% block content %}
+  {% comment %} {% include "restaurant/messages.html" %} {% endcomment %}
+  {% load crispy_forms_tags %}
+  <section class="wrap">
+    <h1>Oaxaca Login</h1>
+    <form method="POST">
+      {% csrf_token %}
+      {{ login_form|crispy }}
+      <p>
+        <button class="button button-block" type="submit">Login</button>
+      </p>
+    </form>
+    <p>
+      Don't have an account? <a href="{% url 'restaurant:register' %}">Create an account</a>.
+    </p>
+  </section>
+{% endblock %}

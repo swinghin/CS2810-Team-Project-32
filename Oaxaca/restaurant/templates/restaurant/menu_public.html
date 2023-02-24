@@ -107,7 +107,7 @@
     {% endif %}
 </section>
 <div class="cart">
-    <button class="cart-button">Cart</button>
+    <a class="button button-block cart-button" href="{% url 'restaurant:cart' %}">Cart</a>
 </div>
 {{ dish_allergens|json_script:"dish-allergens" }}
 {% endblock content %}

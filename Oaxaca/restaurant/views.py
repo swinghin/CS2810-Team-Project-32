@@ -132,7 +132,7 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 # change this value if you want to have the login page redirect somwhere.
-                return redirect('restaurant:staff-menu')
+                return redirect('restaurant:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
         else:

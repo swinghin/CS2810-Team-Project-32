@@ -324,7 +324,7 @@ section {
     display: grid;
     margin-bottom: 16px;
     gap: 8px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto;
 }
 
@@ -494,10 +494,16 @@ section {
     .dish-cards-grid {
         grid-template-columns: 1fr;
     }
+    .menu-filter-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }
 
 @media screen and (max-width:480px) {
     section {
         padding: 12px !important;
+    }
+    .menu-filter-grid {
+        grid-template-columns: 1fr 1fr;
     }
 }

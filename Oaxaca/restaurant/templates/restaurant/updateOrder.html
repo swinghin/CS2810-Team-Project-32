@@ -4,19 +4,17 @@
 <style>
     *{color: #000}
 </style>
-<br/>
-<br/>
-<div class="row">
+<section class="wrap row">
     <div class="column middle">
         <div class="card card-body">
             <form action="" method="POST">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.as_p }}
 
                 <input type="submit" name="Submit">
             </form>
         </div>
     </div>
-</div>
+</section>
 
 {% endblock content %}

@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'Oaxaca.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'restaurantDB', 
+        'NAME': 'newDatabase', 
         'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'PASSWORD': 'password',
         'HOST': '127.0.0.1', 
         'PORT': '5432',
     }

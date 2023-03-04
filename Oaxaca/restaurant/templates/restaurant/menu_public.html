@@ -12,24 +12,43 @@
         </nav>
     </section>
     <section id="menu-filters" class="wrap">
-        {% if allergens %}
+        {% if dish_by_categories %}
             <h3 class="heading-collapsible text-center">Show Filters</h3>
             <div class="margin-medium collapse">
-                <p class="font-medium margin-short">Allergens</p>
-                <div class="menu-filter-grid">
-                    {% for allergen in allergens %}
-                        <label class="slide-toggle" for="{{ allergen.allergies_name }}">
-                            <input class="slide-toggle-checkbox"
-                                   id="{{ allergen.allergies_name }}"
-                                   value="{{ allergen.allergies_name }}"
-                                   type="checkbox"/>
-                            <span class="slide-toggle-switch"></span>
-                            <span class="slide-toggle-text">{{ allergen.allergies_name }} Free</span>
-                        </label>
-                    {% endfor %}
+                {% if allergens %}
+                    <p class="font-medium margin-short">Allergens</p>
+                    <div id="allergen-grid" class="menu-filter-grid">
+                        {% for allergen in allergens %}
+                            <label class="slide-toggle" for="{{ allergen.allergies_name }}">
+                                <input class="slide-toggle-checkbox"
+                                       id="{{ allergen.allergies_name }}"
+                                       value="{{ allergen.allergies_name }}"
+                                       type="checkbox"/>
+                                <span class="slide-toggle-switch"></span>
+                                <span class="slide-toggle-text">{{ allergen.allergies_name }} Free</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="font-medium margin-short">Menu Options</p>
+                <div id="show-unavailable-grid" class="menu-filter-grid">
+                    <label class="slide-toggle" for="unavailable">
+                        <input class="slide-toggle-checkbox"
+                               id="unavailable"
+                               value="unavailable"
+                               type="checkbox"/>
+                        <span class="slide-toggle-switch"></span>
+                        <span class="slide-toggle-text">Show Unavailable Dishes</span>
+                    </label>
                 </div>
-                <button class="button button-medium button-block font-medium full-width"
-                        onclick="filterMenuCheckbox()">Apply</button>
+                <div class="menu-filter-button-grid">
+                    <button class="button button-medium button-block font-medium full-width"
+                            onclick="applyFilters()">Apply</button>
+                    <button class="button button-medium button-block font-medium full-width"
+                            onclick="resetFilters()">
+                        Reset All Filters
+                    </button>
+                </div>
             </div>
         {% endif %}
     </section>
@@ -40,7 +59,7 @@
                     <h2>{{ category }}</h2>
                     <div class="dish-cards-grid">
                         {% for dish in dishes %}
-                            <div class="dish-card dish-{{ dish.dish_id }}">
+                            <div class="dish-card dish-{{ dish.dish_id }} {% if dish.dish_availability != True %}dish-unavailable{% endif %}">
                                 <div class="dish-info">
                                     <div class="dish-info-row">
                                         <span class="dish-name font-semibold">{{ dish.dish_name }}</span>

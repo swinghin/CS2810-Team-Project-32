@@ -328,6 +328,14 @@ section {
     grid-template-rows: auto;
 }
 
+.menu-filter-button-grid {
+    display: grid;
+    margin-bottom: 16px;
+    gap: 8px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+}
+
 .dish-cards-category {
     border-top: 2px rgb(240, 240, 240) solid;
     margin-bottom: 12px;
@@ -350,6 +358,11 @@ section {
 .dish-card:hover {
     filter: drop-shadow(0px 4px 4px rgb(192, 192, 192));
     transition: filter 0.1s ease-out;
+}
+
+.dish-unavailable {
+    display: none;
+    color: rgb(128, 128, 128);
 }
 
 .dish-thumbnail {

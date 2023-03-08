@@ -2,29 +2,55 @@
 
 {% block js %}
 <script>
-    console.log('working')
-    if(localStorage.getItem('cart') == null){
-        var cart={};
-    } else {
-        cart= JSON.parse(localStorage.getItem('cart'));
-    }
-    
-    $(document).ready(function() {
-        $('.cart').click(function(){
-            console.log('clicked');
-            var dishId= this.id.toString();
-            console.log(dishId);
+    window.onload = function() {
+        console.log('working')
+        if(localStorage.getItem('cart') == null){
+            var cart={};
+        } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+        }
+        
+        $(document).ready(function() {
+            $('.cart').click(function(){
+                console.log('clicked');
+                var dishId = this.id.toString();
+                if(cart[dishId]!= undefined) {
+                    cart[dishId] = cart[dishId]+1;
+                } else {
+                    cart[dishId] = 1;
+                }
 
-            if(cart[dishId]!= undefined) {
-                cart[dishId] = cart[dishId]+1;
-            } else {
-                cart[dishId] = 1;
-            }
-
-            console.log(cart);
-            localStorage.setItem('cart', JSON.stringify(cart));
+                updateCart(cart);
+            });
         });
-    });
+
+        function updateCart(cart) {
+            for (var dish in cart) {
+                document.getElementById('div' + dish).innerHTML = "<button id='minus" + dish + "' class='btn btn-primary minus'>-</button> <span id='val" + dish + "'>" + cart[dish] + "</span> <button id='plus" + dish + "' class='btn btn-primary plus'> + </button>";
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            //document.getElementById('cart').innerHTML = Object.keys(cart).length;
+            console.log(cart);
+        }
+        
+        $('.quant').on("click", "button.minus", function() {
+            console.log("works")
+            a = this.id.slice(7, );
+            cart['dish' + a] = cart['dish' + a] - 1;
+            cart['dish' + a] = Math.max(0, cart['dish' + a]);
+            document.getElementById('val' + a).innerHTML = cart["divdish" + a];
+            updateCart(cart);
+        });
+
+        $('.quant').on("click", "button.plus", function() {
+            console.log("works")
+            a = this.id.slice(6, );
+            cart['pr' + a] = cart['pr' + a] + 1;
+            document.getElementById('val' + a).innerHTML = cart["divdish" + a];
+            updateCart(cart);
+        });
+
+    }
 
 </script>
 
@@ -108,15 +134,9 @@
                                     <span class="dish-info-dropdown-btn button button-inline more-info"></span>
                                 </div>
                                 <div class="dish-info-row dish-order">
-                                    <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                                    <input id="count{{dish.dish_quantity}}"class="dish-count"
-                                           type="number"
-                                           min="1"
-                                           max="10"
-                                           maxlength="2"
-                                           value="1"/>
-                                    <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                                    <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart">Add to cart</button>
+                                    <span id="divdish{{dish.dish_id}}" class="quant">
+                                        <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart">Add to cart</button>
+                                    </span>
                                 </div>
                             </div>
                             <div>

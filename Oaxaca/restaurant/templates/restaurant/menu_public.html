@@ -109,6 +109,22 @@
             <p>Sorry, there are no dishes available.</p>
         {% endif %}
     </section>
+
+    <div class="cart">
+        {% if help %}
+            <div class="button button-block call-waiter-button">Done! Your waiter will be there in a while</div>
+        {% else %}
+            <div class="call-waiter-button">
+                <form method="post">
+                    {% csrf_token %}
+                    <p class="font-medium">Need some help? Enter your table id a waiter will come help you</p>
+                    <input type="text" placeholder="Table ID" name="table_id"/>
+                    <button class="button button-block" type="submit">Call</button>
+                    {% comment %} <a class="button button-block"
+                    href="{% url 'restaurant:index' %}" type="submit">Call</a> {% endcomment %}
+                </form>
+            </div>
+        {% endif %}
     <div class="cart">
         <a class="button button-block cart-button"
            href="{% url 'restaurant:cart' %}">Cart</a>

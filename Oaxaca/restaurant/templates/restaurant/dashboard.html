@@ -30,14 +30,16 @@
                 <div class="table-cell table-heading">Table</div>
                 <div class="table-cell table-heading">Helped</div>
             </div>
-            {% for c in help %}
+            {% for h in all_helps_needed %}
+            {% if not h.helped %}
                 <div class="table-row">
-                    <div class="table-cell">{{ c.table_id }}</div>
+                    <div class="table-cell">{{ h.table_id }}</div>
                     <div class="table-cell">
-                        <button type="submit" class="button button-block" value={{ c.table_id }} name="boxes">Done
+                        <button type="submit" class="button button-block" value={{ h.id }} name="boxes">Done
                         </button>
                     </div>
                 </div>
+            {% endif %}
             {% endfor %}
         </div>
     </form>

@@ -12,7 +12,7 @@ from restaurant.models import *
 
 
 def redirect_request(request):
-    return render(request=request, template_name="home.html")
+    return render(request=request, template_name="restaurant/menu_public.html")
 
 
 def register_request(request):
@@ -106,12 +106,20 @@ def index(request):
         for dish_category in dish.category_id.values():
             dish_by_categories[dish_category['category_name']].append(dish)
 
-    return render(request, 'restaurant/menu_public.html', {
+    context = {
         "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
         "dish_allergens": dish_allergens,
         "allergens": allergens,
-    })
+    }
+
+    if request.method == 'POST':
+        table_id = request.POST.get('table_id')
+        h = HelpNeeded.objects.create(table_id=table_id)
+
+        context['help'] = h
+
+    return render(request, 'restaurant/menu_public.html', context)
 
 
 def payment(request):
@@ -144,14 +152,19 @@ def dashboard(request):
     orders_all = Order.objects.all()
     customer_all = Customer.objects.all()
     help_queryset = customer_all.filter(need_help=True)
+    all_helps_needed = HelpNeeded.objects.all()
     context = {
         "orders": orders_all,
-        "help": help_queryset
+        "help": help_queryset,
+        "all_helps_needed": all_helps_needed,
     }
     if request.method == "POST":
         help_list = request.POST.getlist("boxes")
+
         for x in help_list:
-            Customer.objects.filter(pk=int(x)).update(need_help=False)
+            HelpNeeded.objects.filter(id=int(x)).update(helped=True)
+        """for x in help_list:
+            Customer.objects.filter(pk=int(x)).update(need_help=False)"""
     return render(request, "restaurant/dashboard.html", context=context)
   
 def updateOrder(request, pk):
@@ -181,3 +194,11 @@ def cart(request):
 
 def checkout(request):
     return render(request, 'restaurant/checkout.html')
+
+def ask_waiter(request):
+    h = HelpNeeded.objects.create(table_id = 1)
+
+    context = {
+        'help': h
+    }
+    return render(request, 'restaurant/menu_public.html', context)

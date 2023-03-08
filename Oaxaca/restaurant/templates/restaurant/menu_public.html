@@ -1,164 +1,165 @@
+{% extends 'restaurant/index.html' %}
 {% load static %}
+{% block content %}
 
-{% block js %}
-<script>
-    window.onload = function() {
-        console.log('working')
-        if(localStorage.getItem('cart') == null){
-            var cart={};
-        } else {
-            cart = JSON.parse(localStorage.getItem('cart'));
-        }
-        
-        $(document).ready(function() {
-            $('.cart').click(function(){
-                console.log('clicked');
-                var dishId = this.id.toString();
-                var dishPrice = document.getElementsByClassName("price").innerHTML;
-                if(cart[dishId]!= undefined) {
-                    qty = cart[dishId][dishPrice][0] + 1;
-                } else {
-                    qty = 1;
-                    name = document.getElementById('dish' + dishId)
-                    cart[dishId] = [dishId, dishPrice, name];
+    <script>
+        window.onload = function() {
+            console.log('working')
+            if(localStorage.getItem('cart') == null){
+                var cart={};
+            } else {
+                cart = JSON.parse(localStorage.getItem('cart'));
+            }
+            
+            $(document).ready(function() {
+                $('.cart').click(function(){
+                    console.log('clicked');
+                    var dishId = this.id.toString();
+                    var dishPrice = document.getElementsByClassName("price").innerHTML;
+                    if(cart[dishId]!= undefined) {
+                        qty = cart[dishId][dishPrice][0] + 1;
+                    } else {
+                        qty = 1;
+                        name = document.getElementById('dish' + dishId)
+                        cart[dishId] = [dishId, dishPrice, name];
+                    }
+
+                    updateCart(cart);
+                });
+            });
+
+            function updateCart(cart) {
+                for (var dish in cart) {
+                    document.getElementById('div' + dish).innerHTML = "<button id='minus" + dish + "' class='btn btn-primary minus'>-</button> <span id='val" + dish + "'>" + cart[dish] + "</span> <button id='plus" + dish + "' class='btn btn-primary plus'> + </button>";
                 }
-
+                localStorage.setItem('cart', JSON.stringify(cart));
+                //document.getElementById('cart').innerHTML = Object.keys(cart).length;
+                console.log(cart);
+            }
+            
+            $('.quant').on("click", "button.minus", function() {
+                console.log("works")
+                a = this.id.slice(7, );
+                cart['dish' + a] = cart['dish' + a] - 1;
+                cart['dish' + a] = Math.max(0, cart['dish' + a]);
+                document.getElementById('val' + a).innerHTML = cart["divdish" + a];
                 updateCart(cart);
             });
-        });
 
-        function updateCart(cart) {
-            for (var dish in cart) {
-                document.getElementById('div' + dish).innerHTML = "<button id='minus" + dish + "' class='btn btn-primary minus'>-</button> <span id='val" + dish + "'>" + cart[dish] + "</span> <button id='plus" + dish + "' class='btn btn-primary plus'> + </button>";
-            }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            //document.getElementById('cart').innerHTML = Object.keys(cart).length;
-            console.log(cart);
+            $('.quant').on("click", "button.plus", function() {
+                console.log("works")
+                a = this.id.slice(6, );
+                cart['pr' + a] = cart['pr' + a] + 1;
+                document.getElementById('val' + a).innerHTML = cart["divdish" + a];
+                updateCart(cart);
+            });
+
         }
-        
-        $('.quant').on("click", "button.minus", function() {
-            console.log("works")
-            a = this.id.slice(7, );
-            cart['dish' + a] = cart['dish' + a] - 1;
-            cart['dish' + a] = Math.max(0, cart['dish' + a]);
-            document.getElementById('val' + a).innerHTML = cart["divdish" + a];
-            updateCart(cart);
-        });
 
-        $('.quant').on("click", "button.plus", function() {
-            console.log("works")
-            a = this.id.slice(6, );
-            cart['pr' + a] = cart['pr' + a] + 1;
-            document.getElementById('val' + a).innerHTML = cart["divdish" + a];
-            updateCart(cart);
-        });
+    </script>
 
-    }
-
-</script>
-
-{% endblock %}
-
-<section id="menu-categories" class="wrap">
-    <nav id="menu-category-bar">
-        {% if dish_categories %}
-            {% for category in dish_categories %}
-                <a href="#{{ category.category_name }}"
-                   class="menu-category font-medium">{{ category.category_name }}</a>
-            {% endfor %}
-        {% endif %}
-    </nav>
-</section>
-<section id="menu-filters" class="wrap">
-    {% if allergens %}
-        <h3 class="heading-collapsible text-center">Show Filters</h3>
-        <div class="margin-medium collapse">
-            <p class="font-medium margin-short">Allergens</p>
-            <div class="menu-filter-grid">
-                {% for allergen in allergens %}
-                    <label class="slide-toggle" for="{{ allergen.allergies_name }}">
-                        <input class="slide-toggle-checkbox"
-                               id="{{ allergen.allergies_name }}"
-                               value="{{ allergen.allergies_name }}"
-                               type="checkbox"/>
-                        <span class="slide-toggle-switch"></span>
-                        <span class="slide-toggle-text">{{ allergen.allergies_name }} Free</span>
-                    </label>
+    <section id="menu-categories" class="wrap">
+        <nav id="menu-category-bar">
+            {% if dish_categories %}
+                {% for category in dish_categories %}
+                    <a href="#{{ category.category_name }}"
+                    class="menu-category font-medium">{{ category.category_name }}</a>
                 {% endfor %}
-            </div>
-            <button class="button button-medium button-block font-medium full-width"
-                    onclick="filterMenuCheckbox()">Apply</button>
-        </div>
-    {% endif %}
-</section>
-<section id="menu-list" class="wrap">
-    {% if dish_by_categories %}
-        {% for category, dishes in dish_by_categories.items %}
-            <div id="{{ category }}" class="dish-cards-category">
-                <h2>{{ category }}</h2>
-                <div class="dish-cards-grid">
-                    {% for dish in dishes %}
-                        <div class="dish-card dish-{{ dish.dish_id }}">
-                            <div class="dish-info">
-                                <div class="dish-info-row">
-                                    <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
-                                </div>
-                                <div class="dish-info-row">
-                                    <span id="price{{dish.dish_price}}" class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium price">
-                                        {% if dish.dish_price != 0 %}
-                                            {{ dish.dish_price }}
-                                        {% else %}
-                                            Free
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <div class="dish-info-dropdown">
-                                    <div class="dish-info-row hidden">
-                                        <span class="dish-cal">{{ dish.dish_calories }}</span>
-                                        <div class="dish-desc">
-                                            Ingredients:
-                                            {% for ingred in dish.ingredient_id.all %}
-                                                {% if ingred.allergies_id.all %}
-                                                    <span class="dish-ingred dish-ingred-allergic">{{ ingred }}
-                                                        (
-                                                        {% for allergen in ingred.allergies_id.all %}{{ allergen.allergies_name }}{% endfor %}
-                                                        )
-                                                    </span>
-                                                {% else %}
-                                                    <span class="dish-ingred">{{ ingred }}</span>
-                                                {% endif %}
-                                            {% endfor %}
-                                            {% for ingred, allergen in dish.dish_ingred_allergic.items %}
-                                                <span class="dish-ingred dish-ingred-allergic">{{ ingred }} ({{ allergen }})</span>
-                                            {% endfor %}
-                                            {% for ingred in dish.dish_ingred %}<span class="dish-ingred">{{ ingred }}</span>{% endfor %}
-                                        </div>
-                                    </div>
-                                    <span class="dish-info-dropdown-btn button button-inline more-info"></span>
-                                </div>
-                                <div class="dish-info-row dish-order">
-                                    <span id="divdish{{dish.dish_id}}" class="quant">
-                                        <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart">Add to cart</button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div>
-                                <img class="dish-thumbnail"
-                                     src="{% static 'images/dish/' %}{{ dish.dish_name }}.png"
-                                     alt="{{ dish.dish_name }}"
-                                     onerror="this.onerror=null;this.style.display='none';src='';this.class='';"
-                                     />
-                            </div>
-                        </div>
+            {% endif %}
+        </nav>
+    </section>
+    <section id="menu-filters" class="wrap">
+        {% if allergens %}
+            <h3 class="heading-collapsible text-center">Show Filters</h3>
+            <div class="margin-medium collapse">
+                <p class="font-medium margin-short">Allergens</p>
+                <div class="menu-filter-grid">
+                    {% for allergen in allergens %}
+                        <label class="slide-toggle" for="{{ allergen.allergies_name }}">
+                            <input class="slide-toggle-checkbox"
+                                id="{{ allergen.allergies_name }}"
+                                value="{{ allergen.allergies_name }}"
+                                type="checkbox"/>
+                            <span class="slide-toggle-switch"></span>
+                            <span class="slide-toggle-text">{{ allergen.allergies_name }} Free</span>
+                        </label>
                     {% endfor %}
                 </div>
+                <button class="button button-medium button-block font-medium full-width"
+                        onclick="filterMenuCheckbox()">Apply</button>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>Sorry, there are no dishes available.</p>
-    {% endif %}
-</section>
-<div class="cart">
-    <button class="cart-button">Cart</button>
-</div>
-{{ dish_allergens|json_script:"dish-allergens" }}
+        {% endif %}
+    </section>
+    <section id="menu-list" class="wrap">
+        {% if dish_by_categories %}
+            {% for category, dishes in dish_by_categories.items %}
+                <div id="{{ category }}" class="dish-cards-category">
+                    <h2>{{ category }}</h2>
+                    <div class="dish-cards-grid">
+                        {% for dish in dishes %}
+                            <div class="dish-card dish-{{ dish.dish_id }}">
+                                <div class="dish-info">
+                                    <div class="dish-info-row">
+                                        <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
+                                    </div>
+                                    <div class="dish-info-row">
+                                        <span id="price{{dish.dish_price}}" class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium price">
+                                            {% if dish.dish_price != 0 %}
+                                                {{ dish.dish_price }}
+                                            {% else %}
+                                                Free
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="dish-info-dropdown">
+                                        <div class="dish-info-row hidden">
+                                            <span class="dish-cal">{{ dish.dish_calories }}</span>
+                                            <div class="dish-desc">
+                                                Ingredients:
+                                                {% for ingred in dish.ingredient_id.all %}
+                                                    {% if ingred.allergies_id.all %}
+                                                        <span class="dish-ingred dish-ingred-allergic">{{ ingred }}
+                                                            (
+                                                            {% for allergen in ingred.allergies_id.all %}{{ allergen.allergies_name }}{% endfor %}
+                                                            )
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="dish-ingred">{{ ingred }}</span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                {% for ingred, allergen in dish.dish_ingred_allergic.items %}
+                                                    <span class="dish-ingred dish-ingred-allergic">{{ ingred }} ({{ allergen }})</span>
+                                                {% endfor %}
+                                                {% for ingred in dish.dish_ingred %}<span class="dish-ingred">{{ ingred }}</span>{% endfor %}
+                                            </div>
+                                        </div>
+                                        <span class="dish-info-dropdown-btn button button-inline more-info"></span>
+                                    </div>
+                                    <div class="dish-info-row dish-order">
+                                        <span id="divdish{{dish.dish_id}}" class="quant">
+                                            <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart">Add to cart</button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <img class="dish-thumbnail"
+                                        src="{% static 'images/dish/' %}{{ dish.dish_name }}.png"
+                                        alt="{{ dish.dish_name }}"
+                                        onerror="this.onerror=null;this.style.display='none';src='';this.class='';"
+                                        />
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Sorry, there are no dishes available.</p>
+        {% endif %}
+    </section>
+    <div class="cartBut">
+        <button  class="cart-button">Cart</button>
+    </div>
+    {{ dish_allergens|json_script:"dish-allergens" }}
+
+{% endblock content %}

@@ -54,7 +54,7 @@ def index(request):
         for dish_category in dish.category_id.values():
             dish_by_categories[dish_category['category_name']].append(dish)
 
-    return render(request, 'restaurant/index.html', {
+    return render(request, 'restaurant/menu_public.html', {
         "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
         "dish_allergens": dish_allergens,

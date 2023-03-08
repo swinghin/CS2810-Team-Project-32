@@ -15,9 +15,11 @@
                 console.log('clicked');
                 var dishId = this.id.toString();
                 if(cart[dishId]!= undefined) {
-                    cart[dishId] = cart[dishId]+1;
+                    cart[dishId] = cart[dishId][0]+1;
                 } else {
-                    cart[dishId] = 1;
+                    qty = 1;
+                    name = document.getElementById('dish' + dishId).innerHTML
+                    cart[dishId] = [qty, name];
                 }
 
                 updateCart(cart);

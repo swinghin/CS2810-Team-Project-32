@@ -14,12 +14,13 @@
             $('.cart').click(function(){
                 console.log('clicked');
                 var dishId = this.id.toString();
+                var dishPrice = document.getElementsByClassName("price").innerHTML;
                 if(cart[dishId]!= undefined) {
-                    cart[dishId] = cart[dishId][0]+1;
+                    qty = cart[dishId][dishPrice][0] + 1;
                 } else {
                     qty = 1;
-                    name = document.getElementById('dish' + dishId).innerHTML
-                    cart[dishId] = [qty, name];
+                    name = document.getElementById('dish' + dishId)
+                    cart[dishId] = [dishId, dishPrice, name];
                 }
 
                 updateCart(cart);
@@ -103,7 +104,7 @@
                                     <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
                                 </div>
                                 <div class="dish-info-row">
-                                    <span class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium ">
+                                    <span id="price{{dish.dish_price}}" class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium price">
                                         {% if dish.dish_price != 0 %}
                                             {{ dish.dish_price }}
                                         {% else %}

@@ -3,13 +3,39 @@
 {% block content %}
     <section id="order-list" class="wrap">
         {% if orders %}
-            {% comment %} {{ orders }} {% endcomment %}
             {% for order in orders %}
-            Order {{ order.order_id }}:
-            {{ order.order_time }}
-            {{ order.dish_id }}
-            {{ order.order_status }}
+                <div id="order-{{ order.order_id }}" class="dish-cards-category">
+                    <h2>Order {{ order.order_id }}: {{ order.order_status }}</h2>
+                    <p>Order placed {{ order.order_time }}</p>
+                    <div class="dish-cards-grid">
+                        {% for dish in order.dishes %}
+                            <div class="dish-card dish-{{ dish.dish_id }}">
+                                <div class="dish-info">
+                                    <div class="dish-info-row">
+                                        <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="dish-info-row">
+                                        <span class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium ">
+                                            {% if dish.dish_price != 0 %}
+                                                {{ dish.dish_price }}
+                                            {% else %}
+                                                Free
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             {% endfor %}
+            <div id="order-total" class="dish-cards-category">
+                <p class="font-medium">
+                    Total: <span class="dish-price">{{ customer.total_price }}</span>
+                </p>
+            </div>
         {% else %}
             <p>
                 You have not ordered anything. How about some <a class="button" href="{% url 'restaurant:index' %}">Mom's Spaghetti?</a>

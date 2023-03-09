@@ -189,18 +189,19 @@ def cart(request):
 
 
 def orders(request, customer_id):
-    table_orders = Order.objects.filter(
-        customer=Customer.objects.get(user_id=customer_id)).values()
+    customer = Customer.objects.get(user_id=customer_id)
+    table_orders = Order.objects.filter(customer=customer)
 
     orders = []
     for order in table_orders:
         orders.append({
-            "order_id": order['order_id'],
-            "order_time": order['order_time'],
-            "order_status": Status.objects.get(status_id=order['status_id_id']),
+            "order_id": order.order_id,
+            "order_time": order.order_time,
+            "order_status": Status.objects.get(status_id=order.status_id_id),
+            "dishes": order.dish_id.all()
         })
 
-    context = {"orders": orders}
+    context = {"orders": orders, "customer": customer}
     return render(request, 'restaurant/orders.html', context)
 
 

@@ -94,3 +94,12 @@ class HelpNeeded(models.Model):
     
     def __str__(self):
         return str(f'Help to table {self.table_id}')
+    
+class Payment(models.Model):
+    payment_id = models.AutoField(primary_key=True)
+    order_id = models.IntegerField()
+    payment_time = models.DateTimeField()
+    payment_amount = models.DecimalField(max_digits=7, decimal_places=2)
+     
+    def __str__(self):
+        return "Order no: " + str(self.order_id) + "Amount: " + str(self.payment_amount)

@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import CreateNewUser, DishForm, OrderForm
@@ -122,10 +123,18 @@ def index(request):
     return render(request, 'restaurant/menu_public.html', context)
 
 
-def payment(request):
-    template = loader.get_template('restaurant/payment.html')
-    context = {
-    }
+def payment(request, id):
+    order = Order.objects.get(order_id=id)
+    if request.method == 'POST':
+        current_time = datetime.now()
+        payment.payment_time = current_time
+        payment.save()
+    else:
+        template = loader.get_template('restaurant/payment.html')
+        context = {
+        'order': order,
+        'payment': payment
+        }
     return HttpResponse(template.render(context, request))
 
 

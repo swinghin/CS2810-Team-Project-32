@@ -115,9 +115,8 @@ def index(request):
 
     if request.method == 'POST':
         table_id = request.POST.get('table_id')
-        h = HelpNeeded.objects.create(table_id=table_id)
-
-        context['help'] = h
+        Customer.objects.filter(table_id=table_id).update(need_help=True)
+        context['help'] = True
 
     return render(request, 'restaurant/menu_public.html', context)
 
@@ -150,22 +149,16 @@ def login_request(request):
 
 
 def dashboard(request):
-    orders_all = Order.objects.all()
-    customer_all = Customer.objects.all()
-    help_queryset = customer_all.filter(need_help=True)
-    all_helps_needed = HelpNeeded.objects.all()
+    orders = Order.objects.all()
+    need_help_tables = Customer.objects.filter(need_help=True)
     context = {
-        "orders": orders_all,
-        "help": help_queryset,
-        "all_helps_needed": all_helps_needed,
+        "orders": orders,
+        "need_help_tables": need_help_tables,
     }
     if request.method == "POST":
-        help_list = request.POST.getlist("boxes")
-
-        for x in help_list:
-            HelpNeeded.objects.filter(id=int(x)).update(helped=True)
-        """for x in help_list:
-            Customer.objects.filter(pk=int(x)).update(need_help=False)"""
+        helped_table_id = int(request.POST.getlist("helped")[0])
+        Customer.objects.filter(
+            table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
 
 

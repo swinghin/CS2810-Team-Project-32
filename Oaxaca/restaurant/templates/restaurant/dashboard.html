@@ -30,17 +30,17 @@
                 <div class="table-cell table-heading">Table</div>
                 <div class="table-cell table-heading">Helped</div>
             </div>
-            {% for h in all_helps_needed %}
-            {% if not h.helped %}
-                <div class="table-row">
-                    <div class="table-cell">{{ h.table_id }}</div>
-                    <div class="table-cell">
-                        <button type="submit" class="button button-block" value={{ h.id }} name="boxes">Done
-                        </button>
+            <form method="post">
+                {% for table in need_help_tables %}
+                    <div class="table-row">
+                        <div class="table-cell">{{ table.table_id }}</div>
+                        <div class="table-cell">
+                            <button type="submit" class="button button-block" value={{ table.table_id }} name="helped">Done
+                            </button>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-            {% endfor %}
+                {% endfor %}
+            </form>
         </div>
     </form>
 </section>

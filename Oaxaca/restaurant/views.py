@@ -109,6 +109,7 @@ def index(request):
             dish_by_categories[dish_category['category_name']].append(dish)
 
     context = {
+        "dish_all": list(dish_all.values()),
         "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
         "dish_allergens": dish_allergens,
@@ -126,8 +127,9 @@ def index(request):
 def payment(request, id):
     customer = Customer.objects.get(user_id=id)
     if request.method == 'POST':
-        Payment.objects.create(order_id=id,payment_time = datetime.now(),payment_amount=customer.total_price)
-        return redirect('restaurant:pay_success',id=id)
+        Payment.objects.create(
+            order_id=id, payment_time=datetime.now(), payment_amount=customer.total_price)
+        return redirect('restaurant:pay_success', id=id)
     else:
         template = loader.get_template('restaurant/payment.html')
         context = {
@@ -159,6 +161,7 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
+
 
 def dashboard(request):
     orders = Order.objects.all()
@@ -233,7 +236,7 @@ def kitchen_view(request):
             order_id = int(request.POST.get("cooked"))
             Order.objects.filter(order_id=order_id).update(status_id_id=(
                 Status.objects.get(status_name='Ready to serve').status_id))
-        
+
     context = {
         "orders": orders_all,
     }

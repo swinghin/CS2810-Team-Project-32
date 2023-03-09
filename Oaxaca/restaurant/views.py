@@ -219,3 +219,22 @@ def orders(request, customer_id):
 
 def checkout(request):
     return render(request, 'restaurant/checkout.html')
+
+
+def kitchen_view(request):
+    orders_all = Order.objects.all()
+    if request.method == 'POST':
+        if request.POST.get("confirm"):
+            order_id = int(request.POST.get("confirm"))
+            Order.objects.filter(order_id=order_id).update(
+                status_id_id=(Status.objects.get(status_name='Cooking').status_id))
+
+        if request.POST.get("cooked"):
+            order_id = int(request.POST.get("cooked"))
+            Order.objects.filter(order_id=order_id).update(status_id_id=(
+                Status.objects.get(status_name='Ready to serve').status_id))
+        
+    context = {
+        "orders": orders_all,
+    }
+    return render(request, 'restaurant/index_kitchen.html', context)

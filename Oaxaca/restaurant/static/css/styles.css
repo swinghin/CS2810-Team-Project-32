@@ -22,6 +22,11 @@ header.staff {
     background: linear-gradient(13deg, rgba(92, 6, 6, 1) 0%, rgba(237, 73, 55, 1) 100%);
 }
 
+header.kitchen {
+    background: rgb(6, 85, 10);
+    background: linear-gradient(13deg, rgba(6, 85, 10) 0%, rgb(47, 221, 140) 100%);
+}
+
 h1,
 h2,
 h3,

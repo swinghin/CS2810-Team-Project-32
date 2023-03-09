@@ -1,63 +1,6 @@
 {% extends 'restaurant/index.html' %}
 {% load static %}
 {% block content %}
-
-    <script>
-        window.onload = function() {
-            console.log('working')
-            if(localStorage.getItem('cart') == null){
-                var cart={};
-            } else {
-                cart = JSON.parse(localStorage.getItem('cart'));
-            }
-            
-            $(document).ready(function() {
-                $('.cart').click(function(){
-                    console.log('clicked');
-                    var dishId = this.id.toString();
-                    var dishPrice = document.getElementsByClassName("price").innerHTML;
-                    if(cart[dishId]!= undefined) {
-                        qty = cart[dishId][dishPrice][0] + 1;
-                    } else {
-                        qty = 1;
-                        name = document.getElementById('dish' + dishId)
-                        cart[dishId] = [dishId, dishPrice, name];
-                    }
-
-                    updateCart(cart);
-                });
-            });
-
-            function updateCart(cart) {
-                for (var dish in cart) {
-                    document.getElementById('div' + dish).innerHTML = "<button id='minus" + dish + "' class='btn btn-primary minus'>-</button> <span id='val" + dish + "'>" + cart[dish] + "</span> <button id='plus" + dish + "' class='btn btn-primary plus'> + </button>";
-                }
-                localStorage.setItem('cart', JSON.stringify(cart));
-                //document.getElementById('cart').innerHTML = Object.keys(cart).length;
-                console.log(cart);
-            }
-            
-            $('.quant').on("click", "button.minus", function() {
-                console.log("works")
-                a = this.id.slice(7, );
-                cart['dish' + a] = cart['dish' + a] - 1;
-                cart['dish' + a] = Math.max(0, cart['dish' + a]);
-                document.getElementById('val' + a).innerHTML = cart["divdish" + a];
-                updateCart(cart);
-            });
-
-            $('.quant').on("click", "button.plus", function() {
-                console.log("works")
-                a = this.id.slice(6, );
-                cart['pr' + a] = cart['pr' + a] + 1;
-                document.getElementById('val' + a).innerHTML = cart["divdish" + a];
-                updateCart(cart);
-            });
-
-        }
-
-    </script>
-
     <section id="menu-categories" class="wrap">
         <nav id="menu-category-bar">
             {% if dish_categories %}
@@ -100,7 +43,7 @@
                             <div class="dish-card dish-{{ dish.dish_id }}">
                                 <div class="dish-info">
                                     <div class="dish-info-row">
-                                        <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
+                                        <span ah faclass="dish-name font-semibold dishName">{{ dish.dish_name }}</span>
                                     </div>
                                     <div class="dish-info-row">
                                         <span id="price{{dish.dish_price}}" class="dish-price {% if dish.dish_price == 0 %}dish-free{% endif %} font-medium price">
@@ -137,7 +80,7 @@
                                     </div>
                                     <div class="dish-info-row dish-order">
                                         <span id="divdish{{dish.dish_id}}" class="quant">
-                                            <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart">Add to cart</button>
+                                            <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart" onclick="addToCart({{dish.dish_id}}, '{{dish.dish_name}}', {{dish.dish_price}}, 1)">Add to cart</button>
                                         </span>
                                     </div>
                                 </div>
@@ -157,9 +100,40 @@
             <p>Sorry, there are no dishes available.</p>
         {% endif %}
     </section>
-    <div class="cartBut">
-        <button  class="cart-button">Cart</button>
-    </div>
     {{ dish_allergens|json_script:"dish-allergens" }}
+
+    <script>
+        if(window.localStorage.getItem('cart') == null){
+            var cart = {};
+        } else {
+            cart = JSON.parse(window.localStorage.getItem('cart'));
+        }
+
+        function addToCart(dish_id, dish_name, dish_price, dish_quantity){
+            if(cart[dish_id]!= undefined) {
+                let cart = {
+                    dish_id : {
+                        name: dish_name,
+                        price: dish_price,
+                        qty: dish_quantity
+                    }};
+            } else {
+                cart[dish_id] = [dish_name, dish_price, dish_quantity];
+            }
+            console.log(cart);
+
+            updateCart(cart);
+        }
+
+        function updateCart(cart){
+            for(var dish in cart){
+                document.getElementById('dish' + dish).innerHTML = "<button id='minus" + dish + "' class='btn btn-primary minus onclick=minusItem()'>-</button> <span id='val" + dish + "''>" + cart[dish][2] + "</span> <button id='plus" + dish + "' class='btn btn-primary plus'> + </button>";
+            }
+            window.localStorage.setItem('cart', JSON.stringify(cart));
+
+        }
+
+
+    </script>
 
 {% endblock content %}

@@ -128,25 +128,81 @@
             <p>Sorry, there are no dishes available.</p>
         {% endif %}
     </section>
-
     <div class="cart">
-        {% if help %}
-            <div class="button button-block call-waiter-button">Done! Your waiter will be there in a while</div>
-        {% else %}
-            <div class="call-waiter-button">
-                <form method="post">
-                    {% csrf_token %}
-                    <p class="font-medium">Need some help? Enter your table id a waiter will come help you</p>
-                    <input type="text" placeholder="Table ID" name="table_id"/>
-                    <button class="button button-block" type="submit">Call</button>
-                    {% comment %} <a class="button button-block"
-                    href="{% url 'restaurant:index' %}" type="submit">Call</a> {% endcomment %}
-                </form>
-            </div>
-        {% endif %}
-    <div class="cart">
-        <a class="button button-block cart-button"
-           href="{% url 'restaurant:cart' %}">Cart</a>
+        <button class="cart-button">Cart</button>
     </div>
     {{ dish_allergens|json_script:"dish-allergens" }}
+    <script>
+        if (window.localStorage.getItem('cart') == null) {
+            var cart = {};
+        } else {
+            cart = JSON.parse(window.localStorage.getItem('cart'));
+        }
+
+        function addToCart(dish_id, dish_name, dish_price, dish_quantity) {
+            if (cart[dish_id] != undefined) {
+                let cart = {
+                    dish_id: {
+                        name: dish_name,
+                        price: dish_price,
+                        qty: dish_quantity
+                    }
+                };
+            } else {
+                cart[dish_id] = [dish_name, dish_price, dish_quantity];
+            }
+            console.log(cart);
+
+            updateCart(cart, dish_id);
+        }
+
+        function updateCart(cart, dish_id) {
+            if (cart[dish_id][2] > 0) {
+                showQty(dish_id);
+                hideAdd(dish_id);
+            } else {
+
+            }
+            window.localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function hideAdd(dish_id) {
+            document.getElementById("dish" + dish_id).style.display = "none";
+        }
+
+        function showQty(dish_id) {
+            document.getElementById("minus" + dish_id).style.display = "inline";
+            document.getElementById("val" + dish_id).style.display = "inline";
+            document.getElementById("plus" + dish_id).style.display = "inline";
+        }
+
+        function hideQty(dish_id) {
+            document.getElementById("minus" + dish_id).style.display = "none";
+            document.getElementById("val" + dish_id).style.display = "none";
+            document.getElementById("plus" + dish_id).style.display = "none";
+        }
+
+        function showAdd(dish_id) {
+            document.getElementById("dish" + dish_id).style.display = "inline";
+        }
+
+
+        function removeItem(dish_id) {
+            cart[dish_id][2] = 0;
+            showAdd(dish_id);
+            hideQty(dish_id);
+        }
+
+        function minusItem(dish_id) {
+            if (cart[dish_id][2] <= 1) {
+                removeItem(dish_id);
+            } else {
+                cart[dish_id][2] = cart[dish_id][2] - 1;
+            }
+        }
+
+        function moreItem(dish_id) {
+            cart[dish_id][2] = cart[dish_id][2] + 1;
+        }
+    </script>
 {% endblock content %}

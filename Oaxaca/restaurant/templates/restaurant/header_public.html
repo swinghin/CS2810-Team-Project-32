@@ -8,20 +8,19 @@
   <script src="https://code.jquery.com/jquery-3.6.0.js" async></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" async></script>
   <script>
-    $(function () {
-      $("#Search").autocomplete({
-        source: "{% url 'restaurant:index' %}",
-        minLength: 1
-      });
+    $(function() {
+        $("#Search").autocomplete({
+            source: "{% url 'restaurant:index' %}",
+            minLength: 1
+        });
     });
   </script>
-
   <div class="wrap">
     <nav id="oaxaca-menu-bar-nav">
       <a href="{% url 'restaurant:index' %}">Menu</a>
-      <a>Help</a>
       <a>About</a>
       <a href="{% url 'restaurant:login' %}">Log In</a>
+      <a href="{% url 'cart' %}">Cart</a>
     </nav>
   </div>
 </header>

@@ -3,118 +3,113 @@
 {% block content %}
     <section class="wrap">
         <div>
-            <a class="button button-block" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
+            <a class="button button-block" href="{% url 'index' %}">&#x2190; Continue Shopping</a>
             <br>
             <br>
             <table class="table">
                 <tr>
                     <th>
-                        <h5>
-                            Items: <strong>5</strong>
-                        </h5>
+                        <h5 id="numItems"></h5>
                     </th>
                     <th>
-                        <h5>
-                            Total: <strong>£ 95.04</strong>
-                        </h5>
+                        <h5 id="totalPrice"></h5>
                     </th>
                     <th>
                         <a style="float:right;
                                   margin:5px"
                            class="button button-block btn btn-success"
-                           href="{% url 'restaurant:pay' %}">Checkout</a>
+                           href="{% url 'checkout' %}">Checkout</a>
                     </th>
                 </tr>
             </table>
         </div>
-        <div class="dish-cards-grid">
-            <div class="dish-card dish-{{ dish.dish_id }}">
-                <div class="dish-info">
-                    <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Mom's spaghetti</span>
-                        <br>
-                        <span class="dish-name font-semibold">£ 20.02</span>
-                    </div>
-                    <div class="dish-info-row dish-order">
-                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                        <input class="dish-count"
-                               type="number"
-                               min="1"
-                               max="10"
-                               maxlength="2"
-                               value="2"/>
-                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                    </div>
-                </div>
-            </div>
+        <div id="cartList">
+            <!-- Cart JS code changes information here (list of cart items) -->
         </div>
-        <div class="dish-cards-grid">
-            <div class="dish-card dish-{{ dish.dish_id }}">
-                <div class="dish-info">
-                    <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Jasper's Jelly</span>
-                        <br>
-                        <span class="dish-name font-semibold">£ 25.00</span>
-                    </div>
-                    <div class="dish-info-row dish-order">
-                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                        <input class="dish-count"
-                               type="number"
-                               min="1"
-                               max="10"
-                               maxlength="2"
-                               value="1"/>
-                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="dish-cards-grid">
-            <div class="dish-card dish-{{ dish.dish_id }}">
-                <div class="dish-info">
-                    <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Trollope's Scallops</span>
-                        <br>
-                        <span class="dish-name font-semibold">£ 30.00</span>
-                    </div>
-                    <div class="dish-info-row dish-order">
-                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                        <input class="dish-count"
-                               type="number"
-                               min="1"
-                               max="10"
-                               maxlength="2"
-                               value="1"/>
-                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% for dish in dishes %}
-            <div class="dish-cards-grid">
-                <div class="dish-card dish-{{ dish.dish_id }}">
-                    <div class="dish-info">
-                        <div class="dish-info-row">
-                            <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
-                            <span class="dish-name font-semibold">{{ dish.dish_price }}</span>
-                        </div>
-                        <div class="dish-info-row dish-order">
-                            <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                            <input class="dish-count"
-                                   type="number"
-                                   min="1"
-                                   max="10"
-                                   maxlength="2"
-                                   value="1"/>
-                            <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                            <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
     </section>
+
+    <script>
+        if (localStorage.getItem('cart') == null){
+            var cart = {};
+        } else {
+            cart = JSON.parse(localStorage.getItem('cart'));
+        }
+
+        console.log(cart)
+
+        var totalPrice = 0;
+        var totalItems = 0;
+
+        function genCart(cart){
+            if ($.isEmptyObject(cart)) {
+                str = '<p>Cart is empty, please add something before checking out!</p>'
+                $('#cartList').html(str);
+            } else {
+                for (dish in cart) {
+                    let name = cart[dish][0];
+                    let price = cart[dish][1];
+                    let qty = cart[dish][2];
+                    if (qty < 1){
+                        continue;
+                    }
+                    totalItems = totalItems + qty;
+                    subtotal = price * qty;
+                    totalPrice = totalPrice + subtotal;
+                    str = 
+                    '<div class="dish-cards-grid">' + 
+                        '<div class="dish-card dish-' + dish + '">' +
+                            '<div class="dish-info">' +
+                                '<div class="dish-info-row">' +
+                                    '<span class="dish-name font-semibold">' + name + '</span>' +
+                                    '<br>' +
+                                    '<span class="dish-name font-semibold">' + 'Price: £' + price + '</span>' +
+                                    '<br>' +
+                                    '<span class="dish-name font-semibold">' + 'Item total: £' + subtotal + '</span>' +
+                                '</div>' +
+                                '<div class="dish-info-row dish-order">' +
+                                    '<button class="button button-block dish-count-btn dish-count-sub font-medium" onclick="minusItem(' + dish + ')"></button>' +
+                                    '<input class="dish-count" type="number" maxlength="2" value="' + qty + '"/>' +
+                                    '<button class="button button-block dish-count-btn dish-count-add font-medium"></button>' + 
+                                    '<button class="button button-medium button-block dish-add-btn font-medium" onclick="removeItem(' + dish + ')">Remove</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                    $('#cartList').append(str);
+                }
+
+                strItems = "Items: <strong>" + totalItems + "</strong>";
+                $('#numItems').html(strItems);
+
+                strPrice = "Items: <strong>" + totalPrice + "</strong>";
+                $('#numItems').html(strItems);
+            }
+            window.localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function removeItem(dish_id){
+            cart[dish_id] = null;
+            document.getElementsByClassName("dish-" + dish_id).style.display = "none";
+            window.localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function minusItem(dish_id){
+            if (cart[dish_id][2] <= 1){
+                removeItem(dish_id);
+            } else {
+                cart[dish_id][2] = cart[dish_id][2] - 1;
+                window.localStorage.setItem('cart', JSON.stringify(cart));
+            }
+        }
+
+        function moreItem(dish_id){
+            cart[dish_id][2] = cart[dish_id][2] + 1;
+            window.localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        window.onload = function() {
+            genCart(cart);
+        };
+    </script>
+
 {% endblock content %}

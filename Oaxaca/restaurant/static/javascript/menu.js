@@ -90,37 +90,140 @@ dishAddCartBtns.forEach(addCartBtn => {
 
 let newcart = {};
 cartLoad();
+cartView();
 
 function addToCart(dishDiv) {
-    let dishListElement = document.querySelector('#dish-all');
-    if (!dishListElement) {
-        console.log("Dish information missing.")
+    // Get dish list, if failed return and not add to cart
+    dishList = readDishList();
+    if (dishList == null) {
         alert("Error occured when adding to cart, please refresh the page and try again later.");
-        return;
+        return false;
     }
-    const dishList = JSON.parse(dishListElement.textContent);
+
+    // if dish list is fine, read dish name and count from the dishDiv
     let dishName = dishDiv.querySelector('.dish-name')?.textContent;
     let dishCount = dishDiv.querySelector('.dish-count')?.value;
-    dishList.forEach(dish => {
-        if (dish['dish_name'].valueOf() == dishName) {
-            dishInCart = newcart[dish['dish_id']];
-            if (dishInCart == null) {
-                newcart[dish['dish_id']] = dishCount;
-            } else {
-                newcart[dish['dish_id']] = parseInt(dishInCart) + parseInt(dishCount);
-            }
-        }
-    })
+
+    let dishId = getDishFromList(dishList, dishName)['dish_id'];
+    if (dishId == null) {
+        return false;
+    }
+    dishInCart = newcart[dishId];
+    if (dishInCart == null) {
+        newcart[dishId] = dishCount;
+    } else {
+        newcart[dishId] = parseInt(dishInCart) + parseInt(dishCount);
+    }
     cartSave();
 }
 
+function readDishList() {
+    let dishListElement = document.querySelector('#dish-all');
+    if (!dishListElement) {
+        console.log("Dish information missing.")
+        return null;
+    }
+    return JSON.parse(dishListElement.textContent);
+}
+
+function getDishFromListName(dishList, dishName) {
+    let dishObj = null;
+    dishList.forEach(dish => {
+        // search for dish id with dishName
+        if (dish['dish_name'].valueOf() == dishName) {
+            dishObj = dish;
+        }
+    })
+    return dishObj;
+}
+function getDishFromListId(dishList, dishId) {
+    let dishObj = null;
+    dishList.forEach(dish => {
+        // search for dish id with dishName
+        if (dish['dish_id'].valueOf() == dishId) {
+            dishObj = dish;
+        }
+    })
+    return dishObj;
+}
+
 function cartLoad() {
-    newcart = (window.localStorage.getItem('newcart') == null) ? 
+    newcart = (window.localStorage.getItem('newcart') == null) ?
         {} : JSON.parse(window.localStorage.getItem('newcart'));
 }
 
 function cartSave() {
     window.localStorage.setItem('newcart', JSON.stringify(newcart));
+}
+
+function cartView() {
+    // Get dish list, if failed return and not add to cart
+    dishList = readDishList();
+    if (dishList == null) {
+        alert("Error occured when loading cart, please refresh the page and try again later.");
+        return false;
+    }
+
+    // If cart empty, render message to cart
+    if (cartIsEmpty()) {
+        console.log('cart empty')
+        return;
+    }
+
+    let divDishGrid = document.createElement('div');
+    divDishGrid.classList.add('dish-cards-grid');
+    for (const [dishId, dishCount] of Object.entries(newcart)) {
+        divDishGrid.appendChild(cartCreateCard(dishList, parseInt(dishId), parseInt(dishCount)));
+    }
+
+    document.querySelector('#cart-dishes').appendChild(divDishGrid);
+}
+
+function cartCreateCard(dishList, dishId, dishCount) {
+    let dish = getDishFromListId(dishList, dishId);
+
+    let divDishName = document.createElement('div');
+    divDishName.classList.add('dish-name', 'font-semibold');
+    divDishName.textContent = `${dishCount} x ${dish['dish_name']}`;
+
+    let divDishPrice = document.createElement('div');
+    divDishPrice.classList.add('dish-price', 'font-medium');
+    divDishPrice.textContent = (dishCount * parseFloat(dish['dish_price'])).toFixed(2);
+
+    let divInfoRow = document.createElement('div');
+    divInfoRow.classList.add('dish-info-row');
+    divInfoRow.appendChild(divDishName);
+    divInfoRow.appendChild(divDishPrice);
+
+    let buttonCountSub = document.createElement('button');
+    buttonCountSub.classList.add('button', 'button-block', 'dish-count-btn', 'dish-count-sub', 'font-medium');
+    let inputCount = document.createElement('input');
+    inputCount.classList.add('dish-count');
+    inputCount.type = "number";
+    inputCount.min = "1";
+    inputCount.max = "10";
+    inputCount.maxlength = "2";
+    inputCount.value = dishCount;
+    let buttonCountAdd = document.createElement('button');
+    buttonCountAdd.classList.add('button', 'button-block', 'dish-count-btn', 'dish-count-add', 'font-medium');
+
+    let divOrderRow = document.createElement('div');
+    divOrderRow.classList.add('dish-info-row', 'dish-order');
+    divOrderRow.appendChild(buttonCountSub);
+    divOrderRow.appendChild(inputCount);
+    divOrderRow.appendChild(buttonCountAdd);
+
+
+    let divDishCard = document.createElement('div');
+    divDishCard.classList.add('dish-card', `dish-${dishId}`);
+    divDishCard.appendChild(divInfoRow);
+    divDishCard.appendChild(divOrderRow);
+
+    return divDishCard;
+}
+
+function cartIsEmpty() {
+    return Object.keys(newcart).length === 0;
 }
 
 // Function for filtering menu items in menu

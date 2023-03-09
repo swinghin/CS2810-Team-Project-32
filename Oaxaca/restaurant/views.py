@@ -202,3 +202,6 @@ def ask_waiter(request):
         'help': h
     }
     return render(request, 'restaurant/menu_public.html', context)
+
+def kitchen_view(request):
+    return render(request, 'restaurant/kitchen-view.html')

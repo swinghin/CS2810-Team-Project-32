@@ -9,6 +9,7 @@ urlpatterns = [
     path("home/", views.redirect_request, name="homepage"),
     path("login/", views.login_request, name="login"),
     path('pay/<int:id>', views.payment, name='pay'),
+    path('pay/<int:id>/success/', views.payment_success, name='pay_success'),
     path('manage/menu/', views.staff_menu, name='staff-menu'),
     path('manage/menu/edit/<int:id>',
          views.staff_dish_details, name='staff-dish-details'),

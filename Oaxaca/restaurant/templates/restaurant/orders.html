@@ -1,0 +1,19 @@
+{% extends 'restaurant/index.html' %}
+{% load static %}
+{% block content %}
+    <section id="order-list" class="wrap">
+        {% if orders %}
+            {% comment %} {{ orders }} {% endcomment %}
+            {% for order in orders %}
+            Order {{ order.order_id }}:
+            {{ order.order_time }}
+            {{ order.dish_id }}
+            {{ order.order_status }}
+            {% endfor %}
+        {% else %}
+            <p>
+                You have not ordered anything. How about some <a class="button" href="{% url 'restaurant:index' %}">Mom's Spaghetti?</a>
+            </p>
+        {% endif %}
+    </section>
+{% endblock content %}

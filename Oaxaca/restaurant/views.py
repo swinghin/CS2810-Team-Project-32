@@ -188,5 +188,22 @@ def cart(request):
     return render(request, 'restaurant/cart.html', context)
 
 
+def orders(request, table_id):
+    table_orders = Order.objects.filter(table_id=table_id).values()
+
+    orders = []
+    for order in table_orders:        
+        status = ""
+
+        orders.append({
+            "order_id": order['order_id'],
+            "order_time": order['order_time'],
+            "order_status": Status.objects.get(status_id=order['status_id_id']),
+        })
+
+    context = {"orders": orders}
+    return render(request, 'restaurant/orders.html', context)
+
+
 def checkout(request):
     return render(request, 'restaurant/checkout.html')

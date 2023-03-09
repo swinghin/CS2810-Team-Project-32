@@ -6,6 +6,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.template import loader
 from django.template.loader import render_to_string
 from restaurant.models import *
@@ -28,6 +29,9 @@ def register_request(request):
     form = CreateNewUser()
     return render(request=request, template_name="restaurant/register.html", context={"register_form": form})
 
+def logout_request(request):
+    logout(request)
+    return redirect('restaurant:index')
 
 def autosearch(request):
     if 'term' in request.GET:
@@ -127,6 +131,11 @@ def payment(request):
     }
     return HttpResponse(template.render(context, request))
 
+def is_waiter(user):
+    return user.groups.filter(name='waiters').exists()
+
+def is_kitchen(user):
+    return user.groups.filter(name='kitchen').exists()
 
 def login_request(request):
     if request.method == "POST":
@@ -139,7 +148,10 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 # change this value if you want to have the login page redirect somwhere.
-                return redirect('restaurant:dashboard')
+                if is_waiter(user):
+                    return redirect('restaurant:waiter_page')
+                else:
+                    return redirect('restaurant:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -147,7 +159,7 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
-
+@login_required
 def dashboard(request):
     orders = Order.objects.all()
     need_help_tables = Customer.objects.filter(need_help=True)
@@ -188,5 +200,11 @@ def cart(request):
     return render(request, 'restaurant/cart.html', context)
 
 
+
 def checkout(request):
     return render(request, 'restaurant/checkout.html')
+
+def waiter_view(request):
+    return render(request, 'restaurant/waiter_view.html')
+
+

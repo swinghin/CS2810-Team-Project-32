@@ -1,0 +1,11 @@
+{% extends "restaurant/index.html" %}
+{% block content %}
+  {% comment %} {% include "restaurant/messages.html" %} {% endcomment %}
+  {% load crispy_forms_tags %}
+  <section class="wrap">
+    <center><h1>You're not logged in</h1></center>
+    <p>
+      Please <a href="{% url 'restaurant:register' %}"> login </a> here.
+    </p>
+  </section>
+{% endblock %}

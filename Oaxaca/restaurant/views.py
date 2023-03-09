@@ -148,6 +148,7 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
+
 def dashboard(request):
     orders_all = Order.objects.all()
     customer_all = Customer.objects.all()
@@ -166,7 +167,8 @@ def dashboard(request):
         """for x in help_list:
             Customer.objects.filter(pk=int(x)).update(need_help=False)"""
     return render(request, "restaurant/dashboard.html", context=context)
-  
+
+
 def updateOrder(request, pk):
     order = Order.objects.get(order_id=pk)
     form = OrderForm(instance=order)
@@ -175,9 +177,10 @@ def updateOrder(request, pk):
         if form.is_valid():
             form.save()
             return redirect('restaurant:dashboard')
-    
-    context = {'form':form}
+
+    context = {'form': form}
     return render(request, "restaurant/updateOrder.html", context=context)
+
 
 def cart(request):
 
@@ -188,17 +191,9 @@ def cart(request):
     # else:
     dishes = []
 
-    context = {'dishes':dishes}
+    context = {'dishes': dishes}
     return render(request, 'restaurant/cart.html', context)
 
 
 def checkout(request):
     return render(request, 'restaurant/checkout.html')
-
-def ask_waiter(request):
-    h = HelpNeeded.objects.create(table_id = 1)
-
-    context = {
-        'help': h
-    }
-    return render(request, 'restaurant/menu_public.html', context)

@@ -55,6 +55,9 @@ h6 {
     max-width: 1024px;
     margin: 0 auto;
 }
+.wrap.min-height{
+    min-height: 512px;
+}
 
 .margin-medium {
     margin: 8px 12px;

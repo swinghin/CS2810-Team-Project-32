@@ -131,6 +131,7 @@
     <div class="cart">
         <button class="cart-button">Cart</button>
     </div>
+    {{ dish_all|json_script:"dish-all" }}
     {{ dish_allergens|json_script:"dish-allergens" }}
     <script>
         if (window.localStorage.getItem('cart') == null) {

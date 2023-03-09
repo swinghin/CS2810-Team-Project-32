@@ -204,4 +204,4 @@ def ask_waiter(request):
     return render(request, 'restaurant/menu_public.html', context)
 
 def kitchen_view(request):
-    return render(request, 'restaurant/kitchen-view.html')
+    return render(request, 'restaurant/index_kitchen.html')

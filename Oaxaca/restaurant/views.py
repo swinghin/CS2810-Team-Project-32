@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import CreateNewUser, DishForm, OrderForm
@@ -6,6 +7,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.template import loader
 from django.template.loader import render_to_string
 from restaurant.models import *
@@ -121,11 +123,22 @@ def index(request):
     return render(request, 'restaurant/menu_public.html', context)
 
 
-def payment(request):
-    template = loader.get_template('restaurant/payment.html')
-    context = {
-    }
+def payment(request, id):
+    customer = Customer.objects.get(user_id=id)
+    if request.method == 'POST':
+        Payment.objects.create(order_id=id,payment_time = datetime.now(),payment_amount=customer.total_price)
+        return redirect('restaurant:pay_success',id=id)
+    else:
+        template = loader.get_template('restaurant/payment.html')
+        context = {
+            'customer': customer,
+            'payment': payment
+        }
     return HttpResponse(template.render(context, request))
+
+
+def payment_success(request, id):
+    return HttpResponse(loader.get_template('restaurant/payment_success.html').render({"order_id": id}, request))
 
 
 def login_request(request):
@@ -146,7 +159,6 @@ def login_request(request):
             messages.error(request, "Invalid username or password.")
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
-
 
 def dashboard(request):
     orders = Order.objects.all()

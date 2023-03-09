@@ -1,17 +1,8 @@
 {% extends "restaurant/index.html" %}
 {% block content %}
-  <section class="wrap">
-    <script>
-          function onSubmit() {
-            var cardNumber = document.getElementById("card-number").value;
-            var expiryDate = document.getElementById("expiry-date").value;
-            var cvv = document.getElementById("cvv").value;
-            var payment_time = new Date();
-                alert("Payment Success!");
-          }
-    </script>
-    <h1>Table:{{ payment.order_id }}</h1>
-    <h1>Enter Card Payment Details:</h1>
+  <section class="wrap min-height">
+    <h1>Payment Due: <span class="dish-price">{{ customer.total_price }}</h1>
+    <h1>Enter Your Payment Details:</h1>
     <form method="POST" action="">
       {% csrf_token %}
       <label for="card-number">Card Number:</label>

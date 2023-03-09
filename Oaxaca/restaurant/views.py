@@ -7,6 +7,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from django.template import loader
 from django.template.loader import render_to_string
 from restaurant.models import *
@@ -124,18 +125,21 @@ def index(request):
 
 
 def payment(request, id):
-    order = Order.objects.get(order_id=id)
+    customer = Customer.objects.get(user_id=id)
     if request.method == 'POST':
-        current_time = datetime.now()
-        payment.payment_time = current_time
-        payment.save()
+        Payment.objects.create(order_id=id,payment_time = datetime.now(),payment_amount=customer.total_price)
+        return redirect('restaurant:pay_success',id=id)
     else:
         template = loader.get_template('restaurant/payment.html')
         context = {
-        'order': order,
-        'payment': payment
+            'customer': customer,
+            'payment': payment
         }
     return HttpResponse(template.render(context, request))
+
+
+def payment_success(request, id):
+    return HttpResponse(loader.get_template('restaurant/payment_success.html').render({"order_id": id}, request))
 
 
 def login_request(request):
@@ -157,6 +161,7 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
+
 def dashboard(request):
     orders_all = Order.objects.all()
     customer_all = Customer.objects.all()
@@ -175,7 +180,8 @@ def dashboard(request):
         """for x in help_list:
             Customer.objects.filter(pk=int(x)).update(need_help=False)"""
     return render(request, "restaurant/dashboard.html", context=context)
-  
+
+
 def updateOrder(request, pk):
     order = Order.objects.get(order_id=pk)
     form = OrderForm(instance=order)
@@ -184,9 +190,10 @@ def updateOrder(request, pk):
         if form.is_valid():
             form.save()
             return redirect('restaurant:dashboard')
-    
-    context = {'form':form}
+
+    context = {'form': form}
     return render(request, "restaurant/updateOrder.html", context=context)
+
 
 def cart(request):
 
@@ -197,15 +204,16 @@ def cart(request):
     # else:
     dishes = []
 
-    context = {'dishes':dishes}
+    context = {'dishes': dishes}
     return render(request, 'restaurant/cart.html', context)
 
 
 def checkout(request):
     return render(request, 'restaurant/checkout.html')
 
+
 def ask_waiter(request):
-    h = HelpNeeded.objects.create(table_id = 1)
+    h = HelpNeeded.objects.create(table_id=1)
 
     context = {
         'help': h

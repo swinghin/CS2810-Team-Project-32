@@ -204,4 +204,10 @@ def ask_waiter(request):
     return render(request, 'restaurant/menu_public.html', context)
 
 def kitchen_view(request):
-    return render(request, 'restaurant/index_kitchen.html')
+    orders_all = Order.objects.all()
+    cooking =  request.GET.get('cooking', False)
+
+    context = {
+        "orders": orders_all,
+    }
+    return render(request, 'restaurant/index_kitchen.html', context)

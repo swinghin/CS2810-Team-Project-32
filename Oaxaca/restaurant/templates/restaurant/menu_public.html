@@ -79,9 +79,10 @@
                                         <span class="dish-info-dropdown-btn button button-inline more-info"></span>
                                     </div>
                                     <div class="dish-info-row dish-order">
-                                        <span id="divdish{{dish.dish_id}}" class="quant">
-                                            <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart" onclick="addToCart({{dish.dish_id}}, '{{dish.dish_name}}', {{dish.dish_price}}, 1)">Add to cart</button>
-                                        </span>
+                                        <button id="dish{{dish.dish_id}}" class="button button-medium button-block dish-add-btn font-medium cart" onclick="addToCart({{dish.dish_id}},'{{dish.dish_name}}', {{dish.dish_price}}, 1)" >Add to cart</button>
+                                        <button id="minus{{dish.dish_id}}" class='btn btn-primary minus' onclick="minusItem({{ dish.dish_id }})"> - </button> 
+                                        <span id="val{{dish.dish_id}}"> 1 </span> 
+                                        <button id='plus{{dish.dish_id}}' class='btn btn-primary plus' onclick="moreItem({{ dish.dish_id }})"> + <button>
                                     </div>
                                 </div>
                                 <div>
@@ -122,15 +123,56 @@
             }
             console.log(cart);
 
-            updateCart(cart);
+            updateCart(cart, dish_id);
         }
 
-        function updateCart(cart){
-            for(var dish in cart){
-                document.getElementById('dish' + dish).innerHTML = "<button id='minus" + dish + "' class='btn btn-primary minus onclick=minusItem()'>-</button> <span id='val" + dish + "''>" + cart[dish][2] + "</span> <button id='plus" + dish + "' class='btn btn-primary plus'> + </button>";
+        function updateCart(cart, dish_id){
+            if(cart[dish_id][2] > 0){
+                showQty(dish_id);
+                hideAdd(dish_id);
+            } else {
+
             }
             window.localStorage.setItem('cart', JSON.stringify(cart));
+        }
 
+        function hideAdd(dish_id){
+            document.getElementById("dish" + dish_id).style.display = "none";
+        }
+
+        function showQty(dish_id){
+            document.getElementById("minus" + dish_id).style.display = "inline";
+            document.getElementById("val" + dish_id).style.display = "inline";
+            document.getElementById("plus" + dish_id).style.display = "inline";
+        }
+
+        function hideQty(dish_id){
+            document.getElementById("minus" + dish_id).style.display = "none";
+            document.getElementById("val" + dish_id).style.display = "none";
+            document.getElementById("plus" + dish_id).style.display = "none";
+        }
+
+        function showAdd(dish_id){
+            document.getElementById("dish" + dish_id).style.display = "inline";
+        }
+
+
+        function removeItem(dish_id){
+            cart[dish_id][2] = 0;
+            showAdd(dish_id);
+            hideQty(dish_id);
+        }
+
+        function minusItem(dish_id){
+            if (cart[dish_id][2] <= 1){
+                removeItem(dish_id);
+            } else {
+                cart[dish_id][2] = cart[dish_id][2] - 1;
+            }
+        }
+
+        function moreItem(dish_id){
+            cart[dish_id][2] = cart[dish_id][2] + 1;
         }
 
 

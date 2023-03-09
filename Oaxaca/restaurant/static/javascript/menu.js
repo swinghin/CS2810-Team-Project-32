@@ -88,7 +88,8 @@ dishAddCartBtns.forEach(addCartBtn => {
     });
 })
 
-let newcart = {}
+let newcart = {};
+cartLoad();
 
 function addToCart(dishDiv) {
     let dishListElement = document.querySelector('#dish-all');
@@ -110,10 +111,16 @@ function addToCart(dishDiv) {
             }
         }
     })
+    cartSave();
+}
+
+function cartLoad() {
+    newcart = (window.localStorage.getItem('newcart') == null) ? 
+        {} : JSON.parse(window.localStorage.getItem('newcart'));
 }
 
 function cartSave() {
-
+    window.localStorage.setItem('newcart', JSON.stringify(newcart));
 }
 
 // Function for filtering menu items in menu

@@ -81,6 +81,13 @@ dishOrderAddBtns.forEach(addBtn => {
     }
 });
 
+const dishAddCartBtns = document.querySelectorAll('.dish-add-btn');
+dishAddCartBtns.forEach(addCartBtn => {
+    addCartBtn.addEventListener('click', () => {
+        addToCart(addCartBtn.closest('.dish-card'))
+    });
+})
+
 // Function for filtering menu items in menu
 function filterMenu(filters) {
     resetDishCards(); // show all dishes before filtering

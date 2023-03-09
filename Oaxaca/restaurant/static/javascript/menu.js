@@ -88,6 +88,34 @@ dishAddCartBtns.forEach(addCartBtn => {
     });
 })
 
+let newcart = {}
+
+function addToCart(dishDiv) {
+    let dishListElement = document.querySelector('#dish-all');
+    if (!dishListElement) {
+        console.log("Dish information missing.")
+        alert("Error occured when adding to cart, please refresh the page and try again later.");
+        return;
+    }
+    const dishList = JSON.parse(dishListElement.textContent);
+    let dishName = dishDiv.querySelector('.dish-name')?.textContent;
+    let dishCount = dishDiv.querySelector('.dish-count')?.value;
+    dishList.forEach(dish => {
+        if (dish['dish_name'].valueOf() == dishName) {
+            dishInCart = newcart[dish['dish_id']];
+            if (dishInCart == null) {
+                newcart[dish['dish_id']] = dishCount;
+            } else {
+                newcart[dish['dish_id']] = parseInt(dishInCart) + parseInt(dishCount);
+            }
+        }
+    })
+}
+
+function cartSave() {
+
+}
+
 // Function for filtering menu items in menu
 function filterMenu(filters) {
     resetDishCards(); // show all dishes before filtering

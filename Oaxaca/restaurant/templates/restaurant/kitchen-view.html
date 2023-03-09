@@ -20,7 +20,9 @@
                         <div class="table-cell">{{ x.order_time }}</div>
                         <div class="table-cell">
                             {% if x.status_id|stringformat:"s" == 'Received' %}
-                            <button class="button button-block">Confirm</a>
+                            <button class="button button-block" value="{{x.order_id}}" name="confirm">Confirm</a>
+                            {% elif x.status_id|stringformat:"s" == 'Cooking' %}
+                            <button class="button button-block" value="{{x.order_id}}" name="cooked">Ready</a>
                             {% endif %}
                         </div>
                     </div>

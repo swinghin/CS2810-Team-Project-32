@@ -10,6 +10,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.contrib.auth import logout
 from django.template import loader
 from django.template.loader import render_to_string
 from restaurant.models import *
@@ -32,6 +33,9 @@ def register_request(request):
     form = CreateNewUser()
     return render(request=request, template_name="restaurant/register.html", context={"register_form": form})
 
+def logout_request(request):
+    logout(request)
+    return render(request=request, template_name="restaurant/logout.html")
 
 def autosearch(request):
     if 'term' in request.GET:
@@ -144,6 +148,11 @@ def payment(request, id):
 def payment_success(request, id):
     return HttpResponse(loader.get_template('restaurant/payment_success.html').render({"order_id": id}, request))
 
+def is_waiter(user):
+    return user.groups.filter(name='waiters').exists()
+
+def is_kitchen(user):
+    return user.groups.filter(name='kitchen').exists()
 
 def login_request(request):
     if request.method == "POST":
@@ -156,7 +165,10 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 # change this value if you want to have the login page redirect somwhere.
-                return redirect('restaurant:dashboard')
+                if is_waiter(user):
+                    return redirect('restaurant:waiter_page')
+                else:
+                    return redirect('restaurant:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -176,7 +188,10 @@ def dashboard(request):
         helped_table_id = int(request.POST.getlist("helped")[0])
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
-    return render(request, "restaurant/dashboard.html", context=context)
+    if request.user.is_authenticated:
+        return render(request, "restaurant/dashboard.html", context=context)
+    else:
+        return render(request, 'restaurant/access_denied.html', context=context)
 
 
 def updateOrder(request, pk):
@@ -211,6 +226,7 @@ def orders(request, customer_id):
 
     context = {"orders": orders, "customer": customer}
     return render(request, 'restaurant/orders.html', context)
+
 
 
 def checkout(request):
@@ -276,3 +292,8 @@ def kitchen_view(request):
         "orders": orders_all,
     }
     return render(request, 'restaurant/index_kitchen.html', context)
+
+def waiter_view(request):
+    return render(request, 'restaurant/waiter_view.html')
+
+

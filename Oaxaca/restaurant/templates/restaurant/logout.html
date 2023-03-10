@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Order" />
+        <meta name="keywords" content="Oaxaca,order" />
+        <title>Oaxaca</title>
+        {% load static %}
+        <script src="{% static 'javascript/logout.js' %}" defer></script>
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    </head>
+    <body>
+        {% include "restaurant/header_public.html" %}
+        {% block content %}
+
+       <center><p> You have been logged out and will now be redirected</p></center>
+
+        {% endblock content %}
+        {% include "restaurant/footer_public.html" %}
+    </body>
+</html>

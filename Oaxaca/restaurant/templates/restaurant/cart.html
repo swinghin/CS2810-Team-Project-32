@@ -3,25 +3,27 @@
 {% block content %}
     <section class="wrap">
         <div>
-            <a class="button button-block" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
-            <br>
-            <br>
-            <table class="table">
-                <tr>
-                    <th>
-                        <h5 id="numItems"></h5>
-                    </th>
-                    <th>
-                        <h5 id="totalPrice"></h5>
-                    </th>
-                    <th>
-                        <a style="float:right;
-                                  margin:5px"
-                           class="button button-block btn btn-success"
-                           href="{% url 'restaurant:checkout' %}">Checkout</a>
-                    </th>
-                </tr>
-            </table>
+            <a class="button button-block button-medium"
+               href="{% url 'restaurant:index' %}">Back to Menu</a>
+        </div>
+        <div>
+            <form id="cart-order-form"
+                  action="{% url 'restaurant:checkout' %}"
+                  method="post">
+                {% csrf_token %}
+                <label for="table-number">Table Number:</label>
+                <input name="table-number"
+                       class="dish-count"
+                       type="number"
+                       min="1"
+                       max="99"
+                       maxlength="2"
+                       required/>
+                <button type="submit"
+                        class="button button-block button-medium"
+                        onclick="cartSubmit()">Checkout</button>
+                <input id="cart-data" name="cart-data" type="hidden"/>
+            </form>
         </div>
         <div id="cart-dishes"></div>
     </section>

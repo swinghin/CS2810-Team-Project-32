@@ -18,4 +18,5 @@ urlpatterns = [
     path('checkout', views.checkout, name='checkout'),
     path('', views.index, name='index'),
     path('waiter/', views.waiter_view, name='waiter_page'),
+    path('logout/', views.logout_request, name='logout')
 ]

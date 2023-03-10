@@ -1,11 +1,11 @@
-{% extends "restaurant/index.html" %}
+{% extends "restaurant/logout.html" %}
 {% block content %}
   {% comment %} {% include "restaurant/messages.html" %} {% endcomment %}
   {% load crispy_forms_tags %}
   <section class="wrap">
     <center><h1>You're not logged in</h1></center>
-    <p>
-      Please <a href="{% url 'restaurant:register' %}"> login </a> here.
-    </p>
+    <center><p>
+      Please login <a href="{% url 'restaurant:login' %}"> here </a>.
+    </p></center>
   </section>
 {% endblock %}

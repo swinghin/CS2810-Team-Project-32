@@ -31,7 +31,7 @@ def register_request(request):
 
 def logout_request(request):
     logout(request)
-    return redirect('restaurant:index')
+    return render(request=request, template_name="restaurant/logout.html")
 
 def autosearch(request):
     if 'term' in request.GET:
@@ -159,7 +159,7 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
-@login_required
+
 def dashboard(request):
     orders = Order.objects.all()
     need_help_tables = Customer.objects.filter(need_help=True)
@@ -171,7 +171,10 @@ def dashboard(request):
         helped_table_id = int(request.POST.getlist("helped")[0])
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
-    return render(request, "restaurant/dashboard.html", context=context)
+    if request.user.is_authenticated:
+        return render(request, "restaurant/dashboard.html", context=context)
+    else:
+        return render(request, 'restaurant/access_denied.html', context=context)
 
 
 def updateOrder(request, pk):

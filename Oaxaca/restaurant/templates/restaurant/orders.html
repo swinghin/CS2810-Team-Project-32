@@ -2,10 +2,11 @@
 {% load static %}
 {% block content %}
     <section id="order-list" class="wrap">
+        <h2>All orders for Table {{ customer.table_id }}</h2>
         {% if orders %}
             {% for order in orders %}
                 <div id="order-{{ order.order_id }}" class="dish-cards-category">
-                    <h2>Order {{ order.order_id }}: {{ order.order_status }}</h2>
+                    <h2>Order ID {{ order.order_id }}: {{ order.order_status }}</h2>
                     <p>Order placed {{ order.order_time }}</p>
                     <div class="dish-cards-grid">
                         {% for dish in order.dishes %}
@@ -38,7 +39,7 @@
             </div>
         {% else %}
             <p>
-                You have not ordered anything. How about some <a class="button" href="{% url 'restaurant:index' %}">Mom's Spaghetti?</a>
+                You have not ordered anything. How about some <a class="button button-inline" href="{% url 'restaurant:index' %}#Featured">Mom's Spaghetti</a>?
             </p>
         {% endif %}
     </section>

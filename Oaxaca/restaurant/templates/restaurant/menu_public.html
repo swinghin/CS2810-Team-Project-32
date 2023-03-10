@@ -129,7 +129,7 @@
         {% endif %}
     </section>
     <div class="cart">
-        <button class="cart-button">Cart</button>
+        <a href="{% url 'restaurant:cart' %}" class="button button-block cart-button">Cart</a>
     </div>
     {{ dish_all|json_script:"dish-all" }}
     {{ dish_allergens|json_script:"dish-allergens" }}

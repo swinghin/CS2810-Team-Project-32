@@ -166,8 +166,13 @@ function cartSaveFormInput() {
 }
 function cartSubmit() {
     cartSaveFormInput();
-    cartClear();
-    document.querySelector('#cart-order-form').submit();
+    let divForm = document.querySelector('#cart-order-form')
+    if (parseInt(divForm.querySelector('#cart-table-number').value)) {
+        cartClear();
+        divForm.submit();
+    } else {
+        alert("Please enter your table number.");
+    }
 }
 
 function cartView() {
@@ -184,8 +189,8 @@ function cartView() {
 
     // If cart empty, render message to cart
     if (cartIsEmpty()) {
-        divEmptyCart=document.createElement('p');
-        divEmptyCart.innerHTML=`Your cart is empty. How about adding some <a class="button button-inline" href="/#Featured">Mom's Spaghetti</a>?`
+        divEmptyCart = document.createElement('p');
+        divEmptyCart.innerHTML = `Your cart is empty. How about adding some <a class="button button-inline" href="/#Featured">Mom's Spaghetti</a>?`
         divCart.appendChild(divEmptyCart)
         return;
     }

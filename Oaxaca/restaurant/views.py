@@ -1,9 +1,11 @@
 from collections import defaultdict
 from datetime import datetime
+from decimal import Decimal
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import CreateNewUser, DishForm, OrderForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -125,7 +127,7 @@ def index(request):
 
 
 def payment(request, id):
-    customer = Customer.objects.get(user_id=id)
+    customer = Customer.objects.get(table_id=id)
     if request.method == 'POST':
         Payment.objects.create(
             order_id=id, payment_time=datetime.now(), payment_amount=customer.total_price)
@@ -195,7 +197,7 @@ def cart(request):
 
 
 def orders(request, customer_id):
-    customer = Customer.objects.get(user_id=customer_id)
+    customer = Customer.objects.get(table_id=customer_id)
     table_orders = Order.objects.filter(customer=customer)
 
     orders = []
@@ -212,6 +214,48 @@ def orders(request, customer_id):
 
 
 def checkout(request):
+    if request.method == 'POST':
+        table_number = request.POST.get("table-number")
+        cart_data = request.POST.get("cart-data")
+        if table_number and cart_data:
+            if not User.objects.filter(username=('waiter'+table_number)).exists():
+                print("waiter doesnt exist")
+                newWaiter = User.objects.create_user(
+                    ('waiter'+table_number), password='password')
+                newWaiter.save()
+            if not Customer.objects.filter(table_id=table_number).exists():
+                print("customer doesnt exist")
+                waiter = User.objects.get(username=('waiter'+table_number))
+                newCustomer = Customer(
+                    table_id=table_number, total_price=0, persons=0)
+                newCustomer.user = waiter
+                newCustomer.save()
+
+            customer = Customer.objects.get(table_id=table_number)
+
+            cart_items = []
+            cart_total_price = 0
+            cart_data = eval(cart_data)
+            for dish_id in cart_data:
+                dish_count = int(cart_data[dish_id])
+                for i in range(dish_count):
+                    dish = Dish.objects.get(dish_id=dish_id)
+                    cart_items.append(dish)
+                    cart_total_price += float(dish.dish_price)
+
+            customer.total_price += customer.total_price + \
+                Decimal(cart_total_price)
+            customer.save()
+
+            newOrder = Order(order_time=datetime.now(),
+                             table_id=table_number,
+                             customer=customer,
+                             status_id=Status.objects.get(status_name='Order in progress'))
+            newOrder.save()
+            newOrder.dish_id.set(cart_items)
+            # print(newOrder.dish_id.all())
+            return redirect('restaurant:pay', id=table_number)
+
     return render(request, 'restaurant/checkout.html')
 
 

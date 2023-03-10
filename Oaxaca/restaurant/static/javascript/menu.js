@@ -205,6 +205,10 @@ function cartView() {
     cartSaveFormInput();
 }
 
+function cartIsEmpty() {
+    return Object.keys(newcart).length === 0;
+}
+
 function cartCreateCard(dishList, dishId, dishCount) {
     let dish = getDishFromListId(dishList, dishId);
 
@@ -228,6 +232,8 @@ function cartCreateCard(dishList, dishId, dishCount) {
 
     let buttonCountSub = document.createElement('button');
     buttonCountSub.classList.add('button', 'button-block', 'dish-count-btn', 'dish-count-sub', 'font-medium');
+
+
     let inputCount = document.createElement('input');
     inputCount.classList.add('dish-count');
     inputCount.type = "number";
@@ -235,6 +241,7 @@ function cartCreateCard(dishList, dishId, dishCount) {
     inputCount.max = "10";
     inputCount.maxlength = "2";
     inputCount.value = dishCount;
+
     let buttonCountAdd = document.createElement('button');
     buttonCountAdd.classList.add('button', 'button-block', 'dish-count-btn', 'dish-count-add', 'font-medium');
 
@@ -243,6 +250,18 @@ function cartCreateCard(dishList, dishId, dishCount) {
     divOrderRow.appendChild(buttonCountSub);
     divOrderRow.appendChild(inputCount);
     divOrderRow.appendChild(buttonCountAdd);
+    buttonCountSub.addEventListener('click', () => {
+        if (inputCount.value > 0) {
+            inputCount.value = parseInt(inputCount.value) - 1;
+            newcart[dishId] = parseInt(inputCount.value)
+        }
+    });
+    buttonCountAdd.addEventListener('click', () => {
+        if (inputCount.value < MAX_ORDER_COUNT) {
+            inputCount.value = parseInt(inputCount.value) + 1;
+            newcart[dishId] = parseInt(inputCount.value)
+        }
+    });
 
 
     let divDishCard = document.createElement('div');
@@ -253,8 +272,8 @@ function cartCreateCard(dishList, dishId, dishCount) {
     return divDishCard;
 }
 
-function cartIsEmpty() {
-    return Object.keys(newcart).length === 0;
+function cartCardSetButtonCountSub(button, dishId) {
+
 }
 
 // Function for filtering menu items in menu

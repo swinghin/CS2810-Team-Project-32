@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import CreateNewUser, DishForm, OrderForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -237,7 +237,7 @@ def checkout(request):
                 print("waiter doesnt exist")
                 newWaiter = User.objects.create_user(
                     ('waiter'+table_number), password='password')
-                newWaiter.groups.add('waiter')
+                Group.objects.get(name='waiter').user_set.add(newWaiter)
                 newWaiter.save()
             if not Customer.objects.filter(table_id=table_number).exists():
                 print("customer doesnt exist")

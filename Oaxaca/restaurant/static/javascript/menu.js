@@ -104,7 +104,7 @@ function addToCart(dishDiv) {
     let dishName = dishDiv.querySelector('.dish-name')?.textContent;
     let dishCount = dishDiv.querySelector('.dish-count')?.value;
 
-    let dishId = getDishFromList(dishList, dishName)['dish_id'];
+    let dishId = parseInt(getDishFromListName(dishList, dishName)['dish_id']);
     if (dishId == null) {
         return false;
     }
@@ -156,7 +156,25 @@ function cartSave() {
     window.localStorage.setItem('newcart', JSON.stringify(newcart));
 }
 
+function cartClear() {
+    newcart = {};
+    cartSave();
+}
+
+function cartSaveFormInput() {
+    document.querySelector('#cart-data').value = JSON.stringify(newcart);
+}
+function cartSubmit() {
+    cartSaveFormInput();
+    cartClear();
+    document.querySelector('#cart-order-form').submit();
+}
+
 function cartView() {
+    let divCart = document.querySelector('#cart-dishes');
+    if (divCart == null) {
+        return;
+    }
     // Get dish list, if failed return and not add to cart
     dishList = readDishList();
     if (dishList == null) {
@@ -166,7 +184,9 @@ function cartView() {
 
     // If cart empty, render message to cart
     if (cartIsEmpty()) {
-        console.log('cart empty')
+        divEmptyCart=document.createElement('p');
+        divEmptyCart.innerHTML=`Your cart is empty. How about adding some <a class="button button-inline" href="/#Featured">Mom's Spaghetti</a>?`
+        divCart.appendChild(divEmptyCart)
         return;
     }
 
@@ -177,6 +197,7 @@ function cartView() {
     }
 
     document.querySelector('#cart-dishes').appendChild(divDishGrid);
+    cartSaveFormInput();
 }
 
 function cartCreateCard(dishList, dishId, dishCount) {
@@ -194,6 +215,11 @@ function cartCreateCard(dishList, dishId, dishCount) {
     divInfoRow.classList.add('dish-info-row');
     divInfoRow.appendChild(divDishName);
     divInfoRow.appendChild(divDishPrice);
+
+    let divInfo = document.createElement('div');
+    divInfo.classList.add('dish-info');
+    divInfo.appendChild(divInfoRow);
+
 
     let buttonCountSub = document.createElement('button');
     buttonCountSub.classList.add('button', 'button-block', 'dish-count-btn', 'dish-count-sub', 'font-medium');
@@ -216,7 +242,7 @@ function cartCreateCard(dishList, dishId, dishCount) {
 
     let divDishCard = document.createElement('div');
     divDishCard.classList.add('dish-card', `dish-${dishId}`);
-    divDishCard.appendChild(divInfoRow);
+    divDishCard.appendChild(divInfo);
     divDishCard.appendChild(divOrderRow);
 
     return divDishCard;

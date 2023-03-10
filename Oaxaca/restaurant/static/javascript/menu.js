@@ -254,12 +254,14 @@ function cartCreateCard(dishList, dishId, dishCount) {
         if (inputCount.value > 0) {
             inputCount.value = parseInt(inputCount.value) - 1;
             newcart[dishId] = parseInt(inputCount.value)
+            cartSave()
         }
     });
     buttonCountAdd.addEventListener('click', () => {
         if (inputCount.value < MAX_ORDER_COUNT) {
             inputCount.value = parseInt(inputCount.value) + 1;
             newcart[dishId] = parseInt(inputCount.value)
+            cartSave()
         }
     });
 

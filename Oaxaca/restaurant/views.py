@@ -8,7 +8,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.urls import reverse
 from django.contrib.auth import logout
 from django.template import loader
@@ -33,9 +33,11 @@ def register_request(request):
     form = CreateNewUser()
     return render(request=request, template_name="restaurant/register.html", context={"register_form": form})
 
+
 def logout_request(request):
     logout(request)
     return render(request=request, template_name="restaurant/logout.html")
+
 
 def autosearch(request):
     if 'term' in request.GET:
@@ -148,11 +150,14 @@ def payment(request, id):
 def payment_success(request, id):
     return HttpResponse(loader.get_template('restaurant/payment_success.html').render({"order_id": id}, request))
 
+
 def is_waiter(user):
-    return user.groups.filter(name='waiters').exists()
+    return user.groups.filter(name='waiter').exists()
+
 
 def is_kitchen(user):
     return user.groups.filter(name='kitchen').exists()
+
 
 def login_request(request):
     if request.method == "POST":
@@ -165,10 +170,10 @@ def login_request(request):
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
                 # change this value if you want to have the login page redirect somwhere.
-                if is_waiter(user):
-                    return redirect('restaurant:waiter_page')
-                else:
-                    return redirect('restaurant:dashboard')
+                # if is_waiter(user):
+                #     return redirect('restaurant:waiter_page')
+                # else:
+                return redirect('restaurant:dashboard')
             else:
                 messages.error(request, "Invalid username or password.")
         else:
@@ -177,21 +182,16 @@ def login_request(request):
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
 
+@login_required
 def dashboard(request):
-    orders = Order.objects.all()
-    need_help_tables = Customer.objects.filter(need_help=True)
-    context = {
-        "orders": orders,
-        "need_help_tables": need_help_tables,
-    }
-    if request.method == "POST":
-        helped_table_id = int(request.POST.getlist("helped")[0])
-        Customer.objects.filter(
-            table_id=helped_table_id).update(need_help=False)
-    if request.user.is_authenticated:
-        return render(request, "restaurant/dashboard.html", context=context)
-    else:
-        return render(request, 'restaurant/access_denied.html', context=context)
+    print(" hi", request.user,request.user.groups.all())
+    if is_waiter(request.user):
+        print("waiter hi")
+        return waiter_view(request)
+    elif is_kitchen(request.user):
+        return kitchen_view(request)
+    return redirect('restaurant:login')
+    
 
 
 def updateOrder(request, pk):
@@ -228,7 +228,6 @@ def orders(request, customer_id):
     return render(request, 'restaurant/orders.html', context)
 
 
-
 def checkout(request):
     if request.method == 'POST':
         table_number = request.POST.get("table-number")
@@ -238,6 +237,7 @@ def checkout(request):
                 print("waiter doesnt exist")
                 newWaiter = User.objects.create_user(
                     ('waiter'+table_number), password='password')
+                newWaiter.groups.add('waiter')
                 newWaiter.save()
             if not Customer.objects.filter(table_id=table_number).exists():
                 print("customer doesnt exist")
@@ -274,7 +274,8 @@ def checkout(request):
 
     return render(request, 'restaurant/checkout.html')
 
-
+@login_required
+@user_passes_test(is_kitchen, login_url='/login')
 def kitchen_view(request):
     orders_all = Order.objects.all()
     if request.method == 'POST':
@@ -293,7 +294,17 @@ def kitchen_view(request):
     }
     return render(request, 'restaurant/index_kitchen.html', context)
 
+@login_required
+@user_passes_test(is_waiter, login_url='/login')
 def waiter_view(request):
-    return render(request, 'restaurant/waiter_view.html')
-
-
+    orders = Order.objects.all()
+    need_help_tables = Customer.objects.filter(need_help=True)
+    context = {
+        "orders": orders,
+        "need_help_tables": need_help_tables,
+    }
+    if request.method == "POST":
+        helped_table_id = int(request.POST.getlist("helped")[0])
+        Customer.objects.filter(
+            table_id=helped_table_id).update(need_help=False)
+    return render(request, "restaurant/dashboard.html", context=context)

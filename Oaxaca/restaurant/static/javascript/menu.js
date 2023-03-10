@@ -202,11 +202,22 @@ function cartView() {
     }
 
     document.querySelector('#cart-dishes').appendChild(divDishGrid);
+    cartShowTotal(dishList)
     cartSaveFormInput();
 }
 
 function cartIsEmpty() {
     return Object.keys(newcart).length === 0;
+}
+
+function cartShowTotal(dishList) {
+    let divCartTotal = document.querySelector('#cart-total');
+    let total = 0;
+    for (const [dishId, dishCount] of Object.entries(newcart)) {
+        let dish = getDishFromListId(dishList, dishId);
+        total += dishCount * parseFloat(dish['dish_price']);
+    }
+    divCartTotal.textContent = total.toFixed(2);
 }
 
 function cartCreateCard(dishList, dishId, dishCount) {
@@ -252,15 +263,23 @@ function cartCreateCard(dishList, dishId, dishCount) {
     divOrderRow.appendChild(buttonCountAdd);
     buttonCountSub.addEventListener('click', () => {
         if (inputCount.value > 0) {
-            inputCount.value = parseInt(inputCount.value) - 1;
-            newcart[dishId] = parseInt(inputCount.value)
+            newDishCount = parseInt(inputCount.value) - 1
+            inputCount.value = newDishCount;
+            newcart[dishId] = newDishCount
+            divDishName.textContent = `${newDishCount} x ${dish['dish_name']}`;
+            divDishPrice.textContent = (newDishCount * parseFloat(dish['dish_price'])).toFixed(2);
+            cartShowTotal(dishList)
             cartSave()
         }
     });
     buttonCountAdd.addEventListener('click', () => {
         if (inputCount.value < MAX_ORDER_COUNT) {
-            inputCount.value = parseInt(inputCount.value) + 1;
-            newcart[dishId] = parseInt(inputCount.value)
+            newDishCount = parseInt(inputCount.value) + 1
+            inputCount.value = newDishCount;
+            newcart[dishId] = newDishCount
+            divDishName.textContent = `${newDishCount} x ${dish['dish_name']}`;
+            divDishPrice.textContent = (newDishCount * parseFloat(dish['dish_price'])).toFixed(2);
+            cartShowTotal(dishList)
             cartSave()
         }
     });
@@ -272,10 +291,6 @@ function cartCreateCard(dishList, dishId, dishCount) {
     divDishCard.appendChild(divOrderRow);
 
     return divDishCard;
-}
-
-function cartCardSetButtonCountSub(button, dishId) {
-
 }
 
 // Function for filtering menu items in menu

@@ -8,16 +8,16 @@
         <meta name="keywords" content="Oaxaca,order" />
         <title>Oaxaca</title>
         {% load static %}
-        <script src="{% static 'javascript/logout.js' %}" defer></script>
         <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     </head>
     <body>
         {% include "restaurant/header_public.html" %}
-        {% block content %}
-
-       <center><p> You have been logged out and will now be redirected</p></center>
-
-        {% endblock content %}
+        <center>
+            <p>You have been logged out and will now be redirected</p>
+        </center>
+        <script>
+            setTimeout("location.href = '/';", 1500);
+        </script>
         {% include "restaurant/footer_public.html" %}
     </body>
 </html>

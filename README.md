@@ -1,6 +1,14 @@
 # Team Project 32
 
+## Table of contents
+
+- [About This Project](#about-this-project)
+- [Getting started](#getting-started)
+- [Using your own PostgresSQL server](#using-your-own-postgressql-server)
+
 ## About this project
+
+![Screen grab of Oaxaca site](/Oaxaca/restaurant/static/images/dish/Mom's%20Spaghetti.png "Screen grab of Oaxaca site")
 
 Welcome to Oaxaca, a restaurant serving fine, savory meme dishes.
 
@@ -39,7 +47,7 @@ Prerequisites: Python 3 installed, and an PostgresSQL server if you plan to use 
     DB_HOST=ps32.swinghin.com
     DB_PORT=5432
     ```
-    - You may specify your own PostgresSQL server, see [Using your own PostgresSQL server](#using-your-own-PostgresSQL-server).
+    - You may specify your own PostgresSQL server, see [Using your own PostgresSQL server](#using-your-own-postgressql-server).
 6. To start the web server, run `python manage.py runserver`
     - The server will run at port `8000` by default.
 

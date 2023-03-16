@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .forms import CreateNewUser, DishForm, OrderForm
+from .forms import CreateNewUser, DishForm, OrderForm, TableForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User,Group
 from django.contrib import messages
@@ -182,7 +182,7 @@ def login_request(request):
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
 
-@login_required
+
 def dashboard(request):
     print(" hi", request.user,request.user.groups.all())
     if is_waiter(request.user):
@@ -205,6 +205,48 @@ def updateOrder(request, pk):
 
     context = {'form': form}
     return render(request, "restaurant/updateOrder.html", context=context)
+
+def tableManager(request):
+    tables = Customer.objects.all()
+    one = tables[0]
+    two = tables[1]
+    three = tables[2]
+    four = tables[3]
+    five = tables[4]
+    six = tables[5]
+    seven = tables[6]
+    eight = tables[7]
+    nine = tables[8]
+    ten = tables[9]
+    eleven = tables[10]
+    twelve = tables[11]
+    context = {
+        "One": one,
+        "Two": two,
+        "Three": three,
+        "Four": four,
+        "Five": five,
+        "Six": six,
+        "Seven": seven,
+        "Eight": eight,
+        "Nine": nine,
+        "Ten": ten,
+        "Eleven": eleven,
+        "Twelve": twelve
+    }
+    return render(request, 'restaurant/tableManager.html', context=context)
+
+def updateTable(request, pk):
+    table = Customer.objects.get(table_id=pk)
+    form = TableForm(instance=table)
+    if request.method == 'POST':
+        form = TableForm(request.POST, instance=table)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant:tableManager')
+    
+    context = {'form':form}
+    return render(request, "restaurant/updateTable.html", context=context)
 
 
 def cart(request):

@@ -1,0 +1,70 @@
+{% extends "restaurant/index_staff.html" %}
+{% block content %}
+
+<style>
+    .buttons-row{
+        align: center;
+        height: 50%;
+        width: 90%;
+        margin: auto;
+        padding: 0;
+    }
+    .button-active{
+        display: inline-block;
+        margin: 20px;
+        padding: 0;
+        background-color: rgb(92, 6, 6);
+        text-decoration: none;
+        height: 100px;
+        width: 100%;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 5px;
+        font-wight: bold;
+    }
+    .button-inactive{
+        display: inline-block;
+        margin: 20px;
+        padding: 0;
+        background-color: rgb(0, 128, 0);
+        text-decoration: none;
+        height: 100px;
+        width: 100%;
+        text-align: center;
+        vertical-align: middle;
+        border-radius: 5px;
+        font-wight: bold;
+    }
+</style>
+
+<section class="wrap">
+    <form action="" method=POST> 
+    {% csrf_token %}
+        <h2><center>Section One</center></h2>
+        <div class="buttons-row">
+            <a class ="{% if One.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:login.html' %}" style="width: 30%">Table 1</br>Persons 2</a>
+            <a class ="{% if Two.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Two %}" style="width: 30%">Table 2</br>Persons 4</a>
+            <a class ="{% if Three.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Three %}" style="width: 30%">Table 3</br>Persons 5</a>
+        </div>
+        <div class="buttons-row">
+            <a class ="{% if Four.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Four %}" style="width: 30%">Table 4</br>Persons 6</a>
+            <a class ="{% if Five.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Five %}" style="width: 30%">Table 5</br>Persons 2</a>
+            <a class ="{% if Six.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Six %}" style="width: 30%">Table 6</br>Persons 2</a>
+        </div>
+
+        <h2><center>Section Two</center></h2>
+        <div class="buttons-row">
+            <a class ="{% if Seven.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Seven %}" style="width: 21.6%">Table 7</br>Persons 5</a>
+            <a class ="{% if Eight.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Eight %}" style="width: 21.6%">Table 8</br>Persons 4</a>
+            <a class ="{% if Nine.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Nine %}" style="width: 21.6%">Table 9</br>Persons 4</a>
+            <a class ="{% if Ten.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Ten %}" style="width: 21.6%">Table 10</br>Persons 2</a>
+        </div>
+        <div class="buttons-row">
+            <a class ="{% if Eleven.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Eleven %}" style="width: 46.5%">Big Boy Table</br>Persons 10</a>
+            <a class ="{% if Twelve.persons == 0 %}button-inactive{% else %}button-active{% endif %}" href="{% url 'restaurant:updateTable.html' Twelve %}" style="width: 46.5%">Karen's Table</br>Persons 1</a>
+        </div>
+        
+    </form>
+</section>
+
+{% endblock content %}

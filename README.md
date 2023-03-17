@@ -62,8 +62,9 @@ Prerequisites: Python 3 installed, and an PostgresSQL server if you plan to use 
         - `DB_HOST`
         - `DB_PORT`
 3. Change to the `Oaxaca` directory with `cd Oaxaca`
-4. Start a Python shell using `python manage.py shell`
-5. Import from `batch.py` using `from restaurant.batch import *`
-6. Drop all tables if necessary using `drop_all()`
-7. Add all required data using `add_all()`
-8. Exit the Python shell using `exit()`
+4. Migrate the database models to your own DB with `python manage.py migrate`
+5. After a successful DB migration, start a Python shell using `python manage.py shell`
+6. Import from `batch.py` using `from restaurant.batch import *`
+7. Drop all tables (if necessary) using `drop_all()`
+8. Add all required data using `add_all()`
+9. Exit the Python shell using `exit()`

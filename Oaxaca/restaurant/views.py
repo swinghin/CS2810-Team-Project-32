@@ -207,32 +207,19 @@ def updateOrder(request, pk):
     return render(request, "restaurant/updateOrder.html", context=context)
 
 def tableManager(request):
-    tables = Customer.objects.all()
-    one = tables[0]
-    two = tables[1]
-    three = tables[2]
-    four = tables[3]
-    five = tables[4]
-    six = tables[5]
-    seven = tables[6]
-    eight = tables[7]
-    nine = tables[8]
-    ten = tables[9]
-    eleven = tables[10]
-    twelve = tables[11]
     context = {
-        "One": one,
-        "Two": two,
-        "Three": three,
-        "Four": four,
-        "Five": five,
-        "Six": six,
-        "Seven": seven,
-        "Eight": eight,
-        "Nine": nine,
-        "Ten": ten,
-        "Eleven": eleven,
-        "Twelve": twelve
+        "One": Customer.objects.get(table_id=1),
+        "Two": Customer.objects.get(table_id=2),
+        "Three": Customer.objects.get(table_id=3),
+        "Four": Customer.objects.get(table_id=4),
+        "Five": Customer.objects.get(table_id=5),
+        "Six": Customer.objects.get(table_id=6),
+        "Seven": Customer.objects.get(table_id=7),
+        "Eight": Customer.objects.get(table_id=8),
+        "Nine": Customer.objects.get(table_id=9),
+        "Ten": Customer.objects.get(table_id=10),
+        "Eleven": Customer.objects.get(table_id=11),
+        "Twelve": Customer.objects.get(table_id=12)
     }
     return render(request, 'restaurant/tableManager.html', context=context)
 

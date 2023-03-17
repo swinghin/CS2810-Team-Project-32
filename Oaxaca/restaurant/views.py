@@ -49,56 +49,6 @@ def autosearch(request):
         return JsonResponse({'data': data})
 
 
-def staff_menu(request):
-    """Shows a list of all dishes with edit button for each. Only accessible by waiters.
-
-    Args:
-        request (HttpRequest): Object containing metadata about the request
-
-    Returns:
-        HttpResponse: a rendered HTML page of list of dishes
-    """
-
-    # Get all dishes and order by dish name
-    dish_list = Dish.objects.all().order_by('dish_name').values()
-    template = loader.get_template('restaurant/menu_staff.html')
-    context = {
-        'dish_list': dish_list,
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def staff_dish_details(request, id):
-    """Shows an editing form for a dish by id. Only accessible by waiters.
-
-    Args:
-        request (HttpRequest): Object containing metadata about the request
-        id (int): the dish id for lookup
-
-    Returns:
-        HttpResponse: a rendered HTML page using dish details template and dish data by id
-    """
-
-    # Get dish by id
-    dish = Dish.objects.get(dish_id=id)
-
-    # If POST request, save dish data and redirect to staff menu
-    if request.method == 'POST':
-        form = DishForm(request.POST, instance=dish)
-        if form.is_valid():
-            form.save()
-            return redirect('restaurant:staff-menu')
-
-    # If not POST request or form invalid, show dish form
-    template = loader.get_template('restaurant/dish_details.html')
-    form = DishForm(instance=dish)
-    context = {
-        'dish': dish,
-        'form': form
-    }
-
-    return HttpResponse(template.render(context, request))
-
 
 def index(request):
     """Builds the index (menu) using dish data from the database and renders to browser.
@@ -350,3 +300,57 @@ def waiter_view(request):
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
+
+@ login_required
+@ user_passes_test(is_kitchen, login_url='/login')
+def staff_menu(request):
+    """Shows a list of all dishes with edit button for each. Only accessible by waiters.
+
+    Args:
+        request (HttpRequest): Object containing metadata about the request
+
+    Returns:
+        HttpResponse: a rendered HTML page of list of dishes
+    """
+
+    # Get all dishes and order by dish name
+    dish_list = Dish.objects.all().order_by('dish_name').values()
+    template = loader.get_template('restaurant/menu_staff.html')
+    context = {
+        'dish_list': dish_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+@ login_required
+@ user_passes_test(is_kitchen, login_url='/login')
+def staff_dish_details(request, id):
+    """Shows an editing form for a dish by id. Only accessible by waiters.
+
+    Args:
+        request (HttpRequest): Object containing metadata about the request
+        id (int): the dish id for lookup
+
+    Returns:
+        HttpResponse: a rendered HTML page using dish details template and dish data by id
+    """
+
+    # Get dish by id
+    dish = Dish.objects.get(dish_id=id)
+
+    # If POST request, save dish data and redirect to staff menu
+    if request.method == 'POST':
+        form = DishForm(request.POST, instance=dish)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant:staff-menu')
+
+    # If not POST request or form invalid, show dish form
+    template = loader.get_template('restaurant/dish_details.html')
+    form = DishForm(instance=dish)
+    context = {
+        'dish': dish,
+        'form': form
+    }
+
+    return HttpResponse(template.render(context, request))

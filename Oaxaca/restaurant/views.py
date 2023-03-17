@@ -77,6 +77,15 @@ def staff_dish_details(request, id):
 
 
 def index(request):
+    """Builds the index (menu) using dish data from the database and renders to browser.
+
+    Args:
+        request (HttpRequest): Object containing metadata about the request
+
+    Returns:
+        HttpResponse: a rendered HTML page using index template and dish data 
+    """
+
     # Get allergen information from DB ordered by allergies_id
     allergens = Allergies.objects.all().order_by('allergies_id').values()
 
@@ -117,16 +126,24 @@ def index(request):
             dish_by_categories[dish_category['category_name']].append(dish)
 
     context = {
-        "dish_all": list(dish_all.values()),
-        "dish_by_categories": dish_by_categories,
+        # list of all dishes for use in menu.js
+        "dish_all": list(dish_all.values()), 
+
+        # for rendering menu body
+        "dish_by_categories": dish_by_categories, 
         "dish_categories": dish_categories,
+
+        # for rendering allergy filter section
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     }
 
+    # If customer presses "need help" button (POST request)
     if request.method == 'POST':
         table_id = request.POST.get('table_id')
+        # Get the customer based on table_id and set need_help
         Customer.objects.filter(table_id=table_id).update(need_help=True)
+        # for rendering "help is coming" in HTML
         context['help'] = True
 
     return render(request, 'restaurant/menu_public.html', context)

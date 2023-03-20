@@ -36,4 +36,4 @@ class DishForm(ModelForm):
 class OrderForm(ModelForm):
     class Meta:
         model = Order
-        fields = '__all__'
+        fields = ['order_time', 'order_id', 'dish_id', 'status_id']

@@ -277,9 +277,12 @@ def checkout(request):
 @login_required
 @user_passes_test(is_kitchen, login_url='/login')
 def kitchen_view(request):
+    #Fetch all orders
     orders_all = Order.objects.all()
     if request.method == 'POST':
+        #Checks status of order by first checking the display name of button, in this case confirm being 'recieved'
         if request.POST.get("confirm"):
+            #Fetches order id to change status id
             order_id = int(request.POST.get("confirm"))
             Order.objects.filter(order_id=order_id).update(
                 status_id_id=(Status.objects.get(status_name='Cooking').status_id))
@@ -297,6 +300,7 @@ def kitchen_view(request):
 @login_required
 @user_passes_test(is_waiter, login_url='/login')
 def waiter_view(request):
+    #Fetch all orders
     orders = Order.objects.all()
     need_help_tables = Customer.objects.filter(need_help=True)
     context = {
@@ -304,7 +308,9 @@ def waiter_view(request):
         "need_help_tables": need_help_tables,
     }
     if request.method == "POST":
+        #Finds table id that was helped
         helped_table_id = int(request.POST.getlist("helped")[0])
+        #Removes help request from customer once helped
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)

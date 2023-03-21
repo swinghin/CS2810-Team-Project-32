@@ -195,7 +195,8 @@ def dashboard(request):
 
 
 def updateOrder(request, pk):
-    order = Order.objects.get(order_id=pk)
+    # form for updating the order clicked in the waiter dashboard.
+    order = Order.objects.get(order_id=pk) # selects the order from the pk (primary key) clicked.
     form = OrderForm(instance=order)
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)
@@ -207,7 +208,9 @@ def updateOrder(request, pk):
     return render(request, "restaurant/updateOrder.html", context=context)
 
 def tableManager(request):
+    # view for managing table designation.
     context = {
+        # list of contexts for individual table objects.
         "One": Customer.objects.get(table_id=1),
         "Two": Customer.objects.get(table_id=2),
         "Three": Customer.objects.get(table_id=3),
@@ -224,7 +227,8 @@ def tableManager(request):
     return render(request, 'restaurant/tableManager.html', context=context)
 
 def updateTable(request, pk):
-    table = Customer.objects.get(table_id=pk)
+    # form for updating the customer data attached to each table currently.
+    table = Customer.objects.get(table_id=pk) # selects the table from the pk (primary key) clicked.
     form = TableForm(instance=table)
     if request.method == 'POST':
         form = TableForm(request.POST, instance=table)

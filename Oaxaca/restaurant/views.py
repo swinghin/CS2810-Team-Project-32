@@ -308,3 +308,6 @@ def waiter_view(request):
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
+
+def about(request):
+    return render(request, "restaurant/aboutpage.html")

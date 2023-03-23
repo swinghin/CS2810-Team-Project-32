@@ -117,6 +117,7 @@ function addToCart(dishDiv) {
     cartSave();
 }
 
+// Reads dish as a list and returns error if null
 function readDishList() {
     let dishListElement = document.querySelector('#dish-all');
     if (!dishListElement) {
@@ -126,6 +127,7 @@ function readDishList() {
     return JSON.parse(dishListElement.textContent);
 }
 
+// Returns dish name from given list value
 function getDishFromListName(dishList, dishName) {
     let dishObj = null;
     dishList.forEach(dish => {
@@ -136,6 +138,8 @@ function getDishFromListName(dishList, dishName) {
     })
     return dishObj;
 }
+
+// Returns dish name from given list id
 function getDishFromListId(dishList, dishId) {
     let dishObj = null;
     dishList.forEach(dish => {
@@ -147,23 +151,29 @@ function getDishFromListId(dishList, dishId) {
     return dishObj;
 }
 
+// Load cart by parsing in JSON
 function cartLoad() {
     newcart = (window.localStorage.getItem('newcart') == null) ?
         {} : JSON.parse(window.localStorage.getItem('newcart'));
 }
 
+// Saves cart via stringifying json
 function cartSave() {
     window.localStorage.setItem('newcart', JSON.stringify(newcart));
 }
 
+// Clears cart by creating new cart
 function cartClear() {
     newcart = {};
     cartSave();
 }
 
+// Save input of user
 function cartSaveFormInput() {
     document.querySelector('#cart-data').value = JSON.stringify(newcart);
 }
+
+// Submit cart infomration
 function cartSubmit() {
     cartSaveFormInput();
     let divForm = document.querySelector('#cart-order-form')
@@ -210,6 +220,7 @@ function cartIsEmpty() {
     return Object.keys(newcart).length === 0;
 }
 
+// Shows total of code 
 function cartShowTotal(dishList) {
     let divCartTotal = document.querySelector('#cart-total');
     let total = 0;

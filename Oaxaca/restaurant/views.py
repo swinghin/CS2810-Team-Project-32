@@ -172,6 +172,8 @@ def login_request(request):
     form = AuthenticationForm()
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
+def about(request):
+    return render(request, "restaurant/aboutpage.html")
 
 @ login_required
 def dashboard(request):
@@ -306,9 +308,6 @@ def waiter_view(request):
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
-
-def about(request):
-    return render(request, "restaurant/aboutpage.html")
 
 @ login_required
 @ user_passes_test(is_waiter, login_url='/login')

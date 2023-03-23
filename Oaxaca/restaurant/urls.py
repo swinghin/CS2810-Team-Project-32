@@ -7,7 +7,6 @@ app_name = "restaurant"
 urlpatterns = [
     path("about/", views.about, name="about"),
     path("register/", views.register_request, name="register"),
-    path("home/", views.redirect_request, name="homepage"),
     path("login/", views.login_request, name="login"),
     path("accounts/login/", views.login_request, name="login"),
     path('pay/<int:id>', views.payment, name='pay'),

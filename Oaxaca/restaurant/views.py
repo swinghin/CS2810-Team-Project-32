@@ -307,6 +307,9 @@ def waiter_view(request):
             table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
 
+def about(request):
+    return render(request, "restaurant/aboutpage.html")
+
 @ login_required
 @ user_passes_test(is_waiter, login_url='/login')
 def staff_menu(request):

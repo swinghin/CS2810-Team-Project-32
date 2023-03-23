@@ -302,7 +302,7 @@ def waiter_view(request):
     return render(request, "restaurant/dashboard.html", context=context)
 
 @ login_required
-@ user_passes_test(is_kitchen, login_url='/login')
+@ user_passes_test(is_waiter, login_url='/login')
 def staff_menu(request):
     """Shows a list of all dishes with edit button for each. Only accessible by waiters.
 
@@ -323,7 +323,7 @@ def staff_menu(request):
 
 
 @ login_required
-@ user_passes_test(is_kitchen, login_url='/login')
+@ user_passes_test(is_waiter, login_url='/login')
 def staff_dish_details(request, id):
     """Shows an editing form for a dish by id. Only accessible by waiters.
 

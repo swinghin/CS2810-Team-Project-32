@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from .forms import CreateNewUser, DishForm, OrderForm
+from .forms import CreateNewUser, DishForm, OrderForm, TableForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User, Group
 from django.contrib import messages
@@ -187,7 +187,8 @@ def dashboard(request):
 
 
 def updateOrder(request, pk):
-    order = Order.objects.get(order_id=pk)
+    # form for updating the order clicked in the waiter dashboard.
+    order = Order.objects.get(order_id=pk) # selects the order from the pk (primary key) clicked.
     form = OrderForm(instance=order)
     if request.method == 'POST':
         form = OrderForm(request.POST, instance=order)
@@ -197,6 +198,38 @@ def updateOrder(request, pk):
 
     context = {'form': form}
     return render(request, "restaurant/updateOrder.html", context=context)
+
+def tableManager(request):
+    # view for managing table designation.
+    context = {
+        # list of contexts for individual table objects.
+        "One": Customer.objects.get(table_id=1),
+        "Two": Customer.objects.get(table_id=2),
+        "Three": Customer.objects.get(table_id=3),
+        "Four": Customer.objects.get(table_id=4),
+        "Five": Customer.objects.get(table_id=5),
+        "Six": Customer.objects.get(table_id=6),
+        "Seven": Customer.objects.get(table_id=7),
+        "Eight": Customer.objects.get(table_id=8),
+        "Nine": Customer.objects.get(table_id=9),
+        "Ten": Customer.objects.get(table_id=10),
+        "Eleven": Customer.objects.get(table_id=11),
+        "Twelve": Customer.objects.get(table_id=12)
+    }
+    return render(request, 'restaurant/tableManager.html', context=context)
+
+def updateTable(request, pk):
+    # form for updating the customer data attached to each table currently.
+    table = Customer.objects.get(table_id=pk) # selects the table from the pk (primary key) clicked.
+    form = TableForm(instance=table)
+    if request.method == 'POST':
+        form = TableForm(request.POST, instance=table)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant:tableManager')
+    
+    context = {'form':form}
+    return render(request, "restaurant/updateTable.html", context=context)
 
 
 def cart(request):

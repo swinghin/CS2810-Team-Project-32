@@ -22,4 +22,6 @@ urlpatterns = [
     path('orders/<int:customer_id>', views.orders, name='orders'),
     path('', views.index, name='index'),
     path('logout/', views.logout_request, name='logout'),
+    path('tableManager/', views.tableManager, name="tableManager"),
+    path('update_table/<str:pk>/', views.updateTable, name="update_table"),
 ]

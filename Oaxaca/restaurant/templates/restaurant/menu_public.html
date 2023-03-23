@@ -1,4 +1,4 @@
-{% extends 'restaurant/index.html' %}
+{% extends "restaurant/index.html" %}
 {% load static %}
 {% block content %}
     <section id="menu-categories" class="wrap">
@@ -129,8 +129,12 @@
         {% endif %}
     </section>
     <div class="cart">
-        <a href="{% url 'restaurant:cart' %}" class="button button-block cart-button">Cart</a>
+        <a href="{% url 'restaurant:cart' %}"
+           class="button button-block block margin-short cart-button">Cart</a>
+        <button onclick="popUpHelp()"
+                class="button button-block block margin-short cart-button">Help</button>
     </div>
+    {% include "restaurant/popup_help.html" %}
     {{ dish_all|json_script:"dish-all" }}
     {{ dish_allergens|json_script:"dish-allergens" }}
 {% endblock content %}

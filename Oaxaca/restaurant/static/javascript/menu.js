@@ -392,3 +392,14 @@ function searchFilter(term) {
     })
 }
 
+function popUpShow(elementId) {
+    document.querySelector(elementId).classList.remove('hidden');
+}
+function popUpHide() {
+    document.querySelectorAll('.popup').forEach(popup => popup.classList.add('hidden'));
+}
+
+function popUpHelp() {
+    popUpShow('#help-popup');
+}
+

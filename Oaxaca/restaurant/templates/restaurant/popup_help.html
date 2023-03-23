@@ -1,0 +1,22 @@
+<div class="popup hidden" id="help-popup">
+    <div class="popup-shade" onclick="popUpHide()"></div>
+    <div class="popup-content popup-small text-center">
+        <form id="help-form" action="{% url 'restaurant:index' %}" method="post">
+            {% csrf_token %}
+            <h3>Need assistance?</h3>
+            <label for="table_id" class="margin-medium">Enter Your Table Number:</label>
+            <br/>
+            <input class="margin-medium"
+                   id="help-table-number"
+                   name="table_id"
+                   type="number"
+                   min="1"
+                   max="99"
+                   maxlength="2"
+                   required/>
+            <br/>
+            <button type="submit" class="button button-block button-medium margin-medium">Get help</button>
+            <input id="cart-data" name="cart-data" type="hidden"/>
+        </form>
+    </div>
+</div>

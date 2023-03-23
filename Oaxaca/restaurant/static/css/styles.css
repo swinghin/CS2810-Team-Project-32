@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 html {
     scroll-padding-top: 60px;
 }
@@ -15,6 +16,16 @@ header {
     margin: 0;
     background: rgb(30, 30, 120);
     background: linear-gradient(13deg, rgba(30, 30, 120, 1) 0%, rgba(0, 177, 213, 1) 100%);
+}
+
+header.staff {
+    background: rgb(92, 6, 6);
+    background: linear-gradient(13deg, rgba(92, 6, 6, 1) 0%, rgba(237, 73, 55, 1) 100%);
+}
+
+header.kitchen {
+    background: rgb(6, 85, 10);
+    background: linear-gradient(13deg, rgba(6, 85, 10) 0%, rgb(47, 221, 140) 100%);
 }
 
 h1,
@@ -51,6 +62,10 @@ h6 {
     margin: 0 auto;
 }
 
+.wrap.min-height {
+    min-height: 512px;
+}
+
 .margin-medium {
     margin: 8px 12px;
 }
@@ -75,6 +90,10 @@ h6 {
     text-align: center;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .collapse {
     max-height: 0;
     overflow: hidden;
@@ -94,6 +113,33 @@ h6 {
     content: '\25B4';
 }
 
+.block {
+    display: block;
+}
+
+.table {
+    display: table;
+}
+
+.table-row {
+    display: table-row;
+}
+
+.table-row:nth-child(even) {
+    background: rgb(240, 240, 240)
+}
+
+.table-cell {
+    display: table-cell;
+    margin: 8px;
+    padding: 8px 12px;
+    vertical-align: middle;
+}
+
+.table-cell.table-heading {
+    font-weight: 600;
+}
+
 button,
 input {
     font-family: 'Poppins', sans-serif;
@@ -105,6 +151,8 @@ input {
 }
 
 .button-block {
+    color: black;
+    text-decoration: none;
     background: 2px rgb(204, 204, 204);
     border: 2px rgb(204, 204, 204) solid;
     border-radius: 16px;
@@ -123,6 +171,10 @@ input {
 
 .button-inline {
     text-decoration: underline;
+}
+
+input {
+    font-size: 16px;
 }
 
 
@@ -144,6 +196,10 @@ input[type=number] {
     height: 38px;
     display: flex;
     align-items: center;
+}
+
+.slide-toggle.disabled {
+    cursor: unset;
 }
 
 .slide-toggle-text {
@@ -282,7 +338,15 @@ section {
     display: grid;
     margin-bottom: 16px;
     gap: 8px;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+
+.menu-filter-button-grid {
+    display: grid;
+    margin-bottom: 16px;
+    gap: 8px;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
 }
 
@@ -308,6 +372,11 @@ section {
 .dish-card:hover {
     filter: drop-shadow(0px 4px 4px rgb(192, 192, 192));
     transition: filter 0.1s ease-out;
+}
+
+.dish-unavailable {
+    display: none;
+    color: rgb(128, 128, 128);
 }
 
 .dish-thumbnail {
@@ -345,7 +414,8 @@ section {
     font-size: 18px;
 }
 
-.dish-price::before {
+.dish-price::before,
+.price::before {
     content: "£";
 }
 
@@ -413,11 +483,22 @@ section {
     text-align: center;
 }
 
-.cart-button {
-    font-size: 20px;
+.cart {
     position: fixed;
     bottom: 10%;
     right: 10%;
+}
+
+.cart-button {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.call-waiter-button {
+    font-size: 20px;
+    position: fixed;
+    bottom: 10%;
+    left: 10%;
     cursor: pointer;
 }
 
@@ -441,4 +522,66 @@ section {
     flex: 1;
     border: 0;
     outline: none;
+}
+
+.form-buttons {
+    margin: 12px;
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+.popup-content {
+    display: block;
+    background-color: white;
+    border-radius: 16px;
+    padding: 12px;
+    width: 80%;
+    height: 80%;
+    overflow-y: auto;
+    z-index: 3;
+}
+.popup-small {
+    max-width: 480px;
+    max-height: 256px;
+}
+
+
+
+@media screen and (max-width:854px) {
+    .dish-cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-filter-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media screen and (max-width:480px) {
+    section {
+        padding: 12px !important;
+    }
+
+    .menu-filter-grid {
+        grid-template-columns: 1fr 1fr;
+    }
 }

@@ -1,0 +1,17 @@
+{% extends "restaurant/index.html" %}
+{% block content %}
+    {% load crispy_forms_tags %}
+    <section class="wrap">
+        <h1>Register</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ register_form|crispy }}
+            <p>
+                <button class="btn btn-primary" type="submit">Register</button>
+            </p>
+        </form>
+        <p>
+            If you already have an account, <a href="{% url 'restaurant:login' %}">login</a> instead.
+        </p>
+    </section>
+{% endblock %}

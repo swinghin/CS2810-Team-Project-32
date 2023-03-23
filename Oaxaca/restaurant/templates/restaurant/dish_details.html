@@ -1,0 +1,38 @@
+{% extends "restaurant/index_staff.html" %}
+{% block content %}
+  <section class="wrap">
+    <h1>Edit Dish: {{ dish.dish_name }}</h1>
+    <form class="table" action="" method="post">
+      {% csrf_token %}
+      <div class="table-row">
+        <label class="table-cell" for="dish-name">Dish Name:</label>
+        {{ form.dish_name }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-quantity">Quantity:</label>
+        {{ form.dish_quantity }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-price">Price: £</label>
+        {{ form.dish_price }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-calories">Calories:</label>
+        {{ form.dish_calories }}
+      </div>
+      <div class="table-row">
+        <label class="table-cell" for="dish-availability">Available:</label>
+        <div class="table-cell">
+          <label class="slide-toggle">
+            {{ form.dish_availability }}
+            <span class="slide-toggle-switch"></span>
+          </label>
+        </div>
+      </div>
+      <div class="form-buttons">
+        <a class="button button-block" href="{% url 'restaurant:staff-menu' %}">Back</a>
+        <input class="button button-block" type="submit" value="Submit" />
+      </div>
+    </form>
+  </section>
+{% endblock content %}

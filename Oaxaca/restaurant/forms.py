@@ -41,14 +41,18 @@ class OrderForm(ModelForm):
 class TableForm(ModelForm):
     class Meta:
         model = Customer
-        fields = '__all__'
-        #numpersons = [(0,'0'),(1,'1'),(2,'2')]
-        numpersons = [(people, people) for people in range(0, 11)]
-        
+        fields = ['table_id', 'user', 'total_price', 'persons', 'need_help',]
+       
         widgets = {
             'table_id': forms.TextInput(attrs={'class': 'table-cell'}),
             'user': forms.Select(attrs={'class': 'table-cell'}),
             'total_price': forms.NumberInput(attrs={'class': 'table-cell'}),
-            'persons': forms.Select(choices=numpersons, attrs={'class': 'table-cell'}),
+            'persons': forms.Select(choices=[(1,1)],attrs={'class': 'table-cell'}),
             'need_help': forms.CheckboxInput(attrs={'class': 'form-control-input'}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        maxpersons = kwargs.pop('maxpersons')
+        super().__init__(*args, **kwargs)
+        numpersons = [(people, people) for people in range(0, maxpersons+1)]
+        self.fields['persons'].widget.choices =numpersons

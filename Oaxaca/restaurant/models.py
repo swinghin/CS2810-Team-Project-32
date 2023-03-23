@@ -56,12 +56,13 @@ class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=11, decimal_places=2)
     persons = models.IntegerField()
+    maxpersons = models.IntegerField(default=0)
     need_help = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.table_id)
 
-
+ 
 # Status table
 class Status(models.Model):
     class Statuses(models.TextChoices):

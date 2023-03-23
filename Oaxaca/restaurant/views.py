@@ -20,25 +20,24 @@ def redirect_request(request):
     return render(request=request, template_name="restaurant/menu_public.html")
 
 
-def register_request(request):
-    if request.method == "POST":
+def register_request(request): 
+    if request.method == "POST": # Checks if request method is secure POST
         form = CreateNewUser(request.POST)
-        if form.is_valid():
+        if form.is_valid(): # Checks if details entered match requirements
             user = form.save()
             login(request, user)
             messages.success(request, "Registration successful.")
-            return redirect("restaurant:homepage")
+            return redirect("restaurant:login") # Redirects user to the login page
         messages.error(
-            request, "Unsuccessful registration. Invalid information.")
+            request, "Unsuccessful registration. Invalid information.") # If details failed to pass requirements, returns this message.
     form = CreateNewUser()
     return render(request=request, template_name="restaurant/register.html", context={"register_form": form})
 
 
 def logout_request(request):
-    logout(request)
-    return render(request=request, template_name="restaurant/logout.html")
-
-
+    logout(request) 
+    return render(request=request, template_name="restaurant/logout.html") # Logs user out on button press and temporarily holds them 
+                                                                           # at a redirect page.
 def autosearch(request):
     if 'term' in request.GET:
         data = []
@@ -154,9 +153,9 @@ def login_request(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
+            username = form.cleaned_data.get('username') # takes inputted username
+            password = form.cleaned_data.get('password') # takes inputted password
+            user = authenticate(username=username, password=password) # checks the details against the database
             if user is not None:
                 login(request, user)
                 messages.info(request, f"You are now logged in as {username}.")
@@ -175,7 +174,7 @@ def login_request(request):
 def about(request):
     return render(request, "restaurant/aboutpage.html")
 
-@ login_required
+@ login_required # added 
 def dashboard(request):
     print(" hi", request.user, request.user.groups.all())
     if is_waiter(request.user):

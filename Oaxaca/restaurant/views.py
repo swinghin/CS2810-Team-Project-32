@@ -221,14 +221,17 @@ def tableManager(request):
 def updateTable(request, pk):
     # form for updating the customer data attached to each table currently.
     table = Customer.objects.get(table_id=pk) # selects the table from the pk (primary key) clicked.
-    form = TableForm(instance=table)
+    maxpersons = table.maxpersons
+    form = TableForm(instance=table,maxpersons=maxpersons)
     if request.method == 'POST':
-        form = TableForm(request.POST, instance=table)
+        form = TableForm(request.POST, instance=table,maxpersons=maxpersons)
         if form.is_valid():
             form.save()
             return redirect('restaurant:tableManager')
     
-    context = {'form':form}
+    context = {
+        'form':form,   
+    }
     return render(request, "restaurant/updateTable.html", context=context)
 
 

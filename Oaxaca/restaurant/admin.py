@@ -3,6 +3,7 @@ from .models import *
 # register your models here.
 
 
+#Registering the database tables so they can be controlled from an admin panel.
 admin.site.register(Allergies)
 admin.site.register(Ingredient)
 admin.site.register(Category)

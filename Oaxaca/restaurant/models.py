@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 
+# Allergies table
 class Allergies(models.Model):
     allergies_id = models.AutoField(primary_key=True)
     allergies_name = models.CharField(max_length=50)
@@ -13,6 +14,7 @@ class Allergies(models.Model):
         return str(self.allergies_name)
 
 
+# Ingredients table
 class Ingredient(models.Model):
     ingredient_id = models.AutoField(primary_key=True)
     allergies_id = models.ManyToManyField(Allergies)
@@ -23,6 +25,7 @@ class Ingredient(models.Model):
         return str(self.ingredient_name)
 
 
+# Category table
 class Category(models.Model):
     category_id = models.AutoField(primary_key=True)
     category_name = models.CharField(max_length=20)
@@ -31,6 +34,7 @@ class Category(models.Model):
         return str(self.category_name)
 
 
+# Dish table
 class Dish(models.Model):
     dish_id = models.AutoField(primary_key=True)
     dish_name = models.CharField(max_length=75)
@@ -46,6 +50,7 @@ class Dish(models.Model):
         return str(self.dish_name)
 
 
+# Customer table
 class Customer(models.Model):
     table_id = models.AutoField(primary_key = True)
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
@@ -57,6 +62,7 @@ class Customer(models.Model):
         return str(self.table_id)
 
 
+# Status table
 class Status(models.Model):
     class Statuses(models.TextChoices):
         InProgress = 'Order in progress'
@@ -75,6 +81,7 @@ class Status(models.Model):
         return str(self.status_name)
 
 
+# Order table
 class Order(models.Model):
     order_id = models.AutoField(primary_key=True)
     order_time = models.DateTimeField()

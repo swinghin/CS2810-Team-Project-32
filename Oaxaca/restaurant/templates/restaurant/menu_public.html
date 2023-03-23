@@ -104,12 +104,18 @@
     {{ dish_allergens|json_script:"dish-allergens" }}
 
     <script>
+        // Create cart dictionary if doesnt exist in local storage
+        // Otherwise parse every item in the storage that is stored in JSON
+        // To the dictionary
         if(window.localStorage.getItem('cart') == null){
             var cart = {};
         } else {
             cart = JSON.parse(window.localStorage.getItem('cart'));
         }
 
+        // If the dish_id does not exist in the dictionary, create a new entry
+        // Otherwise, change dish_id key in the dict to change the quantity.
+        // Call updateCart to update the cart
         function addToCart(dish_id, dish_name, dish_price, dish_quantity){
             if(cart[dish_id]!= undefined) {
                 let cart = {
@@ -126,6 +132,8 @@
             updateCart(cart, dish_id);
         }
 
+        // If the carts quantity is greater than 0
+        // We show the quantity buttons and hide add to cart button
         function updateCart(cart, dish_id){
             if(cart[dish_id][2] > 0){
                 showQty(dish_id);
@@ -133,36 +141,45 @@
             } else {
 
             }
+            //Set the cart in storage so everything is saved.
             window.localStorage.setItem('cart', JSON.stringify(cart));
         }
 
+        // Function to hide the add to cart button once quantity is above 1
         function hideAdd(dish_id){
             document.getElementById("dish" + dish_id).style.display = "none";
         }
 
+        // Function to show the quantity buttons once add to cart has been pressed
         function showQty(dish_id){
             document.getElementById("minus" + dish_id).style.display = "inline";
             document.getElementById("val" + dish_id).style.display = "inline";
             document.getElementById("plus" + dish_id).style.display = "inline";
         }
 
+        // Hide quantity buttons if quantity is less than one
         function hideQty(dish_id){
             document.getElementById("minus" + dish_id).style.display = "none";
             document.getElementById("val" + dish_id).style.display = "none";
             document.getElementById("plus" + dish_id).style.display = "none";
         }
 
+        // Show add to car button if quantity is less than one.
         function showAdd(dish_id){
             document.getElementById("dish" + dish_id).style.display = "inline";
         }
 
-
+        // Remove item from cart by setting its qty to 0
+        // Show add to cart button and remove hide qty button
         function removeItem(dish_id){
             cart[dish_id][2] = 0;
             showAdd(dish_id);
             hideQty(dish_id);
         }
 
+        // Reduce quantity by 1.
+        // If quantity is less than or equal to 1 we remove the item from cart
+        // Else decrement qty by 1
         function minusItem(dish_id){
             if (cart[dish_id][2] <= 1){
                 removeItem(dish_id);
@@ -170,7 +187,8 @@
                 cart[dish_id][2] = cart[dish_id][2] - 1;
             }
         }
-
+        
+        // Increase quantity by one when called
         function moreItem(dish_id){
             cart[dish_id][2] = cart[dish_id][2] + 1;
         }

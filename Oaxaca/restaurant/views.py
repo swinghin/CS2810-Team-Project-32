@@ -5,7 +5,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from .forms import CreateNewUser, DishForm, OrderForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -49,34 +49,17 @@ def autosearch(request):
         return JsonResponse({'data': data})
 
 
-def staff_menu(request):
-    dish_list = Dish.objects.all().order_by('dish_name').values()
-    template = loader.get_template('restaurant/menu_staff.html')
-    context = {
-        'dish_list': dish_list,
-    }
-    return HttpResponse(template.render(context, request))
-
-
-def staff_dish_details(request, id):
-    dish = Dish.objects.get(dish_id=id)
-
-    if request.method == 'POST':
-        form = DishForm(request.POST, instance=dish)
-        if form.is_valid():
-            form.save()
-            return redirect('restaurant:staff-menu')
-    else:
-        template = loader.get_template('restaurant/dish_details.html')
-        form = DishForm(instance=dish)
-        context = {
-            'dish': dish,
-            'form': form
-        }
-    return HttpResponse(template.render(context, request))
-
 
 def index(request):
+    """Builds the index (menu) using dish data from the database and renders to browser.
+
+    Args:
+        request (HttpRequest): Object containing metadata about the request
+
+    Returns:
+        HttpResponse: a rendered HTML page using index template and dish data
+    """
+
     # Get allergen information from DB ordered by allergies_id
     allergens = Allergies.objects.all().order_by('allergies_id').values()
 
@@ -117,16 +100,24 @@ def index(request):
             dish_by_categories[dish_category['category_name']].append(dish)
 
     context = {
+        # list of all dishes for use in menu.js
         "dish_all": list(dish_all.values()),
+
+        # for rendering menu body
         "dish_by_categories": dish_by_categories,
         "dish_categories": dish_categories,
+
+        # for rendering allergy filter section
         "dish_allergens": dish_allergens,
         "allergens": allergens,
     }
 
+    # If customer presses "need help" button (POST request)
     if request.method == 'POST':
         table_id = request.POST.get('table_id')
+        # Get the customer based on table_id and set need_help
         Customer.objects.filter(table_id=table_id).update(need_help=True)
+        # for rendering "help is coming" in HTML
         context['help'] = True
 
     return render(request, 'restaurant/menu_public.html', context)
@@ -182,16 +173,15 @@ def login_request(request):
     return render(request=request, template_name="restaurant/login.html", context={"login_form": form})
 
 
-@login_required
+@ login_required
 def dashboard(request):
-    print(" hi", request.user,request.user.groups.all())
+    print(" hi", request.user, request.user.groups.all())
     if is_waiter(request.user):
         print("waiter hi")
         return waiter_view(request)
     elif is_kitchen(request.user):
         return kitchen_view(request)
     return redirect('restaurant:login')
-    
 
 
 def updateOrder(request, pk):
@@ -274,8 +264,9 @@ def checkout(request):
 
     return render(request, 'restaurant/checkout.html')
 
-@login_required
-@user_passes_test(is_kitchen, login_url='/login')
+
+@ login_required
+@ user_passes_test(is_kitchen, login_url='/login')
 def kitchen_view(request):
     #Fetch all orders
     orders_all = Order.objects.all()
@@ -297,8 +288,9 @@ def kitchen_view(request):
     }
     return render(request, 'restaurant/index_kitchen.html', context)
 
-@login_required
-@user_passes_test(is_waiter, login_url='/login')
+
+@ login_required
+@ user_passes_test(is_waiter, login_url='/login')
 def waiter_view(request):
     #Fetch all orders
     orders = Order.objects.all()
@@ -314,3 +306,57 @@ def waiter_view(request):
         Customer.objects.filter(
             table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
+
+@ login_required
+@ user_passes_test(is_waiter, login_url='/login')
+def staff_menu(request):
+    """Shows a list of all dishes with edit button for each. Only accessible by waiters.
+
+    Args:
+        request (HttpRequest): Object containing metadata about the request
+
+    Returns:
+        HttpResponse: a rendered HTML page of list of dishes
+    """
+
+    # Get all dishes and order by dish name
+    dish_list = Dish.objects.all().order_by('dish_name').values()
+    template = loader.get_template('restaurant/menu_staff.html')
+    context = {
+        'dish_list': dish_list,
+    }
+    return HttpResponse(template.render(context, request))
+
+
+@ login_required
+@ user_passes_test(is_waiter, login_url='/login')
+def staff_dish_details(request, id):
+    """Shows an editing form for a dish by id. Only accessible by waiters.
+
+    Args:
+        request (HttpRequest): Object containing metadata about the request
+        id (int): the dish id for lookup
+
+    Returns:
+        HttpResponse: a rendered HTML page using dish details template and dish data by id
+    """
+
+    # Get dish by id
+    dish = Dish.objects.get(dish_id=id)
+
+    # If POST request, save dish data and redirect to staff menu
+    if request.method == 'POST':
+        form = DishForm(request.POST, instance=dish)
+        if form.is_valid():
+            form.save()
+            return redirect('restaurant:staff-menu')
+
+    # If not POST request or form invalid, show dish form
+    template = loader.get_template('restaurant/dish_details.html')
+    form = DishForm(instance=dish)
+    context = {
+        'dish': dish,
+        'form': form
+    }
+
+    return HttpResponse(template.render(context, request))

@@ -121,7 +121,7 @@ function hideDish(card) {
 
 //
 function filterMenuGetChecked() {
-    const filterToggles = document.querySelectorAll('.slide-toggle-checkbox');
+    const filterToggles = document.querySelector('#allergen-grid').querySelectorAll('input');
     return Array.from(filterToggles)
         .filter(toggle => toggle.checked) // select only checked toggles
         .map(toggle => toggle = toggle.value); // get filter value of checked toggles
@@ -132,10 +132,35 @@ function filterMenuCheckbox() {
     filterMenu(filterMenuGetChecked());
 }
 
+// Function to show or hide unavailable dishes based on filter toggle state
+function showHideUnavailableDishes() {
+    const showUnavailable = document.querySelector('#show-unavailable-grid').querySelector('input').checked;
+    const unavailableDishCards = document.querySelectorAll('.dish-unavailable');
+    unavailableDishCards.forEach(dishCard => {
+        dishCard.style.display = showUnavailable ? "grid" : "none";
+    })
+}
+
+// Function to be called when applying filters from menu
+function applyFilters() {
+    showHideUnavailableDishes();
+    filterMenuCheckbox();
+}
+
+// Function to reset all filter toggles and resets menu view
+function resetFilters() {
+    document.querySelectorAll('.menu-filter-grid').forEach(filterGrid => {
+        filterGrid.querySelectorAll('input').forEach(toggle => {
+            toggle.checked = false;
+        });
+    });
+    applyFilters();
+}
+
 // Checking if enter key is pressed in the search bar to start filtering.
 const searchInput = document.querySelector('#Search')
-searchInput.addEventListener('keypress', function(e) {
-    if(e.key === 'Enter'){
+searchInput.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
         e.preventDefault();
         const term = searchInput.value.toLowerCase();
         searchFilter(term);
@@ -143,12 +168,12 @@ searchInput.addEventListener('keypress', function(e) {
 });
 
 //function for filtering with the search term
-function searchFilter(term){
+function searchFilter(term) {
     const dishCards = document.querySelectorAll('.dish-card');
     dishCards.forEach(dishCard => {
         const dishName = dishCard.querySelector('.dish-name').textContent.toLowerCase();
-        if(dishName.includes(searchInput.value.toLowerCase())){
-            dishCard.style.display = 'block';
+        if (dishName.includes(searchInput.value.toLowerCase())) {
+            dishCard.style.display = 'grid';
         } else {
             dishCard.style.display = 'none';
         }

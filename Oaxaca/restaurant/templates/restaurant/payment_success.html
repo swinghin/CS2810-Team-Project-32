@@ -1,0 +1,7 @@
+{% extends "restaurant/index.html" %}
+{% block content %}
+    <section class="wrap min-height">
+        <h2>Payment successful. Thank you for visiting Oaxaca.</h2>
+        <a href="{% url 'restaurant:orders' order_id %}" class="button button-block">Track your order status</a>
+    </section>
+{% endblock content %}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Order" />
+        <meta name="keywords" content="Oaxaca,order" />
+    <style>
+        .loader {
+            border: 12px solid #f3f3f3;
+            border-top: 12px solid #000000;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {transform: rotate(0deg)}
+            100% {transform: rotate(360deg);}
+        }   
+    </style>
+        <title>Oaxaca</title>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    </head>
+    <body>
+        {% include "restaurant/header_public.html" %}
+        <br>
+        <br>
+        <center>
+            <p>You have been logged out and will now be redirected</p>
+        </center>
+        <script>
+            setTimeout("location.href = '/';", 1500);
+        </script>
+        <br>
+        <br>
+        <center><div class="loader"></div></center>
+        {% include "restaurant/footer_public.html" %}
+    </body>
+</html>

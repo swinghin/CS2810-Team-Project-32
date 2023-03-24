@@ -82,4 +82,13 @@ class Migration(migrations.Migration):
             name='ingredient_id',
             field=models.ManyToManyField(to='restaurant.ingredient'),
         ),
+        migrations.CreateModel(
+            name='Payment',
+            fields=[
+                ('payment_id', models.AutoField(primary_key=True, serialize=False)),
+                ('order_id', models.IntegerField()),
+                ('payment_time', models.DateTimeField()),
+                ('payment_amount', models.DecimalField(decimal_places=2, max_digits=7)),
+            ],
+        ),
     ]

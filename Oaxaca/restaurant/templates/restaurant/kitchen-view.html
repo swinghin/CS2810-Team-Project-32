@@ -1,0 +1,33 @@
+{% block content %}
+    <section class="wrap">
+        <form action="" method=POST>
+            {% csrf_token %}
+            <h1>Orders</h1>
+            <div class="table full-width">
+                <div class="table-row">
+                    <div class="table-cell table-heading">Order</div>
+                    <div class="table-cell table-heading">Table</div>
+                    <div class="table-cell table-heading">Status</div>
+                    <div class="table-cell table-heading">Time</div>
+                    <div class="table-cell table-heading">Update</div>
+                </div>
+                {% for x in orders %}
+                    {% if x.status_id|stringformat:"s" == 'Received' or 'Cooking' %}
+                        <div class="table-row">
+                            <div class="table-cell">{{ x.order_id }}</div>
+                            <div class="table-cell">{{ x.table_id }}</div>
+                            <div class="table-cell">{{ x.status_id }}</div>
+                            <div class="table-cell">{{ x.order_time }}</div>
+                            <div class="table-cell">
+                                {% if x.status_id|stringformat:"s" == 'Received' %}
+                                    <button class="button button-block button-medium" value="{{ x.order_id }}" name="confirm">Confirm</button>
+                                {% elif x.status_id|stringformat:"s" == 'Cooking' %}
+                                    <button class="button button-block button-medium" value="{{ x.order_id }}" name="cooked">Ready</button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endblock content %}

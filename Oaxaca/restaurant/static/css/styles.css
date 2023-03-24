@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
 html {
     scroll-padding-top: 60px;
 }
@@ -15,11 +16,17 @@ header {
     margin: 0;
     background: rgb(30, 30, 120);
     background: linear-gradient(13deg, rgba(30, 30, 120, 1) 0%, rgba(0, 177, 213, 1) 100%);
+    color: white;
 }
 
 header.staff {
     background: rgb(92, 6, 6);
     background: linear-gradient(13deg, rgba(92, 6, 6, 1) 0%, rgba(237, 73, 55, 1) 100%);
+}
+
+header.kitchen {
+    background: rgb(6, 85, 10);
+    background: linear-gradient(13deg, rgba(6, 85, 10) 0%, rgb(47, 221, 140) 100%);
 }
 
 h1,
@@ -54,6 +61,10 @@ h6 {
     padding: 12px;
     max-width: 1024px;
     margin: 0 auto;
+}
+
+.wrap.min-height {
+    min-height: 512px;
 }
 
 .margin-medium {
@@ -101,6 +112,10 @@ h6 {
 
 .heading-collapsible.active::after {
     content: '\25B4';
+}
+
+.block {
+    display: block;
 }
 
 .table {
@@ -469,11 +484,14 @@ section {
     text-align: center;
 }
 
-.cart-button {
-    font-size: 20px;
+.cart {
     position: fixed;
     bottom: 10%;
     right: 10%;
+}
+
+.cart-button {
+    font-size: 20px;
     cursor: pointer;
 }
 
@@ -511,10 +529,49 @@ section {
     margin: 12px;
 }
 
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+.popup-content {
+    display: block;
+    background-color: white;
+    border-radius: 16px;
+    padding: 12px;
+    width: 80%;
+    height: 80%;
+    overflow-y: auto;
+    z-index: 3;
+}
+.popup-small {
+    max-width: 480px;
+    max-height: 256px;
+}
+
+
+
 @media screen and (max-width:854px) {
     .dish-cards-grid {
         grid-template-columns: 1fr;
     }
+
     .menu-filter-grid {
         grid-template-columns: 1fr 1fr 1fr;
     }
@@ -524,6 +581,7 @@ section {
     section {
         padding: 12px !important;
     }
+
     .menu-filter-grid {
         grid-template-columns: 1fr 1fr;
     }

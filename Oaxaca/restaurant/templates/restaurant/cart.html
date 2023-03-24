@@ -2,119 +2,35 @@
 {% load static %}
 {% block content %}
     <section class="wrap">
-        <div>
-            <a class="button button-block" href="{% url 'restaurant:index' %}">&#x2190; Continue Shopping</a>
-            <br>
-            <br>
-            <table class="table">
-                <tr>
-                    <th>
-                        <h5>
-                            Items: <strong>5</strong>
-                        </h5>
-                    </th>
-                    <th>
-                        <h5>
-                            Total: <strong>£ 95.04</strong>
-                        </h5>
-                    </th>
-                    <th>
-                        <a style="float:right;
-                                  margin:5px"
-                           class="button button-block btn btn-success"
-                           href="{% url 'restaurant:pay' %}">Checkout</a>
-                    </th>
-                </tr>
-            </table>
+        <div class="margin-medium">
+            <a class="button button-block button-medium"
+               href="{% url 'restaurant:index' %}">Back to Menu</a>
         </div>
-        <div class="dish-cards-grid">
-            <div class="dish-card dish-{{ dish.dish_id }}">
-                <div class="dish-info">
-                    <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Mom's spaghetti</span>
-                        <br>
-                        <span class="dish-name font-semibold">£ 20.02</span>
-                    </div>
-                    <div class="dish-info-row dish-order">
-                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                        <input class="dish-count"
-                               type="number"
-                               min="1"
-                               max="10"
-                               maxlength="2"
-                               value="2"/>
-                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                    </div>
-                </div>
-            </div>
+        <div class="margin-medium">
+            <form id="cart-order-form"
+                  action="{% url 'restaurant:checkout' %}"
+                  method="post">
+                {% csrf_token %}
+                <label for="table-number">Table Number:</label>
+                <input id="cart-table-number"
+                       name="table-number"
+                       type="number"
+                       class="margin-medium"
+                       min="1"
+                       max="99"
+                       maxlength="2"
+                       required/>
+                <button type="submit"
+                        class="button button-block button-medium"
+                        onclick="cartSubmit()">Checkout</button>
+                <input id="cart-data" name="cart-data" type="hidden"/>
+            </form>
         </div>
-        <div class="dish-cards-grid">
-            <div class="dish-card dish-{{ dish.dish_id }}">
-                <div class="dish-info">
-                    <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Jasper's Jelly</span>
-                        <br>
-                        <span class="dish-name font-semibold">£ 25.00</span>
-                    </div>
-                    <div class="dish-info-row dish-order">
-                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                        <input class="dish-count"
-                               type="number"
-                               min="1"
-                               max="10"
-                               maxlength="2"
-                               value="1"/>
-                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                    </div>
-                </div>
-            </div>
+        <div class="margin-medium" id="cart-dishes"></div>
+        <div class="margin-medium">
+            Total Amount:
+            <span id="cart-total" class="dish-price"></span>
         </div>
-        <div class="dish-cards-grid">
-            <div class="dish-card dish-{{ dish.dish_id }}">
-                <div class="dish-info">
-                    <div class="dish-info-row">
-                        <span class="dish-name font-semibold">Trollope's Scallops</span>
-                        <br>
-                        <span class="dish-name font-semibold">£ 30.00</span>
-                    </div>
-                    <div class="dish-info-row dish-order">
-                        <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                        <input class="dish-count"
-                               type="number"
-                               min="1"
-                               max="10"
-                               maxlength="2"
-                               value="1"/>
-                        <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                        <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% for dish in dishes %}
-            <div class="dish-cards-grid">
-                <div class="dish-card dish-{{ dish.dish_id }}">
-                    <div class="dish-info">
-                        <div class="dish-info-row">
-                            <span class="dish-name font-semibold">{{ dish.dish_name }}</span>
-                            <span class="dish-name font-semibold">{{ dish.dish_price }}</span>
-                        </div>
-                        <div class="dish-info-row dish-order">
-                            <button class="button button-block dish-count-btn dish-count-sub font-medium"></button>
-                            <input class="dish-count"
-                                   type="number"
-                                   min="1"
-                                   max="10"
-                                   maxlength="2"
-                                   value="1"/>
-                            <button class="button button-block dish-count-btn dish-count-add font-medium"></button>
-                            <button class="button button-medium button-block dish-add-btn font-medium">Remove</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
     </section>
+    {{ dish_all|json_script:"dish-all" }}
 {% endblock content %}

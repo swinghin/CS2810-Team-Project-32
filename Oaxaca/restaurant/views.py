@@ -337,11 +337,30 @@ def waiter_view(request):
         "need_help_tables": need_help_tables,
     }
     if request.method == "POST":
+        # Checks status of order by first checking the display name of button, in this case confirm being 'recieved'
+        if request.POST.get("confirm"):
+            #Fetches order id to change status id
+            order_id = int(request.POST.get("confirm"))
+            Order.objects.filter(order_id=order_id).update(
+                status_id_id=(Status.objects.get(status_name='Received').status_id))
+        
+        if request.POST.get("cancel"):
+            #Fetches order id to change status id
+            order_id = int(request.POST.get("cancel"))
+            Order.objects.filter(order_id=order_id).update(
+                status_id_id=(Status.objects.get(status_name='Cancelled').status_id))
+
+        if request.POST.get("deliver"):
+            order_id = int(request.POST.get("deliver"))
+            Order.objects.filter(order_id=order_id).update(status_id_id=(
+                Status.objects.get(status_name='Delivered').status_id))
+        
+        if request.POST.get("helped"):
         #Finds table id that was helped
-        helped_table_id = int(request.POST.getlist("helped")[0])
-        #Removes help request from customer once helped
-        Customer.objects.filter(
-            table_id=helped_table_id).update(need_help=False)
+            helped_table_id = int(request.POST.get("helped"))
+            #Removes help request from customer once helped
+            Customer.objects.filter(
+                table_id=helped_table_id).update(need_help=False)
     return render(request, "restaurant/dashboard.html", context=context)
 
 @ login_required

@@ -18,7 +18,13 @@
                         <div class="table-cell">{{ x.status_id }}</div>
                         <div class="table-cell">
                             <a class="button button-block"
-                               href="{% url 'restaurant:update_order' x.order_id %}">Update</a>
+                               href="{% url 'restaurant:update_order' x.order_id %}">Edit</a>
+                            {% if x.status_id|stringformat:"s" == 'Order in progress' %}
+                            <button class="button button-block button-medium" value="{{ x.order_id }}" name="confirm">Confirm Order</button>
+                            <button class="button button-block button-medium" value="{{ x.order_id }}" name="cancel">Cancel Order</button>
+                            {% elif x.status_id|stringformat:"s" == 'Ready to serve' %}
+                                <button class="button button-block button-medium" value="{{ x.order_id }}" name="deliver">Mark as Delivered</button>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
@@ -35,7 +41,7 @@
                     <div class="table-row">
                         <div class="table-cell">{{ table.table_id }}</div>
                         <div class="table-cell">
-                            <button type="submit" class="button button-block" value={{ table.table_id }} name="helped">Done
+                            <button type="submit" class="button button-block button-medium" value={{ table.table_id }} name="helped">Done
                             </button>
                         </div>
                     </div>
